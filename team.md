@@ -7,7 +7,7 @@ Cloud inFANtry
 | Name              | Utorid       |
 | ----------------- |:------------:|
 | Andrew Fung       | fungand2     |
-| Michael Cottow    |              |
+| Michael Cottow    | cottowmi     |
 | Nicholas Wong     |              |
 | Sean Applebaum    |              |
 | Sofia Ilina       |              |
