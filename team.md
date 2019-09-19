@@ -9,7 +9,7 @@ Cloud inFANtry
 | Andrew Fung       | fungand2     |
 | Michael Cottow    | cottowmi     |
 | Nicholas Wong     | wongni21     |
-| Sean Applebaum    |              |
+| Sean Applebaum    | appleb16     |
 | Sofia Ilina       |              |
 | Tanner Bergeron   |              |
 | Padmanaban Prasad | prasada7     |
