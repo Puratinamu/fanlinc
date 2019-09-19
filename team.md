@@ -11,5 +11,5 @@ Cloud inFANtry
 | Nicholas Wong     | wongni21     |
 | Sean Applebaum    | appleb16     |
 | Sofia Ilina       |              |
-| Tanner Bergeron   |              |
+| Tanner Bergeron   | berger48     |
 | Padmanaban Prasad | prasada7     |
