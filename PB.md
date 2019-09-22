@@ -2,9 +2,9 @@
 
 We will use Fibonacci numbers to estimate our user stories. We have created 20 stories in total.
 
-High Priority User Stories (13):
+## High Priority User Stories (13):
 
-- User Profile
+### User Profile
 
   - As a user, I should be able to sign up for Fanlinc and create my profile so that I can register with the service and access the website.
 
@@ -16,13 +16,13 @@ High Priority User Stories (13):
 
   - As a user, I should be able to view other users’ profiles to see their information and fandoms.
 
-- Contacts
+### Contacts
       
   - As a user, I should have a list of contacts made up of other users that I can conveniently access to make it easier to find my friends.
 
   - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date.
 
-- Posts
+### Posts
      
   - As a user, I should have a personal timeline that shows the posts I have made in chronological order so I can see what I have posted to Fanlinc in the past.
 
@@ -32,20 +32,20 @@ High Priority User Stories (13):
 
   - As a user, I should be able to make image posts to my timeline related to fandoms that will appear in other user’s feeds to share images with the Fanlinc Community.
 
-- Fandoms
+### Fandoms
 
   - As a user, I should be able to search for a fandom to find a community I am interested in.
 
   - As a user, I should be able to create a fandom if it does not already exist so I can create new communities on Fanlinc.
 
-Medium Priority User Stories (2):
+## Medium Priority User Stories (2):
 
   - As a user, I should have a personal timeline that shows the posts I have made in chronological order so I can see what I have posted to Fanlinc in the past.
 
   - As a member of a fandom, I would like to chat with members of the same fandom to discuss topics that interests me
 
 
-Low Priority User Stories (5):
+## Low Priority User Stories (5):
 
   - As a user, I would like to search users so that I can add them to my contacts and access their profile easily.
 
