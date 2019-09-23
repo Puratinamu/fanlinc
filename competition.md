@@ -1,3 +1,4 @@
+# Competition
 Since Fanlinc can be broken down into many little modules that function almost independently.
 This means that we are in compettions with any other company that focuses on those specific features.
 
@@ -17,9 +18,22 @@ Contacts: Facebook
 - Contacts on Fanlinc can be categorized, and searched for based on types of fandoms and levels of intrest
 which is definitely something that other social media sites like Facebook can not do. 
 
-Posts: Tumblr, Instagram, Reddit, 4Chan
+Posts: Tumblr, Instagram, Facebook
+- Posts are shown on a users profile which contain text and maybe images which other users should be able
+to comment on. This is similar to Instagram, Facebook, and Tumblr. However much like everything else on
+Fanlinc, posts will be categorized by fandom, level, and possibly other attributes which go above and beyond
+just using regular hashtags to group posts together like on other platforms.
 
 Chat: Discord, FB Messenger
+- If this is possible to implement, chatrooms on Fanlinc would be specific to fandom, level, etc and be very
+specialized. Much like on discord where an entire discord server can be dedicated to one game or one
+cosplayer, the same goes for a chatroom. 
 
-Events:
+Events: Facebook?
+- Fanlinc really tries to focus the attention on grouping together people of alike intrests. Meaning that
+planning and coordinating event attendance should be as simple as searching for events near you and clicking
+join/attend. Facebook does this and lets you host public events where poeple can join or attend as well.
+Fanlinc is difference in that (if possible to implement) events can show on the interactive map and be able
+to see what is in your imediate area which facebook can not do.
+
 
