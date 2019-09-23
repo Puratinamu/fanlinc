@@ -1,8 +1,8 @@
 # Product Backlog
 
-We will use Fibonacci numbers to estimate our user stories. We have created 20 stories in total.
+We will use Fibonacci numbers to estimate our user stories. We have created 19 stories in total.
 
-## High Priority User Stories (13):
+## High Priority User Stories (12):
 
 ### User Profile
 
@@ -23,8 +23,6 @@ We will use Fibonacci numbers to estimate our user stories. We have created 20 s
   - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date.
 
 ### Posts
-     
-  - As a user, I should have a personal timeline that shows the posts I have made in chronological order so I can see what I have posted to Fanlinc in the past.
 
   - As a user, I should have a feed showing me posts made by other users so I can keep up to date with current events.
      
