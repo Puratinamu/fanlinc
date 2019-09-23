@@ -10,6 +10,6 @@ Cloud inFANtry
 | Michael Cottow    | cottowmi     |
 | Nicholas Wong     | wongni21     |
 | Sean Applebaum    | appleb16     |
-| Sofia Ilina       |              |
+| Sofia Ilina       | ilinasof     |
 | Tanner Bergeron   | berger48     |
 | Padmanaban Prasad | prasada7     |
