@@ -6,13 +6,13 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
 
 ### User Profile
 
-  - As a user, I should be able to sign up for Fanlinc and create my profile so that I can register with the service and access the website. (5)
+  - As a user, I should be able to sign up for Fanlinc and create my profile so that I can register with the service and access the website. (5) (sprint 1)
 
   - As a user, I should be able to use credentials I provided during registration to authenticate myself and access the website. (2)
 
-  - As a user, I should be able to view my profile after logging in to the website to see any personal information and fandoms I have provided the website. (3)
+  - As a user, I should be able to view my profile after logging in to the website to see any personal information and fandoms I have provided the website. (3) 
 
-  - As a user, I should be able to add fandoms to my profile by providing the type and level of fandom I am in to reflect my current interests. (3)
+  - As a user, I should be able to add fandoms to my profile by providing the type and level of fandom I am in to reflect my current interests. (3) (sprint 1)
 
   - As a user, I should be able to view other users’ profiles to see their information and fandoms. (3)
 
@@ -20,19 +20,19 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
       
   - As a user, I should have a list of contacts made up of other users that I can conveniently access to make it easier to find my friends. (3)
 
-  - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date. (3)
+  - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date. (3) (spring 1)
 
 ### Posts
 
   - As a user, I should have a feed showing me posts made by other users so I can keep up to date with current events. (13)
      
-  - As a user, I should be able to make text posts to my timeline related to fandoms that will appear in other user’s feeds to share what I have to say with the community. (5)
+  - As a user, I should be able to make text posts to my timeline related to fandoms that will appear in other user’s feeds to share what I have to say with the community. (5) (spring 1)
 
 ### Fandoms
 
   - As a user, I should be able to search for a fandom to find a community I am interested in. (3)
 
-  - As a user, I should be able to create a fandom if it does not already exist so I can create new communities on Fanlinc. (3)
+  - As a user, I should be able to create a fandom if it does not already exist so I can create new communities on Fanlinc. (3) (sprint 1)
 
 ## Medium Priority User Stories (3):
 
