@@ -20,13 +20,13 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
       
   - As a user, I should have a list of contacts made up of other users that I can conveniently access to make it easier to find my friends. (3)
 
-  - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date. (3) (spring 1)
+  - As a user, I should be able to add users to my list of contacts when I view their profile so that I can keep my contacts list up to date. (3) (sprint 1)
 
 ### Posts
 
   - As a user, I should have a feed showing me posts made by other users so I can keep up to date with current events. (13)
      
-  - As a user, I should be able to make text posts to my timeline related to fandoms that will appear in other user’s feeds to share what I have to say with the community. (5) (spring 1)
+  - As a user, I should be able to make text posts to my timeline related to fandoms that will appear in other user’s feeds to share what I have to say with the community. (5) (sprint 1)
 
 ### Fandoms
 
