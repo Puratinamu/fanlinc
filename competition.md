@@ -29,7 +29,7 @@ just using regular hashtags to group posts together like on other platforms.
 specialized. Much like on Discord where an entire Discord server can be dedicated to one game or one
 cosplayer, the same goes for a chatroom. 
 
-<b>Events<b/>: Facebook?
+<b>Events</b>: Facebook?
 - Fanlinc really tries to focus the attention on grouping together people of alike interests. Meaning that
 planning and coordinating event attendance should be as simple as searching for events near you and clicking
 join/attend. Facebook does this and lets you host public events where people can join or attend as well.
