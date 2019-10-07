@@ -42,7 +42,6 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
 
   - As Steven, I would like to chat with other members of EVE Online fandom to discuss strategies to improve ones rank in the in-game universe. (13)
 
-
 ## Low Priority User Stories (5):
 
   - As Miranda, I would like to search other cosplayers by their profiles so that I can add them to my contacts and keep in touch with them. (3)
@@ -54,3 +53,4 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
   - As Jarrod, I would like to post videos of segment of my music video so I can advertise my music to fans country music fans. (5)
 
   - As Miranda, I would view cosplay events happening around me so that I can participate and meet other cosplayers. (5)
+
