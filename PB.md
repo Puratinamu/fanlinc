@@ -8,7 +8,7 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
 
   - As a user, I should be able to sign up for Fanlinc and create my profile so that I can register with the service and access the website. (5) (sprint 1)
 
-  - As a user, I should be able to use credentials I provided during registration to authenticate myself and access the website. (2)
+  - As a user, I should be able to use the credentials I provided during registration to authenticate myself and access the website. (2)
 
   - As a user, I should be able to view my profile after logging in to the website to see any personal information and fandoms I have provided the website. (3) 
 
@@ -38,19 +38,19 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
 
   - As a user, I should be able to make image posts to my timeline related to fandoms that will appear in other user’s feeds to share images with the Fanlinc Community. (5)
   
-  - As a user, I should have a personal timeline that shows the posts I have made in chronological order so I can see what I have posted to Fanlinc in the past.(3)
+  - As a user, I should have a personal timeline that shows the posts I have made in chronological order so I can see what I have posted to Fanlinc in the past. (3)
 
-  - As a member of a fandom, I would like to chat with members of the same fandom to discuss topics that interests me (13)
+  - As a member of a fandom, I would like to chat with members of the same fandom to discuss topics that interest me. (13)
 
 
 ## Low Priority User Stories (5):
 
-  - As a user, I would like to search users so that I can add them to my contacts and access their profile easily. (3)
+  - As a user, I would like to search for users so that I can add them to my contacts and access their profile easily. (3)
 
-  - As a user, I would like to post my interests with a tagged location so that people with the same interests can also visit (3)
+  - As a user, I would like to post my interests with a tagged location so that people with the same interests can also visit. (3)
 
-  - As a member of a fandom, I would like to find fans with similar interests as me in the   maps to socialize( 13)
+  - As a member of a fandom, I would like to find fans with similar interests as me in the maps to socialize. (13)
 
-  - As a user, I would like to post videos of my interests so that people part of my fandom can view 5
+  - As a user, I would like to post videos of my interests so that people part of my fandom can view. (5)
 
-  - As a user part of fandom, I would view events happening around me that I might like to participate in.5
+  - As a user part of fandom, I would view events happening around me that I might like to participate in. (5)
