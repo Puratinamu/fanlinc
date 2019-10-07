@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.a1
+package ca.utoronto.utm.mcs.projectcloudinfantry
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.context.annotation.PropertySource

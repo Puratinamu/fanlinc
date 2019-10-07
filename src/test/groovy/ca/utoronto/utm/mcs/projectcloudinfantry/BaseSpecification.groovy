@@ -1,7 +1,6 @@
-package ca.utoronto.utm.mcs.a1
+package ca.utoronto.utm.mcs.projectcloudinfantry
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.Neo4jContainerStarter
-import ca.utoronto.utm.mcs.projectcloudinfantry.ProjectCloudInfantryApplication
+
 import org.junit.Ignore
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
