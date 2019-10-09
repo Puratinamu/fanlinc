@@ -1,0 +1,314 @@
+Examples of user to fandom relationships:
+- (u:User) - [r:EXPERT] -> (f1:Fandom)
+- (u:User) - [r:CASUAL] -> (f2:Fandom)
+
+_____________________________________________________________________________________________________
+# Get User: 2 cases, we know the id or we need to search by name
+_____________________________________________________________________________________________________
+GET/api/v1/getUser
+
+Request Body:
+{
+	"userId" : 1
+}
+
+Response Body:
+{
+	"userId" : 1,
+	"name" : "Bob Marley",
+	"username": "TheBobMarley"
+}
+
+Expected Headers:
+	200 OK if user exists
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if user with such id does not exist
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+_____________________________________________________________________________________________________
+GET/api/v1/getUserByUsername
+
+Request Body:
+{
+	"username": "TheBobMarley"
+}
+
+Response Body:
+{
+	"userId" : 1,
+	"name" : "Bob Marley",
+	"username": "TheBobMarley"
+}
+
+Expected Headers:
+	200 OK if user exists
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if user with such username does not exist
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Post User(create profile)
+_____________________________________________________________________________________________________
+POST/api/v1/addUser
+
+Request Body:
+{
+	"name" : "Carla Johnson",
+	"username": "Carla99"
+}
+
+Response Body:
+{
+	"userId" : 2,
+	"name" : "Carla Johnson",
+	"username": "Carla99"
+}
+
+Expected Headers:
+	200 OK if user exists
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	422 UNPROCESSABLE ENTITY if user with same username exists
+	500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Put User(update profile)
+_____________________________________________________________________________________________________
+PUT/api/v1/updateUser
+*Note: we are updating only the logged in user, so we have that user entity so we will have their ID
+*other note: only include parameters you want to change in the request body
+
+Request Body:
+{
+	"userId" : 2,
+	"name" : "Carla Anderson"
+}
+
+Response Body:
+{
+	"userId" : 2,
+	"name" : "Carla Anderson",
+	"username": "Carla99"
+}
+
+Expected Headers:
+	200 OK if user exists
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if user with such id does not exist
+	500 INTERNAL SERVER ERROR if PUT was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+PUT/api/v1/updateFandomRelationship
+*Note: the assumption here is that we are updating the logged in user's fandom so we have the user and
+the fandom entities, so we know both ID's
+
+Request Body:
+{
+	"userId" : 1,
+	"fandomId" : 1,
+	"relationship": "CASUAL"
+}
+
+Response Body:
+{
+	"userId" : 1,
+	"username" : "TheBobMarley",
+	"fandomId" : 20,
+	"fandom" : "LOL",
+	"relationship": "CASUAL"
+}
+
+Expected Headers:
+	200 OK if user and fandom both exist. Even if there is no existing relationship, a new one is 
+	formed
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if user and/or fandom with such id's do not exist
+	500 INTERNAL SERVER ERROR if PUT was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Post Login (login to site)
+_____________________________________________________________________________________________________
+POST/api/v1/login
+*Note: use bcrypt, dont store passwords in plaintext
+
+Request Body:
+{
+	"username": "Carla99",
+	"password": "password123"
+}
+
+Response Body: None
+
+Expected Headers:
+	200 OK if user exists and has successfully authenticated
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Get Posts (get list of posts)
+_____________________________________________________________________________________________________
+GET/api/v1/getPosts
+*Note: currently not sure how to filter posts. Probably by user ID - check what fandoms they belong to
+and get the posts tagged with those fandoms
+
+Request Body:
+{
+	"userId": 1
+}
+
+Response Body:
+{
+	"postIds" : [
+			"532",
+			"604",
+			...
+			"999"
+			]
+}
+
+Expected Headers:
+	200 OK if request body contains necessary info and posts are gotten successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no posts matched the request body conditions
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Get Post (get single post)
+_____________________________________________________________________________________________________
+GET/api/v1/getPost
+
+Request Body:
+{
+	"postId": 15
+}
+
+Response Body:
+{
+	"postId" : 15,
+	"content" : "Testing first post!",
+	"userId": 1,
+	"fandoms": [20],
+	"datetime" : "01-07-2019/17:50:55"
+}
+
+Expected Headers:
+	200 OK if post id exists and post is gotten successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no posts matched the id
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Post Post (create a post)
+_____________________________________________________________________________________________________
+POST/api/v1/addPost
+
+Request Body:
+{
+	"userId" : 2,
+	"content" : "Testing second post!",
+	"fandoms" : [20],
+	"datetime" : "01-07-2019/17:50:55"
+}
+
+Response Body: None
+
+Expected Headers:
+	200 OK if post was posted successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Get fandom (get a fandom)
+_____________________________________________________________________________________________________
+GET/api/v1/getFandom
+
+Request Body:
+{
+	"fandomId": 20
+}
+
+Response Body:
+{
+	"fandomId" : 20,
+	"name" : "LOL!"
+}
+
+Expected Headers:
+	200 OK if fandom was found successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no fandoms matched the id
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+_____________________________________________________________________________________________________
+GET/api/v1/getFandomByName
+
+Request Body:
+{
+	"name": "LOL"
+}
+
+Response Body:
+{
+	"fandomId" : 20,
+	"name" : "LOL!"
+}
+
+Expected Headers:
+	200 OK if fandom was found successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no fandoms matched the name
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Post Fandom (create a fandom)
+_____________________________________________________________________________________________________
+POST/api/v1/addFandom
+
+Request Body:
+{
+	"fandom": "WOW"
+}
+
+Response Body: None
+
+Expected Headers:
+	200 OK if fandom was added successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
+# Get Timeline
+_____________________________________________________________________________________________________
+GET/api/v1/getTimeline
+
+Request Body:
+{
+	"userId": 1
+}
+
+Response Body:
+{
+	"postIds" : [
+			"1",
+			"2",
+			...
+			"10"
+			]
+}
+
+Expected Headers:
+	200 OK if request body contains necessary info and posts are gotten successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no posts matched the request body conditions
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+
