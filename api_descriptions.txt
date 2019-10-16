@@ -1,7 +1,3 @@
-Examples of user to fandom relationships:
-- (u:User) - [r:EXPERT] -> (f1:Fandom)
-- (u:User) - [r:CASUAL] -> (f2:Fandom)
-
 _____________________________________________________________________________________________________
 # Get User: 2 cases, we know the id or we need to search by name
 _____________________________________________________________________________________________________
@@ -9,14 +5,16 @@ GET/api/v1/getUser
 
 Request Body:
 {
-	"userId" : 1
+	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body:
 {
-	"userId" : 1,
-	"name" : "Bob Marley",
-	"username": "TheBobMarley"
+	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"email" : "bob.marley@gmail.com",
+	"username": "TheBobMarley",
+	"description": "a person",
+	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
 
 Expected Headers:
@@ -34,9 +32,10 @@ Request Body:
 
 Response Body:
 {
-	"userId" : 1,
-	"name" : "Bob Marley",
-	"username": "TheBobMarley"
+	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"email" : "bob.marley@gmail.com",
+    "username": "TheBobMarley",
+    "description": "a person"
 }
 
 Expected Headers:
@@ -47,21 +46,49 @@ Expected Headers:
 
 
 _____________________________________________________________________________________________________
+# Get Contacts: gets the list of contacts for the current user
+_____________________________________________________________________________________________________
+GET/api/v1/getContacts
+
+Request Body:
+{
+	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4"
+}
+
+Response Body:
+{
+	"contactIds": ["6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"]
+}
+
+Expected Headers:
+	200 OK if user exists
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if user with such id does not exist
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+_____________________________________________________________________________________________________
 # Post User(create profile)
 _____________________________________________________________________________________________________
 POST/api/v1/addUser
 
 Request Body:
 {
-	"name" : "Carla Johnson",
-	"username": "Carla99"
+	"email" : "carla.johnson@gmail.com",
+	"username": "Carla99",
+	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+	"description": "second user",
+	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
 
 Response Body:
 {
-	"userId" : 2,
-	"name" : "Carla Johnson",
-	"username": "Carla99"
+	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
+	"email" : "carla.johnson@gmail.com",
+    "username": "Carla99",
+	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "description": "second user",
+    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
 
 Expected Headers:
@@ -80,15 +107,18 @@ PUT/api/v1/updateUser
 
 Request Body:
 {
-	"userId" : 2,
-	"name" : "Carla Anderson"
+	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
+    "description": "I want to make friends"
 }
 
 Response Body:
 {
-	"userId" : 2,
-	"name" : "Carla Anderson",
-	"username": "Carla99"
+	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
+	"email" : "carla.johnson@gmail.com",
+    "username": "Carla99",
+	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "description": "I want to make friends",
+    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
 
 Expected Headers:
@@ -105,19 +135,12 @@ the fandom entities, so we know both ID's
 
 Request Body:
 {
-	"userId" : 1,
-	"fandomId" : 1,
+	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidFandom" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
 	"relationship": "CASUAL"
 }
 
-Response Body:
-{
-	"userId" : 1,
-	"username" : "TheBobMarley",
-	"fandomId" : 20,
-	"fandom" : "LOL",
-	"relationship": "CASUAL"
-}
+Response Body: None
 
 Expected Headers:
 	200 OK if user and fandom both exist. Even if there is no existing relationship, a new one is 
@@ -136,7 +159,7 @@ POST/api/v1/login
 Request Body:
 {
 	"username": "Carla99",
-	"password": "password123"
+	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 }
 
 Response Body: None
@@ -156,7 +179,7 @@ and get the posts tagged with those fandoms
 
 Request Body:
 {
-	"userId": 1
+	"oidUser": "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body:
@@ -174,25 +197,52 @@ Expected Headers:
 	400 BAD REQUEST if request body is improperly formatted or missing required information
 	404 NOT FOUND if no posts matched the request body conditions
 	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
-
-
 _____________________________________________________________________________________________________
-# Get Post (get single post)
-_____________________________________________________________________________________________________
-GET/api/v1/getPost
+GET/api/v1/getImagePost
 
 Request Body:
 {
-	"postId": 15
+	"oidContent": "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body:
 {
-	"postId" : 15,
-	"content" : "Testing first post!",
-	"userId": 1,
-	"fandoms": [20],
-	"datetime" : "01-07-2019/17:50:55"
+	"oidContent" : "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4",
+	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
+	"title" : "First image post",
+	"description": "the first image post",
+	"url": "s3/path/to/first/image",
+	"oidUser": 1,
+	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+}
+
+Expected Headers:
+	200 OK if post id exists and post is gotten successfully
+	400 BAD REQUEST if request body is improperly formatted or missing required information
+	404 NOT FOUND if no posts matched the id
+	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
+
+
+
+_____________________________________________________________________________________________________
+# Get Content (get single post)
+_____________________________________________________________________________________________________
+GET/api/v1/getTextPost
+
+Request Body:
+{
+	"oidContent": "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4"
+}
+
+Response Body:
+{
+	"oidContent" : "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4",
+	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
+	"text" : "Testing first post!",
+	"oidUser": 1,
+	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Expected Headers:
@@ -209,10 +259,11 @@ POST/api/v1/addPost
 
 Request Body:
 {
-	"userId" : 2,
+	"oidCreator" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
 	"content" : "Testing second post!",
-	"fandoms" : [20],
-	"datetime" : "01-07-2019/17:50:55"
+	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
+	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body: None
@@ -230,13 +281,16 @@ GET/api/v1/getFandom
 
 Request Body:
 {
-	"fandomId": 20
+	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body:
 {
-	"fandomId" : 20,
-	"name" : "LOL!"
+	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
+	"name" : "LOL",
+	"description": "league of legends",
+	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+	"lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
 }
 
 Expected Headers:
@@ -255,8 +309,11 @@ Request Body:
 
 Response Body:
 {
-	"fandomId" : 20,
-	"name" : "LOL!"
+	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
+	"name" : "LOL",
+    "description": "league of legends",
+    "creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
 }
 
 Expected Headers:
@@ -273,7 +330,10 @@ POST/api/v1/addFandom
 
 Request Body:
 {
-	"fandom": "WOW"
+	"name" : "WOW",
+    "description": "world of warcraft",
+    "creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
+    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
 }
 
 Response Body: None
@@ -291,7 +351,7 @@ GET/api/v1/getTimeline
 
 Request Body:
 {
-	"userId": 1
+	"oidUser": "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
 }
 
 Response Body:
