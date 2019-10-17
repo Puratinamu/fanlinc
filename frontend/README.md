@@ -1,3 +1,6 @@
-# Project Cloud Infantry
+### Fanlinc Front End
+Run `yarn install` to clone setup dependencies
 
-This is the frontend
+Run `yarn start` to start the project
+
+Run `mvnw spring-boot:run -Pprod` to start the project from a backend build (serves on `localhost:8080`)
