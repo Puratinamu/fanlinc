@@ -15,6 +15,7 @@ public class Post {
     @Id
     private UUID oidPost;
 
+    @Relationship(type = "HAS_CONTENT")
     private Content content;
 
     @Relationship(type = "POSTED", direction = Relationship.INCOMING)
