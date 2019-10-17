@@ -4,6 +4,8 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -16,6 +18,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
         //TODO: validate user
+        user.setOidUser(UUID.randomUUID());
         return userRepository.save(user);
     }
 
