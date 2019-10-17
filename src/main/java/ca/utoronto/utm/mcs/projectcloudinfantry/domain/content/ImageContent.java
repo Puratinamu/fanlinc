@@ -1,7 +1,5 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.domain.content;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.Content;
-
 public class ImageContent extends Content {
 
     private String title;
