@@ -35,7 +35,8 @@ Response Body:
 	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
 	"email" : "bob.marley@gmail.com",
     "username": "TheBobMarley",
-    "description": "a person"
+    "description": "a person",
+    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
 
 Expected Headers:
@@ -57,7 +58,16 @@ Request Body:
 
 Response Body:
 {
-	"contactIds": ["6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"]
+	"contactIds": [
+	            {
+                	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+                	"email" : "bob.marley@gmail.com",
+                	"username": "TheBobMarley",
+                	"description": "a person",
+                	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+                },
+                ...
+	            ]
 }
 
 Expected Headers:
@@ -76,7 +86,7 @@ Request Body:
 {
 	"email" : "carla.johnson@gmail.com",
 	"username": "Carla99",
-	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+	"password": "password",
 	"description": "second user",
 	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
@@ -86,7 +96,6 @@ Response Body:
 	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
 	"email" : "carla.johnson@gmail.com",
     "username": "Carla99",
-	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "description": "second user",
     "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
 }
@@ -111,15 +120,7 @@ Request Body:
     "description": "I want to make friends"
 }
 
-Response Body:
-{
-	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
-	"email" : "carla.johnson@gmail.com",
-    "username": "Carla99",
-	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "description": "I want to make friends",
-    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
-}
+Response Body: None
 
 Expected Headers:
 	200 OK if user exists
@@ -159,7 +160,7 @@ POST/api/v1/login
 Request Body:
 {
 	"username": "Carla99",
-	"hashedPassword": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	"password": "password"
 }
 
 Response Body: None
@@ -184,11 +185,22 @@ Request Body:
 
 Response Body:
 {
-	"postIds" : [
-			"532",
-			"604",
-			...
-			"999"
+	"posts" : [
+			{
+             	"oidContent" : "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4",
+             	"title" : "First image post",
+             	"description": "the first image post",
+             	"url": "s3/path/to/first/image",
+             	"oidUser": 1,
+             	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+             },
+			...,
+			{
+            	"oidContent" : "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4",
+            	"text" : "Testing first post!",
+            	"oidUser": 1,
+            	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+            }
 			]
 }
 
@@ -208,8 +220,6 @@ Request Body:
 Response Body:
 {
 	"oidContent" : "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4",
-	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
 	"title" : "First image post",
 	"description": "the first image post",
 	"url": "s3/path/to/first/image",
@@ -238,8 +248,6 @@ Request Body:
 Response Body:
 {
 	"oidContent" : "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4",
-	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
 	"text" : "Testing first post!",
 	"oidUser": 1,
 	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
@@ -289,8 +297,6 @@ Response Body:
 	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
 	"name" : "LOL",
 	"description": "league of legends",
-	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-	"lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
 }
 
 Expected Headers:
@@ -312,8 +318,6 @@ Response Body:
 	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
 	"name" : "LOL",
     "description": "league of legends",
-    "creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
 }
 
 Expected Headers:
@@ -369,6 +373,3 @@ Expected Headers:
 	400 BAD REQUEST if request body is improperly formatted or missing required information
 	404 NOT FOUND if no posts matched the request body conditions
 	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
-
-
-
