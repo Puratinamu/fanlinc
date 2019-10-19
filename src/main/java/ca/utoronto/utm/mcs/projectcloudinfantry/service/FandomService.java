@@ -10,8 +10,8 @@ import java.util.UUID;
 @Service
 public interface FandomService {
 
-    Fandom getFandom(String oid);
-    Fandom getFandomByName(String name);
+    //Fandom getFandom(Fandom fandom);
+    Fandom getFandomByName(Fandom fandom);
     Fandom addFandom(Fandom fandom);
-    public Collection<Fandom> getAll();
+    //public Collection<Fandom> getAll();
 }

@@ -18,15 +18,15 @@ public class FandomController {
     @Autowired
     private
     FandomService fandomService;
-
+/*
     @RequestMapping(value = "/api/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandom(@RequestBody Fandom fandom) {return fandomService.getFandom(fandom.getOidFandom().toString());}
-
-    @RequestMapping(value = "/api/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom.getName());}
+    public Fandom getFandom(@RequestBody Fandom fandom) {return fandomService.getFandom(fandom);}
 
     @RequestMapping(value = "/api/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Collection<Fandom> getAll() {return fandomService.getAll();}
+*/
+    @RequestMapping(value = "/api/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom);}
 
     @RequestMapping(value = "/api/addFandom", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom addFandom(@RequestBody Fandom fandom) {

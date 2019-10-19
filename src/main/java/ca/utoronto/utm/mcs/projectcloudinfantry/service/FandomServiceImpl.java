@@ -19,16 +19,18 @@ public class FandomServiceImpl implements FandomService {
     public FandomServiceImpl(FandomRepository fandomRepository) {
         this.fandomRepository = fandomRepository;
     }
-
-    public Fandom getFandom(String oid){
-        Fandom fandom = fandomRepository.getFandom(oid);
-        return fandom;
+/*
+    public Fandom getFandom(Fandom fandom){
+        UUID oid = fandom.getOidFandom();
+        Fandom result = fandomRepository.getFandom(oid);
+        return result;
     }
-
+*/
     @Override
-    public Fandom getFandomByName(String name) {
-        Fandom fandom = fandomRepository.getFandomByName(name);
-        return fandom;
+    public Fandom getFandomByName(Fandom fandom) {
+        String name = fandom.getName();
+        Fandom result = fandomRepository.getFandomByName(name);
+        return result;
     }
 
     @Override
@@ -43,9 +45,9 @@ public class FandomServiceImpl implements FandomService {
         }
         else {return existingFandom;}
     }
-
+/*
     public Collection<Fandom> getAll(){
         return (Collection<Fandom>) fandomRepository.findAll();
     }
-
+*/
 }
