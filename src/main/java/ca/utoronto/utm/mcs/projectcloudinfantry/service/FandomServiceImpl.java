@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,13 +20,12 @@ public class FandomServiceImpl implements FandomService {
     public FandomServiceImpl(FandomRepository fandomRepository) {
         this.fandomRepository = fandomRepository;
     }
-/*
-    public Fandom getFandom(Fandom fandom){
+
+    public Optional<Fandom> getFandom(Fandom fandom){
         UUID oid = fandom.getOidFandom();
-        Fandom result = fandomRepository.getFandom(oid);
-        return result;
+        return fandomRepository.findById(oid);
     }
-*/
+
     @Override
     public Fandom getFandomByName(Fandom fandom) {
         String name = fandom.getName();
@@ -38,16 +38,15 @@ public class FandomServiceImpl implements FandomService {
         // check if fandom already exists
         Fandom existingFandom = fandomRepository.getFandomByName(fandom.getName());
         if (existingFandom == null) {
-            fandom.setOidFandom(UUID.randomUUID());
             fandom.setCreationTimestamp(new Date());
             fandom.setLastUpdateTimestamp(new Date());
             return fandomRepository.save(fandom);
+        } else {
+            return existingFandom;
         }
-        else {return existingFandom;}
     }
-/*
-    public Collection<Fandom> getAll(){
+
+    public Collection<Fandom> getFandoms() {
         return (Collection<Fandom>) fandomRepository.findAll();
     }
-*/
 }

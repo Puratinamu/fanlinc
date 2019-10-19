@@ -4,14 +4,14 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.UUID;
+import java.util.Optional;
 
 
 @Service
 public interface FandomService {
 
-    //Fandom getFandom(Fandom fandom);
+    Optional<Fandom> getFandom(Fandom fandom);
     Fandom getFandomByName(Fandom fandom);
     Fandom addFandom(Fandom fandom);
-    //public Collection<Fandom> getAll();
+    Collection<Fandom> getFandoms();
 }

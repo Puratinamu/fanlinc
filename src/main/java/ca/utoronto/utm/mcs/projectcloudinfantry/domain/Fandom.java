@@ -1,10 +1,13 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.domain;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
+import org.neo4j.ogm.id.UuidStrategy;
 import org.springframework.data.annotation.CreatedDate;
 
+import javax.annotation.Generated;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +15,7 @@ import java.util.UUID;
 @NodeEntity
 public class Fandom {
 
-    @Id
+    @Id @GeneratedValue(strategy = UuidStrategy.class)
     private UUID oidFandom;
 
     private String name;
