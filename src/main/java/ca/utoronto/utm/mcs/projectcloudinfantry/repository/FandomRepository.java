@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface FandomRepository extends Neo4jRepository<Fandom, Long>  {
+public interface FandomRepository extends Neo4jRepository<Fandom, UUID>  {
 
     @Query("MATCH (f: Fandom) WHERE f.oidFandom={oidFandom} RETURN f")
-    Fandom getFandom(@Param("oidFandom") UUID oidFandom);
+    Fandom getFandom(@Param("oidFandom") String oidFandom);
 
-    @Query("MATCH (f: Fandom) WHERE f.name={name} RETURN f")
-    Fandom getFandomByName(@Param("name") String name);
+    // @Query("MATCH (f: Fandom {name:{fandom_name}}) RETURN f")
+    Fandom getFandomByName(String name);
 }

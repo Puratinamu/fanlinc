@@ -20,7 +20,7 @@ public class FandomServiceImpl implements FandomService {
         this.fandomRepository = fandomRepository;
     }
 
-    public Fandom getFandom(UUID oid){
+    public Fandom getFandom(String oid){
         Fandom fandom = fandomRepository.getFandom(oid);
         return fandom;
     }

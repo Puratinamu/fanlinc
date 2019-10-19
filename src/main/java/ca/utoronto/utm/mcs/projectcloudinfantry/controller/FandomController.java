@@ -20,10 +20,10 @@ public class FandomController {
     FandomService fandomService;
 
     @RequestMapping(value = "/api/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandom(@RequestBody String oid) {return fandomService.getFandom(UUID.fromString(oid));}
+    public Fandom getFandom(@RequestBody Fandom fandom) {return fandomService.getFandom(fandom.getOidFandom().toString());}
 
     @RequestMapping(value = "/api/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandomByName(@RequestBody String name) {return fandomService.getFandomByName(name);}
+    public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom.getName());}
 
     @RequestMapping(value = "/api/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Collection<Fandom> getAll() {return fandomService.getAll();}
