@@ -14,6 +14,6 @@ public interface FandomRepository extends Neo4jRepository<Fandom, Long>  {
     @Query("MATCH (f: Fandom) WHERE f.oidFandom={oidFandom} RETURN f")
     Fandom getFandom(@Param("oidFandom") UUID oidFandom);
 
-    @Query("MATCH (f: Fandom) WHERE f.name={name}) RETURN f")
+    @Query("MATCH (f: Fandom) WHERE f.name={name} RETURN f")
     Fandom getFandomByName(@Param("name") String name);
 }

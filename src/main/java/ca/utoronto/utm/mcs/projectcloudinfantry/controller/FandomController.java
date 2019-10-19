@@ -19,23 +19,17 @@ public class FandomController {
     private
     FandomService fandomService;
 
-    @RequestMapping(value = "/api/getFandom/{id}", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandom(@PathVariable("id") UUID oid) {
-        return fandomService.getFandom(oid);
-    }
+    @RequestMapping(value = "/api/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public Fandom getFandom(@RequestBody String oid) {return fandomService.getFandom(UUID.fromString(oid));}
 
-    @RequestMapping(value = "/api/getFandomByName/{name}", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandom(@PathVariable("name") String name) {
-        return fandomService.getFandomByName(name);
-    }
+    @RequestMapping(value = "/api/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public Fandom getFandomByName(@RequestBody String name) {return fandomService.getFandomByName(name);}
 
     @RequestMapping(value = "/api/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Collection<Fandom> getAll() {
-        return fandomService.getAll();
-    }
+    public Collection<Fandom> getAll() {return fandomService.getAll();}
 
     @RequestMapping(value = "/api/addFandom", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom addFandom(Fandom fandom) {
+    public Fandom addFandom(@RequestBody Fandom fandom) {
         return fandomService.addFandom(fandom);
     }
 }
