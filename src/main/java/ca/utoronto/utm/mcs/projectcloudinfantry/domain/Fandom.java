@@ -30,6 +30,11 @@ public class Fandom {
 
     private Date lastUpdateTimestamp;
 
+    public Fandom(String name, String description){
+        this.name = name;
+        this.description = description;
+    }
+
     public UUID getOidFandom() {
         return oidFandom;
     }

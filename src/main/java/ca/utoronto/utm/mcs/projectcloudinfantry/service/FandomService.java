@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface FandomService {
 
     Fandom getFandom(UUID oid);
+    Fandom getFandomByName(String name);
     Fandom addFandom(Fandom fandom);
     public Collection<Fandom> getAll();
 }

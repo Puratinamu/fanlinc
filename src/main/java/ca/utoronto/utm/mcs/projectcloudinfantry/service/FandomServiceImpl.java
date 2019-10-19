@@ -26,6 +26,12 @@ public class FandomServiceImpl implements FandomService {
     }
 
     @Override
+    public Fandom getFandomByName(String name) {
+        Fandom fandom = fandomRepository.getFandomByName(name);
+        return fandom;
+    }
+
+    @Override
     public Fandom addFandom(Fandom fandom) {
         // check if fandom already exists
         Fandom existingFandom = fandomRepository.getFandomByName(fandom.getName());

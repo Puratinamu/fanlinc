@@ -19,17 +19,22 @@ public class FandomController {
     private
     FandomService fandomService;
 
-    @RequestMapping(value = "/api/getFandom/{id}", method = GET)
+    @RequestMapping(value = "/api/getFandom/{id}", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom getFandom(@PathVariable("id") UUID oid) {
         return fandomService.getFandom(oid);
     }
 
-    @RequestMapping(value = "/api/getFandoms", method = GET)
+    @RequestMapping(value = "/api/getFandomByName/{name}", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public Fandom getFandom(@PathVariable("name") String name) {
+        return fandomService.getFandomByName(name);
+    }
+
+    @RequestMapping(value = "/api/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Collection<Fandom> getAll() {
         return fandomService.getAll();
     }
 
-    @RequestMapping(value = "/api/addFandom", method = PUT)
+    @RequestMapping(value = "/api/addFandom", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom addFandom(Fandom fandom) {
         return fandomService.addFandom(fandom);
     }
