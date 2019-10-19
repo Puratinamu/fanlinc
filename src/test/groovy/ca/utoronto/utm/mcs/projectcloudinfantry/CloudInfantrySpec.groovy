@@ -10,11 +10,9 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
-import spock.lang.Stepwise
 /**
  * EXAMPLE TEST CLASS
  */
-@Stepwise
 @AutoConfigureMockMvc
 @PropertySource(value = "classpath:application-test.yml")
 class CloudInfantrySpec extends BaseSpecification {
