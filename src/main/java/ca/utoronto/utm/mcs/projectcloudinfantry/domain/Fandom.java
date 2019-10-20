@@ -4,19 +4,17 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.id.UuidStrategy;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.annotation.Generated;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @NodeEntity
 public class Fandom {
 
-    @Id @GeneratedValue(strategy = UuidStrategy.class)
-    private UUID oidFandom;
+    @Id
+    @GeneratedValue
+    private Long oidFandom;
 
     private String name;
 
@@ -33,16 +31,11 @@ public class Fandom {
 
     private Date lastUpdateTimestamp;
 
-    public Fandom(String name, String description){
-        this.name = name;
-        this.description = description;
-    }
-
-    public UUID getOidFandom() {
+    public Long getOidFandom() {
         return oidFandom;
     }
 
-    public void setOidFandom(UUID oidFandom) {
+    public void setOidFandom(Long oidFandom) {
         this.oidFandom = oidFandom;
     }
 

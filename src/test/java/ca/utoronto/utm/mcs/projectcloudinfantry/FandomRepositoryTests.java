@@ -1,6 +1,5 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry;
 
-import static org.junit.Assert.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import org.junit.Before;
@@ -10,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -21,7 +23,9 @@ public class FandomRepositoryTests {
 
     @Before
     public void setUp() {
-        Fandom lol = new Fandom("LOL", "League of legends fandom");
+        Fandom lol = new Fandom();
+        lol.setName("LOL");
+        lol.setDescription("League of legends fandom");
         fandomRepository.save(lol);
     }
 
