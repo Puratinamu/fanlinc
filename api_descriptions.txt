@@ -14,7 +14,7 @@ Response Body:
 	"email" : "bob.marley@gmail.com",
 	"username": "TheBobMarley",
 	"description": "a person",
-	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+	"fandoms": [123]
 }
 
 Expected Headers:
@@ -36,7 +36,7 @@ Response Body:
 	"email" : "bob.marley@gmail.com",
     "username": "TheBobMarley",
     "description": "a person",
-    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+    "fandoms": [123]
 }
 
 Expected Headers:
@@ -64,7 +64,7 @@ Response Body:
                 	"email" : "bob.marley@gmail.com",
                 	"username": "TheBobMarley",
                 	"description": "a person",
-                	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+                	"fandoms": [123]
                 },
                 ...
 	            ]
@@ -88,7 +88,7 @@ Request Body:
 	"username": "Carla99",
 	"password": "password",
 	"description": "second user",
-	"fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+	"fandoms": [123]
 }
 
 Response Body:
@@ -97,7 +97,7 @@ Response Body:
 	"email" : "carla.johnson@gmail.com",
     "username": "Carla99",
     "description": "second user",
-    "fandoms": ["6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"]
+    "fandoms": [123]
 }
 
 Expected Headers:
