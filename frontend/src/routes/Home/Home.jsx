@@ -1,10 +1,10 @@
 import React from 'react';
-import SampleComponent from '../../components/SampleComponent/SampleComponent.jsx'
+import Registration from '../../components/Registration/Registration.jsx'
 
 class Home extends React.Component{
 
     render(){
-        return <SampleComponent />
+        return <Registration />
     }
 }
 export default Home;
