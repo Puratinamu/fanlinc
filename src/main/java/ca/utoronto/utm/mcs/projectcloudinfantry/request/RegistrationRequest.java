@@ -12,14 +12,14 @@ public class RegistrationRequest {
     private String email;
     private String username;
     private String description;
-    private List<Fandom> fandomList = new ArrayList<>();
+    private List<Fandom> fandoms = new ArrayList<>();
 
     public RegistrationRequest(User user) {
         this.oidUser = user.getOidUser().toString();
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.description = user.getDescription();
-        this.fandomList = user.getFandoms();
+        this.fandoms = user.getFandoms();
     }
 
     public String getOidUser() {
@@ -38,7 +38,7 @@ public class RegistrationRequest {
         return description;
     }
 
-    public List<Fandom> getFandomList() {
-        return fandomList;
+    public List<Fandom> getFandoms() {
+        return fandoms;
     }
 }
