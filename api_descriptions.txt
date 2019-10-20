@@ -5,12 +5,12 @@ GET/api/v1/getUser
 
 Request Body:
 {
-	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidUser" : 1234
 }
 
 Response Body:
 {
-	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidUser" : 1234,
 	"email" : "bob.marley@gmail.com",
 	"username": "TheBobMarley",
 	"description": "a person",
@@ -32,7 +32,7 @@ Request Body:
 
 Response Body:
 {
-	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidUser" : 1234,
 	"email" : "bob.marley@gmail.com",
     "username": "TheBobMarley",
     "description": "a person",
@@ -53,14 +53,14 @@ GET/api/v1/getContacts
 
 Request Body:
 {
-	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidUser" : 123
 }
 
 Response Body:
 {
-	"contactIds": [
+	"contacts": [
 	            {
-                	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+                	"oidUser" : 1234,
                 	"email" : "bob.marley@gmail.com",
                 	"username": "TheBobMarley",
                 	"description": "a person",
@@ -93,7 +93,7 @@ Request Body:
 
 Response Body:
 {
-	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidUser" : 1234,
 	"email" : "carla.johnson@gmail.com",
     "username": "Carla99",
     "description": "second user",
@@ -116,7 +116,7 @@ PUT/api/v1/updateUser
 
 Request Body:
 {
-	"oidUser" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidUser" : 1234,
     "description": "I want to make friends"
 }
 
@@ -136,8 +136,8 @@ the fandom entities, so we know both ID's
 
 Request Body:
 {
-	"oidUser" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
-	"oidFandom" : "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidUser" : 1234,
+	"oidFandom" : 123,
 	"relationship": "CASUAL"
 }
 
@@ -180,26 +180,26 @@ and get the posts tagged with those fandoms
 
 Request Body:
 {
-	"oidUser": "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidUser": 1234
 }
 
 Response Body:
 {
 	"posts" : [
 			{
-             	"oidContent" : "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4",
+             	"oidContent" : 1234,
              	"title" : "First image post",
              	"description": "the first image post",
              	"url": "s3/path/to/first/image",
              	"oidUser": 1,
-             	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+             	"oidFandom": 123
              },
 			...,
 			{
-            	"oidContent" : "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4",
+            	"oidContent" : 1235,
             	"text" : "Testing first post!",
             	"oidUser": 1,
-            	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+            	"oidFandom": 123
             }
 			]
 }
@@ -214,17 +214,17 @@ GET/api/v1/getImagePost
 
 Request Body:
 {
-	"oidContent": "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4"
+	"oidContent": 1234
 }
 
 Response Body:
 {
-	"oidContent" : "82d65a1e-efa3-11e9-81b4-2a2ae2dbcce4",
+	"oidContent" : 1234,
 	"title" : "First image post",
 	"description": "the first image post",
 	"url": "s3/path/to/first/image",
 	"oidUser": 1,
-	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidFandom": 123
 }
 
 Expected Headers:
@@ -242,15 +242,15 @@ GET/api/v1/getTextPost
 
 Request Body:
 {
-	"oidContent": "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4"
+	"oidContent": 1234
 }
 
 Response Body:
 {
-	"oidContent" : "82d65c8a-efa3-11e9-81b4-2a2ae2dbcce4",
+	"oidContent" : 1234,
 	"text" : "Testing first post!",
 	"oidUser": 1,
-	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidFandom": 123
 }
 
 Expected Headers:
@@ -261,20 +261,24 @@ Expected Headers:
 
 
 _____________________________________________________________________________________________________
-# Post Post (create a post)
+# Post Text Post (create a post)
 _____________________________________________________________________________________________________
-POST/api/v1/addPost
+POST/api/v1/addTextPost
 
 Request Body:
 {
-	"oidCreator" : "6c48ae7e-efa2-11e9-81b4-2a2ae2dbcce4",
-	"content" : "Testing second post!",
-	"creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019",
-	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidCreator" : 1234,
+	"text" : "Testing second post!",
+	"oidFandom" : 12346
 }
 
-Response Body: None
+Response Body:
+{
+    "oidPost" : 12345,
+    "oidCreator" : 1234,
+    "text" : "Testing second post!",
+    "oidFandom" : 12346
+}
 
 Expected Headers:
 	200 OK if post was posted successfully
@@ -282,19 +286,49 @@ Expected Headers:
 	500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
 
 
+_________________________________________________________________________________________________________
+# Post Image Post (create a post)
 _____________________________________________________________________________________________________
+POST/api/v1/addImagePost
+
+Request Body:
+{
+    "oidCreator" : 1234,
+    "title" : "First image post",
+    "description": "the first image post",
+    "url": "s3/path/to/first/image",
+    "oidFandom" : 12346
+}
+
+Response Body:
+{
+    "oidPost" : 12345,
+    "oidCreator" : 1234,
+    "title" : "First image post",
+    "description": "the first image post",
+    "url": "s3/path/to/first/image",
+    "oidFandom" : 12346
+}
+
+Expected Headers:
+    200 OK if post was posted successfully
+    400 BAD REQUEST if request body is improperly formatted or missing required information
+    500 INTERNAL SERVER ERROR if POST was unsuccessful (Java Exception is thrown)
+
+
+_________________________________________________________________________________________________
 # Get fandom (get a fandom)
 _____________________________________________________________________________________________________
 GET/api/v1/getFandom
 
 Request Body:
 {
-	"oidFandom": "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidFandom": 1234
 }
 
 Response Body:
 {
-	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidFandom" : 1234,
 	"name" : "LOL",
 	"description": "league of legends",
 }
@@ -315,7 +349,7 @@ Request Body:
 
 Response Body:
 {
-	"oidFandom" : "6c48aff0-efa2-11e9-81b4-2a2ae2dbcce4",
+	"oidFandom" : 1234,
 	"name" : "LOL",
     "description": "league of legends",
 }
@@ -335,12 +369,15 @@ POST/api/v1/addFandom
 Request Body:
 {
 	"name" : "WOW",
-    "description": "world of warcraft",
-    "creationTimestamp": "Mon Feb 11 14:46:13 EDT 2019",
-    "lastUpdateTimestamp": "Tue Feb 12 14:46:13 EDT 2019"
+    "description": "world of warcraft"
 }
 
-Response Body: None
+Response Body:
+{
+    "oidFandom" : 1234,
+    "name" : "WOW",
+    "description": "world of warcraft"
+}
 
 Expected Headers:
 	200 OK if fandom was added successfully
@@ -349,22 +386,32 @@ Expected Headers:
 
 
 _____________________________________________________________________________________________________
-# Get Timeline
+# Get Feed
 _____________________________________________________________________________________________________
-GET/api/v1/getTimeline
+GET/api/v1/getFeed
 
 Request Body:
 {
-	"oidUser": "6c48aa32-efa2-11e9-81b4-2a2ae2dbcce4"
+	"oidUser": 1234
 }
 
 Response Body:
 {
-	"postIds" : [
-			"1",
-			"2",
-			...
-			"10"
+	"posts" : [
+			{
+			"oidPost" : 12345,
+                "oidCreator" : 1234,
+                "title" : "First image post",
+                "description": "the first image post",
+                "url": "s3/path/to/first/image",
+                "oidFandom" : 12346
+			},
+			{
+                "oidPost" : 12345,
+                "oidCreator" : 1234,
+                "text" : "Testing second post!",
+                "oidFandom" : 12346
+            }, ...
 			]
 }
 
