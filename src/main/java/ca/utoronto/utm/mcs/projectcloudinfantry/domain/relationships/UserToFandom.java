@@ -17,9 +17,11 @@ public class UserToFandom {
     @Property
     private String relationship;
 
+    @Property
     @StartNode
     private User user;
 
+    @Property
     @EndNode
     private Fandom fandom;
 
