@@ -4,7 +4,6 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
@@ -69,13 +68,15 @@ export default function RegistrationProgress(props) {
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
-    props.callback(activeStep -1)
+    props.callback(activeStep - 1)
   };
 
   const handleStep = step => () => {
-    setActiveStep(step);
-    props.callback(step)
-    
+    if (step <= activeStep) {
+      setActiveStep(step);
+      props.callback(step);
+    }
+
 
   };
 
@@ -98,7 +99,7 @@ export default function RegistrationProgress(props) {
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Button           
+        <Button
           variant="contained"
           color="primary" disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
           Back
@@ -117,6 +118,7 @@ export default function RegistrationProgress(props) {
           color="primary"
           onClick={handleNext}
           className={classes.button}
+          disabled={!props.canProceed}
         >
           Next
         </Button>

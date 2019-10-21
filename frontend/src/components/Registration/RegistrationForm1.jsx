@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import { typography } from '@material-ui/system';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -23,8 +22,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TextBox(props) {
-  const classes = useStyles();
-
   return <TextField
     {...props.textBoxProps}
     margin="normal"
@@ -60,7 +57,9 @@ function FirstNameField(props) {
           required: true,
           id: "first-name",
           label: "First Name",
-          placeholder: "John"
+          placeholder: "John",
+          value: props.value,
+          onChange: props.onChange
         }
       }
     />
@@ -76,7 +75,11 @@ function LastNameField(props) {
           required: true,
           id: "last-name",
           label: "Last name",
-          placeholder: "Doe"
+          placeholder: "Doe",
+          value: props.value,
+
+          onChange: props.onChange
+
         }
       }
     />
@@ -92,7 +95,12 @@ function UserNameField(props) {
           required: true,
           id: "user-name",
           label: "Username",
-          placeholder: "JohnDoe123"
+          placeholder: "JohnDoe123",
+          value: props.value,
+
+          onChange: props.onChange
+
+
         }
       }
     />
@@ -232,30 +240,77 @@ function BioField(props) {
           label: "Bio",
           placeholder: "Tell us about yourself",
           multiline: true,
-          rows: "5"
+          rows: "5",
+          onChange: props.onChange
+
         }
       }
     />
   )
-
 }
 
-export default function RegistrationForm1() {
+class RegistrationForm1 extends React.Component {
 
+  constructor(props) {
 
+    super()
+
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleBioChange = this.handleBioChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.updateValues = this.updateValues.bind(this);
+   
+    this.state = {
+      FirstName: "",
+      LastName: "",
+      Bio: "",
+      Username: ""
+    }
+  }
+  updateValues(e) {
+    this.setState({
+      FirstName: e.FirstName,
+      LastName: e.LastName,
+      Bio: e.Bio,
+      Username: e.Username
+    }
+    
+  )
+  console.log(e)
+}
+handleChange(e) {
+  this.props.updateParent(this.state)
+}
+handleFirstNameChange(e) {
+  this.setState({ FirstName: e.target.value })
+}
+handleLastNameChange(e) {
+  this.setState({ LastName: e.target.value })
+}
+handleUsernameChange(e) {
+  this.setState({ Username: e.target.value })
+}
+handleBioChange(e) {
+  this.setState({ Bio: e.target.value })
+}
+
+render() {
   return (
-    <form noValidate autoComplete="off">
+    <form noValidate onChange={this.handleChange} autoComplete="off">
       <Box display="flex" textAlign="center">
         <Box margin="0 auto" width="44%">
-          <FirstNameField />
-          <LastNameField />
-          <UserNameField />
-          <PasswordEntry />
-          <BioField />
-
+          <FirstNameField onChange={this.handleFirstNameChange} value={this.state.FirstName} />
+          <LastNameField onChange={this.handleLastNameChange} value={this.state.LastName} />
+          <UserNameField onChange={this.handleUsernameChange} value={this.state.Username} />
+          <PasswordEntry value={this.props.PasswordEntry} />
+          <BioField onChange={this.handleBioChange} value={this.props.Bio} />
         </Box>
       </Box>
-
     </form >
   );
 }
+}
+export default RegistrationForm1
+
