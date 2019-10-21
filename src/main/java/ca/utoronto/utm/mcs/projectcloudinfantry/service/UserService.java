@@ -1,11 +1,12 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 
 public interface UserService {
 
-    User registerUser(RegistrationRequest request);
-    User loginUser(LoginRequest request);
+    void registerUser(RegistrationRequest request) throws UserAlreadyExistsException;
+    void loginUser(LoginRequest request) throws NotAuthorizedException;
 }

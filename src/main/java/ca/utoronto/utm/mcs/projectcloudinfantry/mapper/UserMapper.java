@@ -5,6 +5,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,8 @@ public class UserMapper {
         user.setPassword(MapperUtils.toEmptyIfNull(requestBody.get("password")));
         user.setDescription(MapperUtils.toEmptyIfNull(requestBody.get("description")));
         // List of fandom id's
-        user.setFandoms((List<Fandom>) requestBody.get("fandoms"));
+        List<String> fandomIdList = MapperUtils.objToListOfString(requestBody.get("fandoms"));
+        // user.setFandoms());
         return user;
     }
 

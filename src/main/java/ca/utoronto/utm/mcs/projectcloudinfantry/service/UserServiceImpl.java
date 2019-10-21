@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerUser(RegistrationRequest request) {
+    public void registerUser(RegistrationRequest request) throws UserAlreadyExistsException {
         //TODO: validate user
 
         // Validate that email, username, and password are not empty
@@ -55,11 +55,11 @@ public class UserServiceImpl implements UserService {
         newUser.setLastLoginTimestamp(date);
         newUser.setLastUpdateTimestamp(date);
 
-        return userRepository.save(newUser);
+        userRepository.save(newUser);
     }
 
     @Override
-    public User loginUser(LoginRequest request) {
+    public void loginUser(LoginRequest request) throws NotAuthorizedException {
         // Validate that username and password are not empty
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
@@ -74,8 +74,6 @@ public class UserServiceImpl implements UserService {
             // If username exists, check that his password matches the one from the request, else throw error
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
-            // Return user
-            else return user;
         }
     }
 }
