@@ -14,8 +14,8 @@ import java.util.UUID;
 @NodeEntity
 public class User {
 
-    @Id @GeneratedValue(strategy = UuidStrategy.class)
-    private UUID oidUser;
+    @Id @GeneratedValue
+    private Long oidUser;
 
     private String username;
 
@@ -41,11 +41,11 @@ public class User {
 
     private Date lastLoginTimestamp;
 
-    public UUID getOidUser() {
+    public Long getOidUser() {
         return oidUser;
     }
 
-    public void setOidUser(UUID oidUser) {
+    public void setOidUser(Long oidUser) {
         this.oidUser = oidUser;
     }
 

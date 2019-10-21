@@ -4,9 +4,8 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom;
 
-public interface UserService {
+public interface RelationshipService {
 
-    User addUser(User user);
-    User getUserByUsername(User user);
+    UserToFandom addUserToFandom(String username, Long oidFandom, String type);
 
 }
