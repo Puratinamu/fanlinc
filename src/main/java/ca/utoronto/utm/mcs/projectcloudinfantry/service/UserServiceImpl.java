@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(RegistrationRequest request) throws UserAlreadyExistsException {
+    public void registerUser(RegistrationRequest request) {
         //TODO: validate user
 
         // Validate that email, username, and password are not empty
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void loginUser(LoginRequest request) throws NotAuthorizedException {
+    public void loginUser(LoginRequest request) {
         // Validate that username and password are not empty
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();

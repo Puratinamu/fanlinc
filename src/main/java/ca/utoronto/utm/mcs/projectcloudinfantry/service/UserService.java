@@ -7,6 +7,6 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 
 public interface UserService {
 
-    void registerUser(RegistrationRequest request) throws UserAlreadyExistsException;
-    void loginUser(LoginRequest request) throws NotAuthorizedException;
+    void registerUser(RegistrationRequest request);
+    void loginUser(LoginRequest request);
 }
