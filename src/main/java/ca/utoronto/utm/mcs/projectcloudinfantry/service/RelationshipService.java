@@ -6,6 +6,6 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFando
 
 public interface RelationshipService {
 
-    UserToFandom addUserToFandom(String username, Long oidFandom, String type);
+    UserToFandom addUserToFandom(String username, String fandomName, String type);
 
 }

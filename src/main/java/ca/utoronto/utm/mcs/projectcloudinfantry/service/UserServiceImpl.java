@@ -6,11 +6,14 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFando
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.UUID;
 
 @Service
@@ -41,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    private PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
