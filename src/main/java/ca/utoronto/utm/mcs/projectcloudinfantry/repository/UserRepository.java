@@ -14,4 +14,5 @@ public interface UserRepository extends Neo4jRepository<User, Long>  {
 
     // Expect each user to have a unique email
     User findByUsername(String username);
+
 }
