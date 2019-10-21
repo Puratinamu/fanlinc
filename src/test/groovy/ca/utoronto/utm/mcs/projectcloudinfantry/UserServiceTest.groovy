@@ -48,9 +48,21 @@ class UserServiceTest extends BaseSpecification {
         resultMap.get("description").toString() == "second user"
         List<Object> fandoms = resultMap.get("fandoms") as List<Object>
         fandoms.contains("1234")
-
-        // Check record exists in database
-        userRepository.count() >= 0
     }
+
+    def 'User Login'() {
+        expect:
+        // make a POST request to addUser and get back expected json
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/login')
+                .content('{\n' +
+                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"password": "password"\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+    }
+
 
 }

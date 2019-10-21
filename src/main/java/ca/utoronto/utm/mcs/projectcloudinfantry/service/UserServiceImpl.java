@@ -1,14 +1,16 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
-import org.springframework.context.annotation.Bean;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import org.springframework.stereotype.Service;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import java.util.UUID;
+import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,27 +22,60 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
+    public User registerUser(RegistrationRequest request) {
         //TODO: validate user
 
-        // Validate email and username by checking if existing users have them
-        boolean emailExists = userRepository.findByEmail(user.getEmail()) != null;
-        boolean userExists = userRepository.findByUsername(user.getUsername()) != null;
-        if (emailExists || userExists) {
+        // Validate that email, username, and password are not empty
+        if (request.getEmail().isEmpty() || request.getUsername().isEmpty() || request.getPassword().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        // Validate email by checking if existing users have it
+        boolean emailExists = userRepository.findByEmail(request.getEmail()) != null;
+        if (emailExists) {
             // If user already exists, then return 400 error
             throw new UserAlreadyExistsException();
         }
         // Bcrypt password to store in db
-        String password = user.getPassword();
-        user.setPassword(passwordEncoder().encode(password));
+        String password = request.getPassword();
+        password = BcryptUtils.passwordEncoder().encode(password);
 
-        return userRepository.save(user);
+        // Initialize date of creation
+        Date date = new Date();
+
+        // Create user
+        User newUser = new User();
+        newUser.setEmail(request.getEmail());
+        newUser.setUsername(request.getUsername());
+        newUser.setPassword(password);
+        newUser.setDescription(request.getDescription());
+        // TODO: Create list of Fandoms from list of Fandom Ids
+        // newUser.setFandoms();
+        newUser.setCreationTimestamp(date);
+        newUser.setLastLoginTimestamp(date);
+        newUser.setLastUpdateTimestamp(date);
+
+        return userRepository.save(newUser);
     }
 
+    @Override
+    public User loginUser(LoginRequest request) {
+        // Validate that username and password are not empty
+        if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        // Check if username exists
+        User user = userRepository.findByEmail(request.getEmail());
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        // If user does not exist, throw error
+        if (user == null) {
+            throw new UserNotFoundException();
+        } else {
+            // If username exists, check that his password matches the one from the request, else throw error
+            if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
+                throw new NotAuthorizedException();
+            // Return user
+            else return user;
+        }
     }
-
 }
