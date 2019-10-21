@@ -55,7 +55,13 @@ public class RelationshipServiceImpl implements RelationshipService {
         if (relationship == null) {
             // Create the relationship
             relationship = new UserToFandom(foundUser, foundFandom, type);
-            userToFandomRepository.save(relationship);
         }
+
+        // Update the relationship strength type if its different
+        if (!relationship.getRelationship().equals(type)) {
+            relationship.setRelationship(type);
+        }
+
+        userToFandomRepository.save(relationship);
     }
 }
