@@ -13,40 +13,43 @@ class Registration extends React.Component {
     this.canProceed = this.canProceed.bind(this);
     this.handleNewStep = this.handleNewStep.bind(this);
     this.RegistrationForm1Ref = React.createRef();
-    
     this.state = {
       currentRegistrationStep: 0,
       RegistrationForm1Props: {
-        FirstName: "",
-        LastName: "",
-        Bio: "",
-        Username: ""
+        firstName: "",
+        lastName: "",
+        bio: "",
+        username: "",
+        passwordValue: "", 
+        confirmPasswordValue: "" ,
+        errorState: false
       },
-      previousRegistrationStep: -1,
       RegistrationForm1Ref: this.RegistrationForm1Ref,
       RegistrationForm2Props: {},
       RegistrationForm3Props: {},
       RegistrationForm4Props: {},
       registrationSteps: [
-        <RegistrationForm1 ref={this.RegistrationForm1Ref} updateParent={this.handleRegistration1Update} />,
+        <RegistrationForm1 ref={this.RegistrationForm1Ref} updateParent={this.handleRegistration1Update}  />,
         <RegistrationForm2 />,
         <RegistrationForm3 />,
-        <RegistrationForm4 />]
+        <RegistrationForm4 {...this.RegistrationForm4Props}/>]
     }
 
 
   }
   handleRegistration1Update(e) {
     this.setState({ RegistrationForm1Props: e })
+    this.setState({ RegistrationForm4Props: e })
+    this.state.registrationSteps[3] = <RegistrationForm4 ref={this.RegistrationForm4Ref} {...this.state.RegistrationForm4Props}/>
+    this.forceUpdate()
+
   }
+
   handleRegistration2Update(e) {
     this.setState({ RegistrationForm2Props: e })
   }
   handleRegistration3Update(e) {
     this.setState({ RegistrationForm3Props: e })
-  }
-  handleRegistration4Update(e) {
-    this.setState({ RegistrationForm4Props: e })
   }
 
   handleNewStep(e) {
@@ -55,7 +58,16 @@ class Registration extends React.Component {
   canProceed() {
     if (this.state.currentRegistrationStep === 0) {
       let props = this.state.RegistrationForm1Props;
-      if (props.FirstName !== "" && props.LastName !== "" & props.Username !== "") {
+      if (
+        props.firstName !== "" &&
+        props.lastName !== "" &&
+        props.username !== "" &&
+        !props.errorState &&
+        props.passwordValue !== "" &&
+        props.confirmPasswordValue !== "" &&
+        props.confirmPasswordValue === props.passwordValue
+        
+        ) {
         return true
       }
       return false;
@@ -65,12 +77,14 @@ class Registration extends React.Component {
   }
   componentDidMount() {
     this.RegistrationForm1Ref.current.updateValues(this.state.RegistrationForm1Props)
+
   }
   componentDidUpdate(prevProps, prevState) {
-    if ( prevState.currentRegistrationStep !== 0  && this.state.currentRegistrationStep === 0) {
+    if (prevState.currentRegistrationStep !== 0 && this.state.currentRegistrationStep === 0) {
+      console.log(prevState)
       this.RegistrationForm1Ref.current.updateValues(prevState.RegistrationForm1Props)
-      console.log(prevState.RegistrationForm1Props)
     }
+
   }
 
   render() {

@@ -16,9 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   textLabel: {
     marginTop: theme.spacing(3),
-
   }
-
 }));
 
 function TextBox(props) {
@@ -77,9 +75,7 @@ function LastNameField(props) {
           label: "Last name",
           placeholder: "Doe",
           value: props.value,
-
           onChange: props.onChange
-
         }
       }
     />
@@ -97,10 +93,7 @@ function UserNameField(props) {
           label: "Username",
           placeholder: "JohnDoe123",
           value: props.value,
-
           onChange: props.onChange
-
-
         }
       }
     />
@@ -108,12 +101,14 @@ function UserNameField(props) {
 }
 
 class PasswordEntry extends React.Component {
-  constructor() {
+
+  constructor(props) {
     super();
+
     this.state = {
-      passwordValue: null,
-      confirmPasswordValue: null,
-      errorState: false,
+      passwordValue: props.passwordValue,
+      confirmPasswordValue: props.confirmPasswordValue,
+      errorState: props.errorState,
       firstPassPassword: true,
       firstPassConfirmPassword: true
     }
@@ -122,7 +117,13 @@ class PasswordEntry extends React.Component {
     this.handlePasswordMouseLeave = this.handlePasswordMouseLeave.bind(this);
     this.handleConfirmPasswordMouseLeave = this.handleConfirmPasswordMouseLeave.bind(this);
     this.checkPasswords = this.checkPasswords.bind(this);
-
+  }
+  componentWillReceiveProps(newProps){
+    this.setState({
+      passwordValue: newProps.passwordValue,
+      confirmPasswordValue: newProps.confirmPasswordValue,
+      errorState: newProps.errorState
+    });
   }
 
   handlePasswordUpdate(event) {
@@ -131,6 +132,7 @@ class PasswordEntry extends React.Component {
       this.checkPasswords
     )
 
+
   }
 
   handleConfirmPasswordUpdate(event) {
@@ -138,6 +140,7 @@ class PasswordEntry extends React.Component {
       { confirmPasswordValue: event.target.value },
       this.checkPasswords
     )
+
   }
 
   handlePasswordMouseLeave() {
@@ -171,20 +174,31 @@ class PasswordEntry extends React.Component {
     } else {
       this.setState({ errorState: false })
     }
+    this.props.updateParent(
+      {
+        passwordValue: this.state.passwordValue,
+        confirmPasswordValue: this.state.confirmPasswordValue,
+        errorState: this.state.errorState
+      })
   }
 
   render() {
+
     return (
       <React.Fragment>
         <PasswordField
           onChange={this.handlePasswordUpdate}
           error={this.state.errorState}
-          onMouseLeave={this.handlePasswordMouseLeave} />
+          onMouseLeave={this.handlePasswordMouseLeave}
+          value={this.state.passwordValue}
+        />
 
         <ConfirmPasswordField
           onChange={this.handleConfirmPasswordUpdate}
           error={this.state.errorState}
-          onMouseLeave={this.handleConfirmPasswordMouseLeave} />
+          onMouseLeave={this.handleConfirmPasswordMouseLeave}
+          value={this.state.confirmPasswordValue}
+        />
       </React.Fragment>
     )
   }
@@ -202,7 +216,8 @@ function PasswordField(props) {
           type: "password",
           onChange: props.onChange,
           error: props.error,
-          onMouseLeave: props.onMouseLeave
+          onMouseLeave: props.onMouseLeave,
+          value: props.value
         }
       }
     />
@@ -222,7 +237,9 @@ function ConfirmPasswordField(props) {
           type: "password",
           onChange: props.onChange,
           error: props.error,
-          onMouseLeave: props.onMouseLeave
+          onMouseLeave: props.onMouseLeave,
+          value: props.value
+
         }
       }
     />
@@ -258,59 +275,83 @@ class RegistrationForm1 extends React.Component {
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handleUsernameChange.bind(this);
     this.handleBioChange = this.handleBioChange.bind(this);
+    this.handlePasswordEntryChange = this.handlePasswordEntryChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.updateValues = this.updateValues.bind(this);
-   
+
+
     this.state = {
-      FirstName: "",
-      LastName: "",
-      Bio: "",
-      Username: ""
+      firstName: "",
+      lastName: "",
+      bio: "",
+      username:"",
+      passwordValue: "",
+      confirmPasswordValue: "",
+      errorState: false
     }
   }
   updateValues(e) {
     this.setState({
-      FirstName: e.FirstName,
-      LastName: e.LastName,
-      Bio: e.Bio,
-      Username: e.Username
+      firstName: e.firstName,
+      lastName: e.lastName,
+      bio: e.bio,
+      username: e.username,
+      passwordValue: e.passwordValue,
+      confirmPasswordValue: e.confirmPasswordValue,
+      errorState: e.errorState
     }
-    
-  )
-  console.log(e)
-}
-handleChange(e) {
-  this.props.updateParent(this.state)
-}
-handleFirstNameChange(e) {
-  this.setState({ FirstName: e.target.value })
-}
-handleLastNameChange(e) {
-  this.setState({ LastName: e.target.value })
-}
-handleUsernameChange(e) {
-  this.setState({ Username: e.target.value })
-}
-handleBioChange(e) {
-  this.setState({ Bio: e.target.value })
-}
 
-render() {
-  return (
-    <form noValidate onChange={this.handleChange} autoComplete="off">
-      <Box display="flex" textAlign="center">
-        <Box margin="0 auto" width="44%">
-          <FirstNameField onChange={this.handleFirstNameChange} value={this.state.FirstName} />
-          <LastNameField onChange={this.handleLastNameChange} value={this.state.LastName} />
-          <UserNameField onChange={this.handleUsernameChange} value={this.state.Username} />
-          <PasswordEntry value={this.props.PasswordEntry} />
-          <BioField onChange={this.handleBioChange} value={this.props.Bio} />
+    )
+  }
+  handleChange(e) {
+    this.props.updateParent(this.state)
+  }
+  handleFirstNameChange(e) {
+    this.setState({ firstName: e.target.value })
+  }
+  handleLastNameChange(e) {
+    this.setState({ lastName: e.target.value })
+  }
+  handleUsernameChange(e) {
+    this.setState({ username: e.target.value })
+  }
+  handleBioChange(e) {
+    this.setState({ bio: e.target.value })
+  }
+  handlePasswordEntryChange(e) {
+    this.setState(
+      {
+        passwordValue: e.passwordValue,
+        confirmPasswordValue: e.confirmPasswordValue,
+        errorState: e.errorState
+      }
+    )
+  }
+  componentDidUpdate(prevProps, prevState) {
+    this.handleChange()
+  }
+  render() {
+    return (
+      <form noValidate autoComplete="off">
+        <Box display="flex" textAlign="center">
+          <Box margin="0 auto" width="45%">
+            <FirstNameField onChange={this.handleFirstNameChange} value={this.state.firstName} />
+            <LastNameField onChange={this.handleLastNameChange} value={this.state.lastName} />
+            <UserNameField onChange={this.handleUsernameChange} value={this.state.username} />
+            <PasswordEntry
+              updateParent={this.handlePasswordEntryChange}
+              passwordValue={this.state.passwordValue}
+              confirmPasswordValue={this.state.confirmPasswordValue}
+              errorState={this.state.errorState} />
+
+            <BioField onChange={this.handleBioChange} value={this.props.bio} />
+          </Box>
         </Box>
-      </Box>
-    </form >
-  );
-}
+      </form >
+    );
+  }
 }
 export default RegistrationForm1
 

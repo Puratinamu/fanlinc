@@ -61,8 +61,6 @@ export default function RegistrationProgress(props) {
         steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
-
-
     props.callback(newActiveStep)
   };
 
@@ -72,14 +70,12 @@ export default function RegistrationProgress(props) {
   };
 
   const handleStep = step => () => {
-    if (step <= activeStep) {
+    console.log(completed)
+    if (step <= activeStep || completed[step]) {
       setActiveStep(step);
       props.callback(step);
     }
-
-
   };
-
   const handleComplete = () => {
     const newCompleted = completed;
     newCompleted[activeStep] = true;

@@ -1,10 +1,10 @@
 import React from 'react';
 import Registration from '../../components/Registration/Registration.jsx'
 
-class Home extends React.Component{
+class Signup extends React.Component{
 
     render(){
-        return <div>Hello</div>
+        return <Registration />
     }
 }
-export default Home;
+export default Signup;
