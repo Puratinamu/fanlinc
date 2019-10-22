@@ -22,7 +22,8 @@ class Registration extends React.Component {
         username: "",
         passwordValue: "", 
         confirmPasswordValue: "" ,
-        errorState: false
+        errorState: true,
+        email:""
       },
       RegistrationForm1Ref: this.RegistrationForm1Ref,
       RegistrationForm2Props: {},
@@ -65,7 +66,8 @@ class Registration extends React.Component {
         !props.errorState &&
         props.passwordValue !== "" &&
         props.confirmPasswordValue !== "" &&
-        props.confirmPasswordValue === props.passwordValue
+        props.confirmPasswordValue === props.passwordValue &&
+        props.email !== ""
         
         ) {
         return true

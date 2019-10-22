@@ -99,6 +99,23 @@ function UserNameField(props) {
     />
   )
 }
+function EmailField(props) {
+  return (
+    <CenteredTextFieldElement
+      textLabel="Email"
+      textBoxProps={
+        {
+          required: true,
+          id: "email",
+          label: "Email",
+          placeholder: "somebody@mail.com",
+          value: props.value,
+          onChange: props.onChange
+        }
+      }
+    />
+  )
+}
 
 class PasswordEntry extends React.Component {
 
@@ -121,8 +138,7 @@ class PasswordEntry extends React.Component {
   componentWillReceiveProps(newProps){
     this.setState({
       passwordValue: newProps.passwordValue,
-      confirmPasswordValue: newProps.confirmPasswordValue,
-      errorState: newProps.errorState
+      confirmPasswordValue: newProps.confirmPasswordValue
     });
   }
 
@@ -131,8 +147,6 @@ class PasswordEntry extends React.Component {
       { passwordValue: event.target.value },
       this.checkPasswords
     )
-
-
   }
 
   handleConfirmPasswordUpdate(event) {
@@ -172,6 +186,7 @@ class PasswordEntry extends React.Component {
       this.state.passwordValue !== this.state.confirmPasswordValue) {
       this.setState({ errorState: true })
     } else {
+      
       this.setState({ errorState: false })
     }
     this.props.updateParent(
@@ -258,7 +273,8 @@ function BioField(props) {
           placeholder: "Tell us about yourself",
           multiline: true,
           rows: "5",
-          onChange: props.onChange
+          onChange: props.onChange,
+          value:props.value
 
         }
       }
@@ -275,6 +291,7 @@ class RegistrationForm1 extends React.Component {
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handleUsernameChange.bind(this);
     this.handleBioChange = this.handleBioChange.bind(this);
     this.handlePasswordEntryChange = this.handlePasswordEntryChange.bind(this);
@@ -289,6 +306,7 @@ class RegistrationForm1 extends React.Component {
       username:"",
       passwordValue: "",
       confirmPasswordValue: "",
+      email:"",
       errorState: false
     }
   }
@@ -300,7 +318,8 @@ class RegistrationForm1 extends React.Component {
       username: e.username,
       passwordValue: e.passwordValue,
       confirmPasswordValue: e.confirmPasswordValue,
-      errorState: e.errorState
+      errorState: e.errorState,
+      email: e.email
     }
 
     )
@@ -329,6 +348,9 @@ class RegistrationForm1 extends React.Component {
       }
     )
   }
+  handleEmailChange(e) {
+    this.setState({ email: e.target.value })
+  }
   componentDidUpdate(prevProps, prevState) {
     this.handleChange()
   }
@@ -339,14 +361,16 @@ class RegistrationForm1 extends React.Component {
           <Box margin="0 auto" width="45%">
             <FirstNameField onChange={this.handleFirstNameChange} value={this.state.firstName} />
             <LastNameField onChange={this.handleLastNameChange} value={this.state.lastName} />
+            <EmailField onChange={this.handleEmailChange} value={this.state.email} />
             <UserNameField onChange={this.handleUsernameChange} value={this.state.username} />
+          
             <PasswordEntry
               updateParent={this.handlePasswordEntryChange}
               passwordValue={this.state.passwordValue}
               confirmPasswordValue={this.state.confirmPasswordValue}
               errorState={this.state.errorState} />
 
-            <BioField onChange={this.handleBioChange} value={this.props.bio} />
+            <BioField onChange={this.handleBioChange} value={this.state.bio} />
           </Box>
         </Box>
       </form >

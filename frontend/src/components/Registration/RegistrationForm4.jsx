@@ -16,31 +16,32 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1)
   },
   paperBlock: {
+    width: 200,
     padding: theme.spacing(1),
-    paddingBottom: theme.spacing(2),
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    display:"flex",
+    paddingRight:theme.spacing(5)
   },
   bioHolder: {
     textOverflow: "ellipsis"
+  },
+  textBox: {
+    fontWeight: "bold",
+    marginLeft: "auto"
   }
 }));
 
 class RegistrationForm4 extends React.Component {
   constructor(props) {
     super()
-    this.state = {
-      firstName: props.firstName,
-      lastName: props.lastName,
-      bio: props.bio,
-      username: props.username
-    }
   }
-  updateValue(e) {
+  componentDidMount() {
     this.setState({
-      firstName: e.firstName,
-      lastName: e.lastName,
-      bio: e.bio,
-      username: e.username
+      firstName: this.props.firstName,
+      lastName: this.props.lastName,
+      bio: this.props.bio,
+      email: this.props.email,
+      username: this.props.username
     })
   }
   render() {
@@ -49,61 +50,37 @@ class RegistrationForm4 extends React.Component {
     )
   }
 }
+function TextBox(props) {
+  const classes = useStyles();
+
+  return (
+    <Paper  className={classes.paperBlock}>
+      <Typography component="span" variant="overline" gutterBottom>
+        {props.label}
+      </Typography>
+      <Typography className={classes.textBox} component="span" variant="body2" gutterBottom>
+        {props.value}
+      </Typography>
+    </Paper>
+  )
+}
+
 function RegistrationForm4Main(props) {
   const classes = useStyles();
 
   return (
     <Box display="flex" justifyContent="center">
       <div className={classes.root}>
-        <Typography variant="h5" component="h5">
+        <Typography variant="h5" component="h5" >
           Confirm Your Information
       </Typography>
         <Box className={classes.infoBox}>
-          <Paper className={classes.paperBlock}>
-            <Typography variant="body2" gutterBottom>
-              First Name
-          </Typography>
-            <Divider />
-            <Typography variant="overline" display="block" gutterBottom>
-              {props.firstName}
-            </Typography>
-          </Paper>
-          <Paper className={classes.paperBlock}>
-            <Typography  variant="body2" gutterBottom>
-              Last Name
-            </Typography>
-            <Divider />
-            <Typography  variant="overline" display="block" gutterBottom>
-              {props.lastName}
-            </Typography>
-          </Paper>
-
-          <Paper className={classes.paperBlock} >
-            <Typography variant="body2" gutterBottom>
-              Username
-           </Typography>
-           <Divider />
-            <Typography  variant="overline" display="block" gutterBottom>
-              {props.username}
-            </Typography>
-
-          </Paper >
-          <Paper className={classes.paperBlock}>
-            <Typography  variant="body2" gutterBottom>
-              Bio
-          </Typography>
-          <Divider  />
-            <Typography component="p" variant="overline" >
-              {props.bio}
-            </Typography>
-          </Paper>
-          <Paper className={classes.paperBlock}>
-            <Typography variant="body2" gutterBottom>
-              Your Fandoms
-          </Typography>
-          <Divider  />
-
-          </Paper>
+          <TextBox label="First Name" value={props.firstName} />
+          <TextBox label="Last Name" value={props.lastName} />
+          <TextBox label="Username" value={props.username} />
+          <TextBox label="Email" value={props.email} />
+          <TextBox label="Bio" value={props.bio} />
+          <TextBox label="Fandoms" />
         </Box>
       </div>
     </Box>
