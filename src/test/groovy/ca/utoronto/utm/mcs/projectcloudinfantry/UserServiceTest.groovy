@@ -31,7 +31,7 @@ class UserServiceTest extends BaseSpecification {
                         '\t"email" : "carla.johnson@gmail.com",\n' +
                         '\t"username": "Carla99",\n' +
                         '\t"password": "password",\n' +
-                        '\t"description": "second user"\n' +
+                        '\t"description": "second user",\n' +
                         '\t"fandoms": []\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
