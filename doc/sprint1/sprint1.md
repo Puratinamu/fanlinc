@@ -108,7 +108,7 @@ Total = 28
 ### User Stories
 - CLOUD-6 Create Profile
 - CLOUD-9 Add Fandom
-- CLOUD-14 Text Posts
+- CLOUD-14 Text Posts (unfinished due time constraits from assignments and midterms)
 - CLOUD-16 Create Fandom
 
 ### Sprint 1 Tasks
@@ -136,23 +136,23 @@ Total = 28
     - Assignee: Tanner Bergeron
     - Relates to CLOUD-9
     
-- CLOUD-28 Add users to contact list - Back End
+- CLOUD-28 Add users to contact list - Back End (unfinished due time constraits from assignments and midterms)
     - Assignee: Sean Applebaum
     - Relates to CLOUD-12
     
-- CLOUD-29 Make text posts to timeline - Front End
+- CLOUD-29 Make text posts to timeline - Front End (unfinished due time constraits from assignments and midterms)
     - Assignee: Sean Applebaum
     - Relates to CLOUD-14
     
-- CLOUD-30 Create Fandom (Front-End)
+- CLOUD-30 Create Fandom (Front-End) (unfinished due time constraits from assignments and midterms)
     - Assignee: Tanner Bergeron
     - Relates to CLOUD-16
     
-- CLOUD-31 Make text posts backend
+- CLOUD-31 Make text posts backend (not started due time constraits from assignmennts and midterms)
     - Assignee: Sofia Ilina
     - Relates to CLOUD-14
     
-- CLOUD-33 Create Fandom if does not exist - backend
+- CLOUD-33 Create Fandom if does not exist - backend (unfinished due time constraits from assignments and midterms)
     - Assignee: Sofia Ilina
     - Relates to CLOUD-16
     
