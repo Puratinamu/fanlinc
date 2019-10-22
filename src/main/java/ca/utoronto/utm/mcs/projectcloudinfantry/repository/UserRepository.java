@@ -7,12 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends Neo4jRepository<User, Long>  {
 
+public interface UserRepository extends Neo4jRepository<User, Long>  {
     // Expect each user to have a unique email
     User findByEmail(String email);
-
-    // Expect each user to have a unique email
     User findByUsername(String username);
-
+    User findByUsernameAndPassword(String username, String password);
 }

@@ -11,34 +11,55 @@ public class RegistrationRequest {
     private String oidUser;
     private String email;
     private String username;
+    private String password;
     private String description;
-    private List<Fandom> fandoms = new ArrayList<>();
-
-    public RegistrationRequest(User user) {
-        this.oidUser = user.getOidUser().toString();
-        this.email = user.getEmail();
-        this.username = user.getUsername();
-        this.description = user.getDescription();
-        this.fandoms = user.getFandoms();
-    }
+    private List<String> fandoms;
 
     public String getOidUser() {
         return oidUser;
+    }
+
+    public void setOidUser(String oidUser) {
+        this.oidUser = oidUser;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public List<Fandom> getFandoms() {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getFandoms() {
         return fandoms;
+    }
+
+    public void setFandoms(List<String> fandoms) {
+        this.fandoms = fandoms;
     }
 }
