@@ -8,7 +8,7 @@ We will use Fibonacci numbers to estimate our user stories. We have created 19 s
 
   - As Miranda, Jarrod, or Steven, I should be able to sign up for Fanlinc and create my profile so that I can register with the service and access the website. (5) (sprint 1)
 
-  - As Miranda, Jarrod, or Steven, I should be able to use the credentials I provided during registration to authenticate myself and access the website. (2)
+  - As Miranda, Jarrod, or Steven, I should be able to use the credentials I provided during registration to authenticate the access to my account to view my personal information and fandoms on the website. (2)
 
   - As Miranda, Jarrod, or Steven, I should be able to view my profile after logging in to the website to see any personal information and fandoms I have provided the website. (3) 
 
