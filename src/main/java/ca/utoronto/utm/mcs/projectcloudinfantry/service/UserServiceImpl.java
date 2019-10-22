@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerUser(RegistrationRequest request) {
         //TODO: validate user
-
         // Validate that email, username, and password are not empty
         if (request.getEmail().isEmpty() || request.getUsername().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
