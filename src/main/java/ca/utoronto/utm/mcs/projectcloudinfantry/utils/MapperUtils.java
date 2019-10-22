@@ -6,13 +6,17 @@ import java.util.List;
 
 public class MapperUtils {
 
-    public static String toEmptyIfNull(Object input){
-        if(input == null){
+    public static String toEmptyIfNull(Object input) {
+        if(input == null) {
             return "";
         }
         return input.toString();
     }
 
+    public static Long toLong(Object input) {
+        return Long.valueOf((Integer) input);
+    }
+  
     public static List<String> objToListOfString(Object input){
         if(input == null){
             return new ArrayList<>();
