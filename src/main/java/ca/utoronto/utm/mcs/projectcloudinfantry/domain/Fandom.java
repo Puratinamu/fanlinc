@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @NodeEntity
 public class Fandom {
