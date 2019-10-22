@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
         List<String> fandomIds = request.getFandoms();
         List<Fandom> fandoms = new ArrayList<>();
         for (String f : fandomIds) {
-            System.out.println(Long.valueOf(f));
             Optional<Fandom> optionalFandom = fandomRepository.findById(Long.valueOf(f));
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
