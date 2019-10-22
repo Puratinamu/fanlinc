@@ -18,7 +18,7 @@ class Registration extends React.Component {
     this.state = {
       RegistrationForm1Ref: this.RegistrationForm1Ref,
       currentRegistrationStep: 0,
-      RegistrationForm1Props: {
+      RegistrationFormProps: {
         firstName: "",
         lastName: "",
         bio: "",
@@ -41,20 +41,11 @@ class Registration extends React.Component {
 
   }
   handleRegistration1Update(e) {
-    this.setState({ RegistrationForm1Props: e })
-    this.setState({ RegistrationForm4Props: e })
-    this.setState({ RegistrationCompletionProps: e })
-    this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationForm4Props} />
-    this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationCompletionProps}  />
-    this.forceUpdate()
-
-  }
-
-  handleRegistration2Update(e) {
-    this.setState({ RegistrationForm2Props: e })
-  }
-  handleRegistration3Update(e) {
-    this.setState({ RegistrationForm3Props: e })
+    this.setState({ RegistrationFormProps: e })
+  
+    this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationFormProps} />
+    this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps}  />
+  
   }
 
   handleNewStep(e) {
@@ -62,7 +53,7 @@ class Registration extends React.Component {
   }
   canProceed() {
     if (this.state.currentRegistrationStep === 0) {
-      let props = this.state.RegistrationForm1Props;
+      let props = this.state.RegistrationFormProps;
       if (
         props.firstName !== "" &&
         props.lastName !== "" &&
@@ -85,14 +76,14 @@ class Registration extends React.Component {
     }
   }
   componentDidMount() {
-    this.RegistrationForm1Ref.current.updateValues(this.state.RegistrationForm1Props)
+    this.RegistrationForm1Ref.current.updateValues(this.state.RegistrationFormProps)
 
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentRegistrationStep !== 0 && this.state.currentRegistrationStep === 0) {
-      this.RegistrationForm1Ref.current.updateValues(prevState.RegistrationForm1Props)
+      this.RegistrationForm1Ref.current.updateValues(prevState.RegistrationFormProps)
     }
-
+    
   }
 
   render() {

@@ -32,14 +32,17 @@ const useStyles = makeStyles(theme => ({
 class RegistrationForm4 extends React.Component {
   constructor(props) {
     super()
+    this.state = {
+      firstName: props.firstName,
+      lastName: props.lastName,
+      bio: props.bio,
+      email: props.email,
+      username: props.username
+    }
   }
   componentDidMount() {
     this.setState({
-      firstName: this.props.firstName,
-      lastName: this.props.lastName,
-      bio: this.props.bio,
-      email: this.props.email,
-      username: this.props.username
+      "mounted":true
     })
   }
   render() {
