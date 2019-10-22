@@ -46,13 +46,10 @@ public class UserController {
             this.userService.registerUser(request);
             return new ResponseEntity<>(new RegistrationResponse(request), HttpStatus.OK);
         } catch (UserAlreadyExistsException | IllegalArgumentException e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -65,13 +62,10 @@ public class UserController {
             this.userService.loginUser(request);
             return new ResponseEntity(HttpStatus.OK);
         } catch (UserNotFoundException | IllegalArgumentException e) {
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (NotAuthorizedException e) {
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

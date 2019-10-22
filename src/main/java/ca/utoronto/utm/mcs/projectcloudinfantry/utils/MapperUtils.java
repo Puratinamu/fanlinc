@@ -21,10 +21,8 @@ public class MapperUtils {
         if(input == null){
             return new ArrayList<>();
         }
-        String objString = input.toString();
-        objString = objString.replace("[","").replace("]","");
 
-        return Arrays.asList(objString.split(","));
+        return (List<String>) input;
     }
 
 }

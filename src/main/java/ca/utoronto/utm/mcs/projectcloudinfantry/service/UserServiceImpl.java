@@ -13,6 +13,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import org.springframework.stereotype.Service;
 
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,8 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(RegistrationRequest request) {
-        //TODO: validate user
-
         // Validate that email, username, and password are not empty
         if (request.getEmail().isEmpty() || request.getUsername().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
         }
         // Bcrypt password to store in db
         String password = request.getPassword();
-        password = BcryptUtils.passwordEncoder().encode(password);
+        password = BcryptUtils.encodePassword(password);
 
         // Initialize date of creation
         Date date = new Date();
@@ -61,7 +60,6 @@ public class UserServiceImpl implements UserService {
         List<String> fandomIds = request.getFandoms();
         List<Fandom> fandoms = new ArrayList<>();
         for (String f : fandomIds) {
-            System.out.println(Long.valueOf(f));
             Optional<Fandom> optionalFandom = fandomRepository.findById(Long.valueOf(f));
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
