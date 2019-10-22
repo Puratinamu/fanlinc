@@ -1,4 +1,4 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.exception;
 
-public class NotAuthorizedException extends Exception {
+public class NotAuthorizedException extends RuntimeException {
 }
