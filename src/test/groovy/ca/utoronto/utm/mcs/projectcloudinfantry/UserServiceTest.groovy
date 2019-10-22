@@ -79,6 +79,4 @@ class UserServiceTest extends BaseSpecification {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
     }
-
-
 }

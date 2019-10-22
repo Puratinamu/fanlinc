@@ -2,6 +2,14 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
+
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
+
+import org.springframework.context.annotation.Bean;
+
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
@@ -12,12 +20,16 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.UUID;
 import java.security.Security;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+
     public void registerUser(RegistrationRequest request) {
         // Validate that email, username, and password are not empty
         if (request.getEmail().isEmpty() || request.getUsername().isEmpty() || request.getPassword().isEmpty()) {
@@ -44,6 +57,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException();
         }
         // Bcrypt password to store in db
+
         String password = request.getPassword();
         password = BcryptUtils.encodePassword(password);
 
@@ -94,5 +108,10 @@ public class UserServiceImpl implements UserService {
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
         }
+    }
+  
+    @Override
+    public User getUserByUsername(User user) {
+        return userRepository.findByUsername(user.getUsername());
     }
 }

@@ -1,5 +1,7 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
+
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -69,6 +72,5 @@ public class UserController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }

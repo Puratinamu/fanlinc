@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -26,20 +27,20 @@ public class FandomController {
         this.fandomMapper = fandomMapper;
     }
 
-    @RequestMapping(value = "/api/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom getFandom(@RequestBody Map<String, Object> body) {
         return fandomService.getFandom(MapperUtils.toLong(body.get("oidFandom")));
     }
 
-    @RequestMapping(value = "/api/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Collection<Fandom> getAll() {
         return fandomService.getFandoms();
     }
 
-    @RequestMapping(value = "/api/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom);}
 
-    @RequestMapping(value = "/api/addFandom", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/addFandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public Fandom addFandom(@RequestBody Map<String, Object> body) {
         Fandom fandom = fandomMapper.toFandom(body);
         return fandomService.addFandom(fandom);
