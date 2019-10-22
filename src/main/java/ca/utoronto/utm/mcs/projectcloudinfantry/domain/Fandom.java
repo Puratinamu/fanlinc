@@ -1,5 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.domain;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -13,7 +14,8 @@ import java.util.UUID;
 public class Fandom {
 
     @Id
-    private UUID oidFandom;
+    @GeneratedValue
+    private Long oidFandom;
 
     private String name;
 
@@ -30,11 +32,11 @@ public class Fandom {
 
     private Date lastUpdateTimestamp;
 
-    public UUID getOidFandom() {
+    public Long getOidFandom() {
         return oidFandom;
     }
 
-    public void setOidFandom(UUID oidFandom) {
+    public void setOidFandom(Long oidFandom) {
         this.oidFandom = oidFandom;
     }
 
