@@ -69,7 +69,7 @@ All members were present during this meeting.
 
 * Estimated Velocity = 11 + 13 + 3 = 27
 
-### Sprint 3
+### Sprint 4
 * User stories to do (subject to change):
     - CLOUD-21 Post Location (3)
     - CLOUD-22 Location Sharing (13)
