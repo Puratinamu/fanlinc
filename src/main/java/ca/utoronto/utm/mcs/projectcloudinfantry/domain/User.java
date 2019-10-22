@@ -1,5 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.domain;
 
+import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
@@ -12,8 +13,8 @@ import java.util.UUID;
 @NodeEntity
 public class User {
 
-    @Id
-    private UUID oidUser;
+    @Id @GeneratedValue
+    private Long oidUser;
 
     private String username;
 
@@ -39,11 +40,11 @@ public class User {
 
     private Date lastLoginTimestamp;
 
-    public UUID getOidUser() {
+    public Long getOidUser() {
         return oidUser;
     }
 
-    public void setOidUser(UUID oidUser) {
+    public void setOidUser(Long oidUser) {
         this.oidUser = oidUser;
     }
 

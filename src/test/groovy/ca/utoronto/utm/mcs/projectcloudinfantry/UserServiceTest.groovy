@@ -1,10 +1,7 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
@@ -12,12 +9,10 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
-/**
- * EXAMPLE TEST CLASS
- */
-@AutoConfigureMockMvc
+
+
 @PropertySource(value = "classpath:application-test.yml")
-class CloudInfantrySpec extends BaseSpecification {
+class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private MockMvc mvc
@@ -27,40 +22,47 @@ class CloudInfantrySpec extends BaseSpecification {
     @Autowired
     private UserRepository userRepository
 
-    @Autowired
-    private FandomRepository fandomRepository
-
-    def 'Health test'() {
+    def 'Register User and Add to Database'() {
         expect:
-        // make a GET request to /api/health
+        // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/health')
+                .post('/api/v1/addUser')
+                .content('{\n' +
+                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"username": "Carla99",\n' +
+                        '\t"password": "password",\n' +
+                        '\t"description": "second user",\n' +
+                        '\t"fandoms": ["1234"]\n' +
+                        '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
 
         // to check the JSON response
         Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
-        // you can now access the JSON as a map
 
-        // you can also access the repository to check on the database
-        userRepository.count() >= 0
+        // Make sure all elements in post body are included
+        resultMap.get("oidUser").toString() != null
+        resultMap.get("email").toString() == "carla.johnson@gmail.com"
+        resultMap.get("username").toString() == "Carla99"
+        resultMap.get("description").toString() == "second user"
+        List<Object> fandoms = resultMap.get("fandoms") as List<Object>
+        fandoms.contains("1234")
     }
 
-    def 'Test add fandom'() {
+    def 'User Login'() {
         expect:
+        // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .put('/api/addFandom')
-                .contentType(MediaType.APPLICATION_JSON)
-                .content('{"name": "testFandom", "description": "testDescription}'))
+                .post('/api/v1/login')
+                .content('{\n' +
+                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"password": "password"\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
-
-        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
-        Long oidFandom = resultMap.get("oidFandom")
-        Fandom fandom = fandomRepository.findById(oidFandom).get()
-        fandom.getName() == 'testFandom'
-        fandom.getDescription() == 'testDescription'
     }
+
 
 }
