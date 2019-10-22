@@ -1,3 +1,4 @@
+import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -15,7 +16,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 import spock.lang.Shared
 
 @PropertySource(value = "classpath:application-test.yml")
-class UserToFandomRelationshipTests extends BaseSpecification {
+class RelationshipServiceTest extends BaseSpecification {
 
     @Autowired
     private MockMvc mvc
@@ -26,16 +27,18 @@ class UserToFandomRelationshipTests extends BaseSpecification {
     private UserToFandomRepository userToFandomRepository
 
     @Autowired
+    @Shared
     private FandomRepository fandomRepository
 
     @Autowired
+    @Shared
     private UserRepository userRepository
 
     @Shared
-    private User testUser
+    User testUser
 
     @Shared
-    private Fandom testFandom
+    Fandom testFandom
 
     def setupSpec() {
         // Create new User and new fandom and add them to repo
