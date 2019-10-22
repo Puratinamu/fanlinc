@@ -71,33 +71,18 @@ export default function RegistrationProgress(props) {
 
   const handleStep = step => () => {
     console.log(completed)
-    if (step <= activeStep || completed[step]) {
+    if ((step <= activeStep || completed[step]) && activeStep !== 4) {
       setActiveStep(step);
       props.callback(step);
     }
   };
-  const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
-    props.callback(activeStep)
-
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-    props.callback(activeStep)
-
-  };
-
+  
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Button
           variant="contained"
-          color="primary" disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button}>
           Back
         </Button>
         <Stepper className={classes.stepper} nonLinear activeStep={activeStep}>

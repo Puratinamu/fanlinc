@@ -8,6 +8,7 @@ let fandomRequests = {
             "description": "league of legends"
         }
         try {
+            axios.get("/api/fandoms")
             return response;
         } catch (error) {
             console.error(error)

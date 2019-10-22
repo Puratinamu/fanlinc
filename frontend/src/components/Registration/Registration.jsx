@@ -4,6 +4,7 @@ import RegistrationForm1 from './RegistrationForm1'
 import RegistrationForm2 from './RegistrationForm2'
 import RegistrationForm3 from './RegistrationForm3'
 import RegistrationForm4 from './RegistrationForm4'
+import RegistrationCompletion from './RegistrationCompletion'
 import Container from '@material-ui/core/Container';
 
 class Registration extends React.Component {
@@ -13,27 +14,28 @@ class Registration extends React.Component {
     this.canProceed = this.canProceed.bind(this);
     this.handleNewStep = this.handleNewStep.bind(this);
     this.RegistrationForm1Ref = React.createRef();
+
     this.state = {
+      RegistrationForm1Ref: this.RegistrationForm1Ref,
       currentRegistrationStep: 0,
       RegistrationForm1Props: {
         firstName: "",
         lastName: "",
         bio: "",
         username: "",
-        passwordValue: "", 
-        confirmPasswordValue: "" ,
+        passwordValue: "",
+        confirmPasswordValue: "",
         errorState: true,
-        email:""
+        email: ""
       },
-      RegistrationForm1Ref: this.RegistrationForm1Ref,
-      RegistrationForm2Props: {},
-      RegistrationForm3Props: {},
-      RegistrationForm4Props: {},
+      RegistrationCompletionProps: {},
       registrationSteps: [
-        <RegistrationForm1 ref={this.RegistrationForm1Ref} updateParent={this.handleRegistration1Update}  />,
+        <RegistrationForm1 ref={this.RegistrationForm1Ref} updateParent={this.handleRegistration1Update} />,
         <RegistrationForm2 />,
         <RegistrationForm3 />,
-        <RegistrationForm4 {...this.RegistrationForm4Props}/>]
+        <RegistrationForm4 {...this.RegistrationForm4Props} />,
+        <RegistrationCompletion />
+      ]
     }
 
 
@@ -41,7 +43,9 @@ class Registration extends React.Component {
   handleRegistration1Update(e) {
     this.setState({ RegistrationForm1Props: e })
     this.setState({ RegistrationForm4Props: e })
-    this.state.registrationSteps[3] = <RegistrationForm4 ref={this.RegistrationForm4Ref} {...this.state.RegistrationForm4Props}/>
+    this.setState({ RegistrationCompletionProps: e })
+    this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationForm4Props} />
+    this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationCompletionProps}  />
     this.forceUpdate()
 
   }
@@ -68,12 +72,15 @@ class Registration extends React.Component {
         props.confirmPasswordValue !== "" &&
         props.confirmPasswordValue === props.passwordValue &&
         props.email !== ""
-        
-        ) {
+
+      ) {
         return true
       }
       return false;
-    } else {
+    }else if(this.state.currentRegistrationStep === 4){
+      return false
+    }
+     else {
       return true
     }
   }
@@ -83,7 +90,6 @@ class Registration extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentRegistrationStep !== 0 && this.state.currentRegistrationStep === 0) {
-      console.log(prevState)
       this.RegistrationForm1Ref.current.updateValues(prevState.RegistrationForm1Props)
     }
 
