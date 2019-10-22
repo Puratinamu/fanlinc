@@ -148,7 +148,7 @@ Total = 28
     - Assignee: Tanner Bergeron
     - Relates to CLOUD-16
     
-- CLOUD-31 Make text posts backend (not started due time constraits from assignmennts and midterms)
+- CLOUD-31 Make text posts backend (unfinished due time constraits from assignmennts and midterms)
     - Assignee: Sofia Ilina
     - Relates to CLOUD-14
     
