@@ -47,6 +47,34 @@ class UserServiceTest extends BaseSpecification {
         resultMap.get("username").toString() == "Carla99"
         resultMap.get("description").toString() == "second user"
         List<Object> fandoms = resultMap.get("fandoms") as List<Object>
+        fandoms.toString() == "[]"
+    }
+
+    def 'Register User Fail Because User is Already in the Database'() {
+        expect:
+        // Add the same user twice, second attempt returns 400 error
+        mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addUser')
+                .content('{\n' +
+                        '\t"email" : "test@gmail.com",\n' +
+                        '\t"username": "test",\n' +
+                        '\t"password": "password",\n' +
+                        '\t"description": "test user",\n' +
+                        '\t"fandoms": []\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+        mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addUser')
+                .content('{\n' +
+                        '\t"email" : "test@gmail.com",\n' +
+                        '\t"username": "test",\n' +
+                        '\t"password": "password",\n' +
+                        '\t"description": "test user again",\n' +
+                        '\t"fandoms": []\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
     }
 
     def 'Register User Fail Since Fandom Does Not Exist'() {
@@ -64,7 +92,6 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
-
 
     def 'User Login'() {
         expect:
