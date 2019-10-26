@@ -2,28 +2,27 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 
 import java.util.List;
 
 public class RegistrationResponse {
 
-    private String oidUser;
+    private Long oidUser;
     private String email;
     private String username;
     private String description;
     private List<Fandom> fandoms;
 
     public RegistrationResponse(User user) {
-        this.oidUser = MapperUtils.toEmptyIfNull(user.getOidUser().toString());
+        this.oidUser = user.getOidUser();
         this.email = MapperUtils.toEmptyIfNull(user.getEmail());
         this.username = MapperUtils.toEmptyIfNull(user.getUsername());
         this.description = MapperUtils.toEmptyIfNull(user.getDescription());
         this.fandoms = user.getFandoms();
     }
 
-    public String getOidUser() {
+    public Long getOidUser() {
         return oidUser;
     }
 

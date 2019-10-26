@@ -46,10 +46,8 @@ public class UserController {
             User user = this.userService.registerUser(registrationRequest);
             return new ResponseEntity<>(new RegistrationResponse(user), HttpStatus.OK);
         } catch (UserAlreadyExistsException | IllegalArgumentException e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
             e.printStackTrace();

@@ -1,7 +1,9 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
@@ -12,7 +14,13 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -43,7 +51,35 @@ public class UserServiceImpl implements UserService {
         }
 
         // Create user
-        User newUser = userMapper.toUser(request, fandomRepository);
+        User newUser = userMapper.toUser(request);
+        // Bcrypt password to store in db
+        String password = newUser.getPassword();
+        password = BcryptUtils.encodePassword(password);
+        // Create list of Fandoms from list of Fandom Ids
+        List<String> fandomIds = request.getFandomIds();
+        List<Fandom> fandoms = new ArrayList<>();
+        for (String f : fandomIds) {
+            Optional<Fandom> optionalFandom;
+            try {
+                optionalFandom = fandomRepository.findById(Long.valueOf(f));
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Fandom ID '" + f + "' is not a long type");
+            }
+            // If fandom does not exist, throw exception
+            if (!optionalFandom.isPresent()) {
+                throw new FandomNotFoundException("Fandom with ID '" + f + "' not found");
+            }
+            Fandom fandom = optionalFandom.get();
+            fandoms.add(fandom);
+        }
+        // Set password and fandoms
+        newUser.setPassword(password);
+        newUser.setFandoms(fandoms);
+        // Set date of creation
+        Date date = new Date();
+        newUser.setCreationTimestamp(date);
+        newUser.setLastLoginTimestamp(date);
+        newUser.setLastUpdateTimestamp(date);
 
         return userRepository.save(newUser);
     }
