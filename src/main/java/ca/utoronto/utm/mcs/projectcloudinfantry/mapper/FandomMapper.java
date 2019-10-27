@@ -11,8 +11,8 @@ public class FandomMapper {
 
     public Fandom toFandom(Map<String, Object> body) {
         Fandom fandom = new Fandom();
-        fandom.setName(MapperUtils.toEmptyIfNull(body.get("name")));
-        fandom.setDescription(MapperUtils.toEmptyIfNull(body.get("description")));
+        fandom.setName((String) body.get("name"));
+        fandom.setDescription((String) body.get("description"));
         return fandom;
     }
 
