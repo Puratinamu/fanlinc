@@ -1,4 +1,4 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.exception;
 
-public class UserNameAlreadyExistsException {
+public class UserNameAlreadyExistsException extends RuntimeException {
 }

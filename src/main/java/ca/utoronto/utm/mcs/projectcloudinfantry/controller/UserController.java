@@ -2,10 +2,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.LoginRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
@@ -49,8 +46,9 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (UserNameAlreadyExistsException e) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

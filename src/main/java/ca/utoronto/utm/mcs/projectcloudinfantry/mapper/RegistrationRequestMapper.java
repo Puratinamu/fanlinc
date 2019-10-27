@@ -17,7 +17,7 @@ public class RegistrationRequestMapper {
         request.setUsername(MapperUtils.toEmptyIfNull(requestBody.get("username")));
         request.setPassword(MapperUtils.toEmptyIfNull(requestBody.get("password")));
         request.setDescription(MapperUtils.toEmptyIfNull(requestBody.get("description")));
-        request.setFandomIds(MapperUtils.objToListOfString(requestBody.get("fandoms")));
+        request.setFandoms(MapperUtils.objToListOfObj(requestBody.get("fandoms")));
         return request;
     }
 

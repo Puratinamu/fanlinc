@@ -104,7 +104,7 @@ class UserServiceTest extends BaseSpecification {
                         '\t"username": "Carla199",\n' +
                         '\t"password": "password",\n' +
                         '\t"description": "second user",\n' +
-                        '\t"fandoms": ["1234"]\n' +
+                        '\t"fandoms": [{"id": 1234, "level": "CASUAL"}]\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -142,7 +142,10 @@ class UserServiceTest extends BaseSpecification {
                         '\t"username": "wow",\n' +
                         '\t"password": "password",\n' +
                         '\t"description": "wow user",\n' +
-                        '\t"fandoms": ["' + resultMap1.get("oidFandom").toString() + '"]\n' +
+                        '\t"fandoms": [ {' +
+                        '   "id": ' + resultMap1.get("oidFandom").toString()+ ',' +
+                        '   "level": "CASUAL"' +
+                        '}]\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -157,11 +160,9 @@ class UserServiceTest extends BaseSpecification {
         resultMap2.get("username").toString() == "wow"
         resultMap2.get("description").toString() == "wow user"
         List<Object> fandoms = resultMap2.get("fandoms") as List<Object>
-        Map fandom = fandoms.get(0) as Map
-        // Check fandom exists
-        fandom.get("oidFandom").toString() != null
-        fandom.get("name").toString() == "WOW"
-        fandom.get("description").toString() == "World of Warcraft"
+        Long fandomId = fandoms.get(0) as Long
+        fandomId == resultMap1.get("oidFandom")
+
     }
 
 

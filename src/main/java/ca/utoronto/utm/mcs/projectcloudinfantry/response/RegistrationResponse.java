@@ -4,6 +4,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrationResponse {
@@ -12,14 +13,19 @@ public class RegistrationResponse {
     private String email;
     private String username;
     private String description;
-    private List<Fandom> fandoms;
+    private List<Long> fandoms;
 
     public RegistrationResponse(User user) {
         this.oidUser = user.getOidUser();
         this.email = MapperUtils.toEmptyIfNull(user.getEmail());
         this.username = MapperUtils.toEmptyIfNull(user.getUsername());
         this.description = MapperUtils.toEmptyIfNull(user.getDescription());
-        this.fandoms = user.getFandoms();
+        List<Long> fandomIds = new ArrayList<>();
+        // Get list of ids from fandoms
+        for (Fandom f : user.getFandoms()) {
+            fandomIds.add(f.getOidFandom());
+        }
+        this.fandoms = fandomIds;
     }
 
     public Long getOidUser() {
@@ -38,7 +44,7 @@ public class RegistrationResponse {
         return description;
     }
 
-    public List<Fandom> getFandoms() {
+    public List<Long> getFandoms() {
         return fandoms;
     }
 }
