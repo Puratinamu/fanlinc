@@ -1,10 +1,11 @@
 import React from 'react';
-import RegistrationProgress from './RegistrationProgress'
-import RegistrationForm1 from './RegistrationForm1'
-import RegistrationForm2 from './RegistrationForm2'
-import RegistrationForm3 from './RegistrationForm3'
-import RegistrationForm4 from './RegistrationForm4'
-import RegistrationCompletion from './RegistrationCompletion'
+import RegistrationProgress from './RegistrationProgress';
+import RegistrationForm1 from './RegistrationForm1';
+import RegistrationForm2 from './RegistrationForm2';
+import RegistrationForm3 from './RegistrationForm3';
+import RegistrationForm4 from './RegistrationForm4';
+import AddFandomToUserForm from '../AddFandomToUserForm/';
+import RegistrationCompletion from './RegistrationCompletion';
 import Container from '@material-ui/core/Container';
 
 class Registration extends React.Component {
@@ -32,7 +33,7 @@ class Registration extends React.Component {
       registrationSteps: [
         <RegistrationForm1 ref={this.RegistrationForm1Ref} updateParent={this.handleRegistration1Update} />,
         <RegistrationForm2 />,
-        <RegistrationForm3 />,
+        <AddFandomToUserForm />,
         <RegistrationForm4 {...this.RegistrationForm4Props} />,
         <RegistrationCompletion />
       ]
@@ -42,10 +43,10 @@ class Registration extends React.Component {
   }
   handleRegistration1Update(e) {
     this.setState({ RegistrationFormProps: e })
-  
+
     this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationFormProps} />
     this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps}  />
-  
+
   }
 
   handleNewStep(e) {
@@ -83,7 +84,7 @@ class Registration extends React.Component {
     if (prevState.currentRegistrationStep !== 0 && this.state.currentRegistrationStep === 0) {
       this.RegistrationForm1Ref.current.updateValues(prevState.RegistrationFormProps)
     }
-    
+
   }
 
   render() {
