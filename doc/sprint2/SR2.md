@@ -21,5 +21,5 @@
 ##Harmful practices we should stop using in the following sprints
 #TODO
 
-##Best/worst experience from sprint 1
+##Best/worst experience from sprint 2
 #TODO

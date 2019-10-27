@@ -1,4 +1,4 @@
-# Sprint 1 Meeting
+# Sprint 2 Meeting
 
 ## Attendees
 
@@ -14,7 +14,7 @@
 
 All members were present during this meeting.
 
-## User Stories For Sprint 1
+## User Stories For Sprint 2
 - 
 
 ## Tasks
