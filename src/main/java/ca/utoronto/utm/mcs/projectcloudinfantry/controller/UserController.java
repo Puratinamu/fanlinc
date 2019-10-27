@@ -5,6 +5,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.LoginRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationResponseMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
@@ -27,11 +28,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class UserController {
     private UserService userService;
     private RegistrationRequestMapper registrationRequestMapper;
+    private RegistrationResponseMapper registrationResponseMapper;
     private LoginRequestMapper loginRequestMapper;
 
-    public UserController(UserService userService, RegistrationRequestMapper registrationRequestMapper, LoginRequestMapper loginRequestMapper) {
+    public UserController(UserService userService, RegistrationRequestMapper registrationRequestMapper, RegistrationResponseMapper registrationResponseMapper, LoginRequestMapper loginRequestMapper) {
         this.userService = userService;
         this.registrationRequestMapper = registrationRequestMapper;
+        this.registrationResponseMapper = registrationResponseMapper;
         this.loginRequestMapper = loginRequestMapper;
     }
 
@@ -41,14 +44,14 @@ public class UserController {
         try {
             RegistrationRequest registrationRequest = registrationRequestMapper.toRegisrationRequest(body);
             User user = this.userService.registerUser(registrationRequest);
-            return new ResponseEntity<>(new RegistrationResponse(user), HttpStatus.OK);
+            RegistrationResponse registrationResponse = registrationResponseMapper.toRegisrationReponse(user);
+            return new ResponseEntity<>(registrationResponse, HttpStatus.OK);
         } catch (UserAlreadyExistsException | IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (UserNameAlreadyExistsException e) {
-            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         } catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -45,13 +45,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("User with email \"" + request.getEmail() + "\" already exists.");
         }
 
-        // Validate username by checking if existing users have it
-        boolean userNameExists = userRepository.findByUsername(request.getUsername()) != null;
-        if (userNameExists) {
-            // If user already exists, then return 400 error
-            throw new UserNameAlreadyExistsException();
-        }
-        
+
         // Create user
         User newUser = userMapper.toUser(request);
         // Bcrypt password to store in db

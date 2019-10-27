@@ -18,10 +18,10 @@ public class UserMapper {
     public User toUser(RegistrationRequest requestBody) {
         User user = new User();
         // Set user parameters except fandoms
-        user.setEmail(MapperUtils.toEmptyIfNull(requestBody.getEmail()));
-        user.setUsername(MapperUtils.toEmptyIfNull(requestBody.getUsername()));
-        user.setPassword(MapperUtils.toEmptyIfNull(requestBody.getPassword()));
-        user.setDescription(MapperUtils.toEmptyIfNull(requestBody.getDescription()));
+        user.setEmail(requestBody.getEmail());
+        user.setUsername(requestBody.getUsername());
+        user.setPassword(requestBody.getPassword());
+        user.setDescription(requestBody.getDescription());
         return user;
     }
 
