@@ -35,7 +35,7 @@ public class UserController {
     private LoginRequestMapper loginRequestMapper;
 
     public UserController(UserService userService, UserMapper userMapper, RegistrationRequestMapper registrationRequestMapper, LoginRequestMapper loginRequestMapper) {
-        this.userService = userService;
+            this.userService = userService;
         this.userMapper = userMapper;
         this.registrationRequestMapper = registrationRequestMapper;
         this.loginRequestMapper = loginRequestMapper;
@@ -57,7 +57,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity login(@RequestBody Map<String, Object> body) {
         try {
