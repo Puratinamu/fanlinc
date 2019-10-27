@@ -8,20 +8,11 @@ import java.util.List;
 
 public class RegistrationRequest {
 
-    private String oidUser;
     private String email;
     private String username;
     private String password;
     private String description;
-    private List<String> fandoms;
-
-    public String getOidUser() {
-        return oidUser;
-    }
-
-    public void setOidUser(String oidUser) {
-        this.oidUser = oidUser;
-    }
+    private List<String> fandomIds;
 
     public String getEmail() {
         return email;
@@ -55,11 +46,11 @@ public class RegistrationRequest {
         this.description = description;
     }
 
-    public List<String> getFandoms() {
-        return fandoms;
+    public List<String> getFandomIds() {
+        return fandomIds;
     }
 
-    public void setFandoms(List<String> fandoms) {
-        this.fandoms = fandoms;
+    public void setFandomIds(List<String> fandomIds) {
+        this.fandomIds = fandomIds;
     }
 }

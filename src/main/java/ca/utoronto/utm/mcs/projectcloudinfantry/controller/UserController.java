@@ -7,7 +7,6 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsExcep
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.LoginRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
@@ -29,13 +28,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class UserController {
     private UserService userService;
-    private UserMapper userMapper;
     private RegistrationRequestMapper registrationRequestMapper;
     private LoginRequestMapper loginRequestMapper;
 
-    public UserController(UserService userService, UserMapper userMapper, RegistrationRequestMapper registrationRequestMapper, LoginRequestMapper loginRequestMapper) {
+    public UserController(UserService userService, RegistrationRequestMapper registrationRequestMapper, LoginRequestMapper loginRequestMapper) {
         this.userService = userService;
-        this.userMapper = userMapper;
         this.registrationRequestMapper = registrationRequestMapper;
         this.loginRequestMapper = loginRequestMapper;
     }
@@ -44,14 +41,15 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<RegistrationResponse> addUser(@Valid @RequestBody Map<String, Object> body) {
         try {
-            RegistrationRequest request = registrationRequestMapper.toRegisrationRequest(body);
-            this.userService.registerUser(request);
-            return new ResponseEntity<>(new RegistrationResponse(request), HttpStatus.OK);
+            RegistrationRequest registrationRequest = registrationRequestMapper.toRegisrationRequest(body);
+            User user = this.userService.registerUser(registrationRequest);
+            return new ResponseEntity<>(new RegistrationResponse(user), HttpStatus.OK);
         } catch (UserAlreadyExistsException | IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

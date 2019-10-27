@@ -6,6 +6,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundExceptio
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
@@ -25,60 +26,62 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
+    private final UserMapper userMapper;
     private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
+        this.userMapper = userMapper;
         this.tokenService = tokenService;
     }
 
     @Override
-    public void registerUser(RegistrationRequest request) {
+    public User registerUser(RegistrationRequest request) {
         // Validate that email, username, and password are not empty
         if (request.getEmail().isEmpty() || request.getUsername().isEmpty() || request.getPassword().isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Email, username, or password cannot be empty.");
         }
 
         // Validate email by checking if existing users have it
         boolean emailExists = userRepository.findByEmail(request.getEmail()) != null;
         if (emailExists) {
             // If user already exists, then return 400 error
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User with email \"" + request.getEmail() + "\" already exists.");
         }
-        // Bcrypt password to store in db
-
-        String password = request.getPassword();
-        password = BcryptUtils.encodePassword(password);
-
-        // Initialize date of creation
-        Date date = new Date();
 
         // Create user
-        User newUser = new User();
-        newUser.setEmail(request.getEmail());
-        newUser.setUsername(request.getUsername());
-        newUser.setPassword(password);
-        newUser.setDescription(request.getDescription());
+        User newUser = userMapper.toUser(request);
+        // Bcrypt password to store in db
+        String password = newUser.getPassword();
+        password = BcryptUtils.encodePassword(password);
         // Create list of Fandoms from list of Fandom Ids
-        List<String> fandomIds = request.getFandoms();
+        List<String> fandomIds = request.getFandomIds();
         List<Fandom> fandoms = new ArrayList<>();
         for (String f : fandomIds) {
-            Optional<Fandom> optionalFandom = fandomRepository.findById(Long.valueOf(f));
+            Optional<Fandom> optionalFandom;
+            try {
+                optionalFandom = fandomRepository.findById(Long.valueOf(f));
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Fandom ID '" + f + "' is not a long type");
+            }
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
-                throw new FandomNotFoundException();
+                throw new FandomNotFoundException("Fandom with ID '" + f + "' not found");
             }
             Fandom fandom = optionalFandom.get();
             fandoms.add(fandom);
         }
+        // Set password and fandoms
+        newUser.setPassword(password);
         newUser.setFandoms(fandoms);
-
+        // Set date of creation
+        Date date = new Date();
         newUser.setCreationTimestamp(date);
         newUser.setLastLoginTimestamp(date);
         newUser.setLastUpdateTimestamp(date);
 
-        userRepository.save(newUser);
+        return userRepository.save(newUser);
     }
 
     @Override

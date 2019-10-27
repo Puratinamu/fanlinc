@@ -6,7 +6,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 
 public interface UserService {
 
-    void registerUser(RegistrationRequest request);
+    User registerUser(RegistrationRequest request);
     String loginUser(LoginRequest request);
     User getUserByUsername(User user);
 }
