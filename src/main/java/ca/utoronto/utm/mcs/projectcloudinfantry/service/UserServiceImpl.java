@@ -15,10 +15,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -101,7 +98,7 @@ public class UserServiceImpl implements UserService {
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
         }
-        return tokenService.generateToken(user.getOidUser(), null);
+        return tokenService.generateToken(user.getOidUser(), new HashMap<>());
     }
   
     @Override

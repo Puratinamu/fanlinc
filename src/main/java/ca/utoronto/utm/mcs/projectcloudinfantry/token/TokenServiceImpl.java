@@ -1,12 +1,14 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.token;
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.generator.TokenGenerator;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
-public class TokenServiceImpl {
+public class TokenServiceImpl implements TokenService {
 
     private final TokenGenerator tokenGenerator;
     private final TokenExtractor tokenExtractor;
@@ -17,7 +19,7 @@ public class TokenServiceImpl {
     }
 
     public String generateToken(Long oidUser, Map<String, Object> claims) {
-        return tokenGenerator.generateToken(oidUser, claims);
+        return "Bearer " + tokenGenerator.generateToken(oidUser, claims);
     }
 
     public Claims extractToken(String token) {

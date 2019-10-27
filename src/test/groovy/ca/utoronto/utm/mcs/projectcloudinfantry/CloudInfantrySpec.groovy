@@ -15,7 +15,6 @@ import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 /**
  * EXAMPLE TEST CLASS
  */
-@AutoConfigureMockMvc
 @PropertySource(value = "classpath:application-test.yml")
 class CloudInfantrySpec extends BaseSpecification {
 

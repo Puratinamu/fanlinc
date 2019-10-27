@@ -1,6 +1,10 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
+import io.jsonwebtoken.Claims
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
@@ -21,6 +25,9 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserRepository userRepository
+
+    @Autowired
+    private TokenExtractor tokenExtractor
 
     def 'Register User and Add to Database'() {
         expect:
@@ -166,6 +173,12 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'User Login'() {
+
+        User user = new User()
+        user.setEmail("carla.johnson@gmail.com")
+        user.setPassword(BcryptUtils.encodePassword("password"))
+        User savedUser = userRepository.save(user)
+
         expect:
         // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
@@ -177,5 +190,8 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
+        String jwt = result.getResponse().getHeader("jwt")
+        Claims claims = tokenExtractor.extractToken(jwt)
+        claims.getSubject() as Long == savedUser.getOidUser()
     }
 }

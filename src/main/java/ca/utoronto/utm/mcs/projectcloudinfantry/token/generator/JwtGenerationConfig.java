@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.projectcloudinfantry.token;
+package ca.utoronto.utm.mcs.projectcloudinfantry.token.generator;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
