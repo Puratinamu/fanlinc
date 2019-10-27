@@ -1,20 +1,23 @@
-const axios = require('axios')
+const axios = require('axios');
+
+const LEVELS = {
+    1: "LIMITED",
+    2: "CASUAL",
+    3: "VERY_INVOLVED",
+    4: "EXPERT"
+};
 
 let fandomRequests = {
-    listFandoms: async function (fandomName) {
-        let response = {
-            "oidFandom": 1234,
-            "name": "LOL",
-            "description": "league of legends"
-        }
+    getLevels: () => LEVELS,
+    getAllFandoms: async function () {
         try {
-            axios.get("/api/fandoms")
+            const response = await axios.get("/api/v1/getFandoms", {data: {}});
             return response;
         } catch (error) {
             console.error(error)
             return {}
         }
     }
+};
 
-}
 export default fandomRequests

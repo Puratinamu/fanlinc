@@ -29,20 +29,20 @@ class SearchField extends React.Component {
 
         // Execute callback if it exists
         if (this.callback && this.callback instanceof Function) {
-            this.callback({name: change.label});
+            this.callback(change);
         }
     }
 
     render() {
         return (
             <div>
-                <Select
-                    className="cldi-search-field"
-                    placeholder={this.state.selected || this.placeHolder}
-                    onChange={this.inputChange}
-                    isSearchable={this.isSearchable}
-                    options={this.searchList}>
-                </Select>
+              <Select
+                className="cldi-search-field"
+                placeholder={this.state.selected || this.placeHolder}
+                onChange={this.inputChange}
+                isSearchable={this.isSearchable}
+                options={this.searchList}>
+              </Select>
             </div>
         );
     }
