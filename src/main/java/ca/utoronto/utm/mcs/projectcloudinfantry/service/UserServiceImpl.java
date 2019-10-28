@@ -1,9 +1,11 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.FandomObject;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomObjectMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 
@@ -22,12 +24,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
     private final UserMapper userMapper;
+    private final FandomObjectMapper fandomObjMapper;
     private final RelationshipService relationshipService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipService relationshipService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, FandomObjectMapper fandomObjMapper, RelationshipService relationshipService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userMapper = userMapper;
+        this.fandomObjMapper = fandomObjMapper;
         this.relationshipService = relationshipService;
     }
 
@@ -45,25 +49,28 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("User with email \"" + request.getEmail() + "\" already exists.");
         }
 
-
         // Create user
         User newUser = userMapper.toUser(request);
         // Bcrypt password to store in db
         String password = newUser.getPassword();
         password = BcryptUtils.encodePassword(password);
-        // Create list of Fandoms from the list of fandom objects {"id":1, "level": CASUAL}
-        List<Map<String, Object>> fandomObjs = request.getFandoms();
+        // Map the list of request objects {"id":1, "level": CASUAL} to list of Fandom Objects
+        List<FandomObject> fandomObjs = new ArrayList<>();
+        for (Map<String, Object> m : request.getFandoms()) {
+            fandomObjs.add(fandomObjMapper.toFandomObject(m));
+        }
+        // Find fandoms by id and save to user
         List<Fandom> fandoms = new ArrayList<>();
-        for (Map<String, Object> f : fandomObjs) {
+        for (FandomObject f : fandomObjs) {
             Optional<Fandom> optionalFandom;
             try {
-                optionalFandom = fandomRepository.findById(((Integer) f.get("id")).longValue());
+                optionalFandom = fandomRepository.findById(f.getOidFandom());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Fandom ID '" + f + "' is not a long type");
+                throw new IllegalArgumentException("Fandom ID '" + f.getOidFandom() + "' is not a long type");
             }
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
-                throw new FandomNotFoundException("Fandom with ID '" + f + "' not found");
+                throw new FandomNotFoundException("Fandom with ID '" + f.getOidFandom() + "' not found");
             }
             Fandom fandom = optionalFandom.get();
             fandoms.add(fandom);
@@ -79,10 +86,10 @@ public class UserServiceImpl implements UserService {
 
         newUser = userRepository.save(newUser);
 
-        for (Map<String, Object> f : fandomObjs) {
+        for (FandomObject f : fandomObjs) {
             // Add relationship between fandom and user with level of interest
             relationshipService.addUserToFandom(
-                    newUser.getOidUser(), ((Integer) f.get("id")).longValue(), (String) f.get("level"));
+                    newUser.getOidUser(), f.getOidFandom(), f.getLevel());
         }
         return newUser;
     }

@@ -90,8 +90,8 @@ Request Body:
 	"description": "second user",
 	"fandoms": [
 	    {
-	        "id": 123,
-	        "level" "CASUAL"
+	        "oidFandom": 123,
+	        "level": "CASUAL"
 	    }
 	]
 }

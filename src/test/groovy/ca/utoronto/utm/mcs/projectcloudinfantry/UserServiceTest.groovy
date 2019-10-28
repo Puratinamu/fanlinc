@@ -1,5 +1,7 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
@@ -21,6 +23,8 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserRepository userRepository
+    @Autowired
+    private FandomRepository fandomRepository
 
     def 'Register User and Add to Database'() {
         expect:
@@ -104,7 +108,7 @@ class UserServiceTest extends BaseSpecification {
                         '\t"username": "Carla199",\n' +
                         '\t"password": "password",\n' +
                         '\t"description": "second user",\n' +
-                        '\t"fandoms": [{"id": 1234, "level": "CASUAL"}]\n' +
+                        '\t"fandoms": [{"oidFandom": 1234, "level": "CASUAL"}]\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -114,25 +118,14 @@ class UserServiceTest extends BaseSpecification {
     }
 
     def 'Register User With Existing Fandom'() {
+        setup:
+        // Add fandom
+        Fandom fandom = new Fandom();
+        fandom.setName("WOW")
+        fandom.setDescription("World of Warcraft")
+        fandomRepository.save(fandom)
+
         expect:
-        // Add Fandom
-        MvcResult result1 = mvc.perform(MockMvcRequestBuilders
-                .post('/api/v1/addFandom')
-                .content('{\n' +
-                        '\t"name" : "WOW",\n' +
-                        '\t"description": "World of Warcraft"\n' +
-                        '}')
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn()
-
-        // to check the JSON response
-        Map resultMap1 = objectMapper.readValue(result1.getResponse().getContentAsString(), HashMap)
-
-        // Make sure all elements in post body are included
-        resultMap1.get("oidFandom").toString() != null
-        resultMap1.get("name").toString() == "WOW"
-        resultMap1.get("description").toString() == "World of Warcraft"
 
         // make a POST request to addUser and get back expected json
         MvcResult result2 = mvc.perform(MockMvcRequestBuilders
@@ -143,7 +136,7 @@ class UserServiceTest extends BaseSpecification {
                         '\t"password": "password",\n' +
                         '\t"description": "wow user",\n' +
                         '\t"fandoms": [ {' +
-                        '   "id": ' + resultMap1.get("oidFandom").toString()+ ',' +
+                        '   "oidFandom": ' + fandom.getOidFandom().toString() + ',' +
                         '   "level": "CASUAL"' +
                         '}]\n' +
                         '}')
@@ -161,8 +154,7 @@ class UserServiceTest extends BaseSpecification {
         resultMap2.get("description").toString() == "wow user"
         List<Object> fandoms = resultMap2.get("fandoms") as List<Object>
         Long fandomId = fandoms.get(0) as Long
-        fandomId == resultMap1.get("oidFandom")
-
+        fandomId == fandom.getOidFandom()
     }
 
 
