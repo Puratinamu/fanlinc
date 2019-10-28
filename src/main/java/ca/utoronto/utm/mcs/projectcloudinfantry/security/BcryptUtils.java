@@ -11,4 +11,9 @@ public class BcryptUtils {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public static String encodePassword(String text) {
+        return new BCryptPasswordEncoder().encode(text);
+    }
+
 }

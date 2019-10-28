@@ -32,7 +32,7 @@ class UserServiceTest extends BaseSpecification {
                         '\t"username": "Carla99",\n' +
                         '\t"password": "password",\n' +
                         '\t"description": "second user",\n' +
-                        '\t"fandoms": ["1234"]\n' +
+                        '\t"fandoms": []\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -47,8 +47,24 @@ class UserServiceTest extends BaseSpecification {
         resultMap.get("username").toString() == "Carla99"
         resultMap.get("description").toString() == "second user"
         List<Object> fandoms = resultMap.get("fandoms") as List<Object>
-        fandoms.contains("1234")
     }
+
+    def 'Register User Fail Since Fandom Does Not Exist'() {
+        expect:
+        // make a POST request to addUser and get back expected json
+        mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addUser')
+                .content('{\n' +
+                        '\t"email" : "carla1.johnson@gmail.com",\n' +
+                        '\t"username": "Carla199",\n' +
+                        '\t"password": "password",\n' +
+                        '\t"description": "second user",\n' +
+                        '\t"fandoms": ["1234"]\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+    }
+
 
     def 'User Login'() {
         expect:
@@ -63,6 +79,4 @@ class UserServiceTest extends BaseSpecification {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
     }
-
-
 }

@@ -16,15 +16,13 @@ public class MapperUtils {
     public static Long toLong(Object input) {
         return Long.valueOf((Integer) input);
     }
-  
+
     public static List<String> objToListOfString(Object input){
         if(input == null){
             return new ArrayList<>();
         }
-        String objString = input.toString();
-        objString = objString.replace("[","").replace("]","");
 
-        return Arrays.asList(objString.split(","));
+        return (List<String>) input;
     }
 
 }

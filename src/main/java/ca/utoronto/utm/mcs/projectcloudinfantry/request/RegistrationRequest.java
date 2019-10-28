@@ -3,6 +3,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.request;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrationRequest {

@@ -1,5 +1,8 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
+
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -45,10 +49,10 @@ public class UserController {
             this.userService.registerUser(request);
             return new ResponseEntity<>(new RegistrationResponse(request), HttpStatus.OK);
         } catch (UserAlreadyExistsException | IllegalArgumentException e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (FandomNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -61,16 +65,12 @@ public class UserController {
             this.userService.loginUser(request);
             return new ResponseEntity(HttpStatus.OK);
         } catch (UserNotFoundException | IllegalArgumentException e) {
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (NotAuthorizedException e) {
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }
