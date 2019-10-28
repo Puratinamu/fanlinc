@@ -33,14 +33,9 @@ class CloudInfantrySpec extends BaseSpecification {
         expect:
         // make a GET request to /api/health
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/health')
-                .contentType(MediaType.APPLICATION_JSON))
+                .get('/api/v1/health'))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
-
-        // to check the JSON response
-        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
-        // you can now access the JSON as a map
 
         // you can also access the repository to check on the database
         userRepository.count() >= 0
@@ -49,9 +44,9 @@ class CloudInfantrySpec extends BaseSpecification {
     def 'Test add fandom'() {
         expect:
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .put('/api/addFandom')
+                .post('/api/v1/addFandom')
                 .contentType(MediaType.APPLICATION_JSON)
-                .content('{"name": "testFandom", "description": "testDescription}'))
+                .content('{"name": "testFandom", "description": "testDescription"}'))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
 
