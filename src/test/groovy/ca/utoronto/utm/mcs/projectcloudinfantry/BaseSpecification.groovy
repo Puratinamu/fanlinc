@@ -19,7 +19,7 @@ class BaseSpecification extends Specification {
         org.neo4j.ogm.config.Configuration configuration() {
             return new org.neo4j.ogm.config.Configuration.Builder()
                     .uri(Neo4jContainerStarter.uri())
-                    .credentials("neo4j", "neo4j")
+                    .credentials("neo4j", "cloudinfantry")
                     .build()
         }
     }
