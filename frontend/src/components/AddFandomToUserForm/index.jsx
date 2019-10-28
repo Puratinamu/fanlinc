@@ -33,6 +33,7 @@ class AddFandomToUserForm extends React.Component {
         // Needed to change the scope of 'this' in the function
         this.setSelectedFandom = this.setSelectedFandom.bind(this);
         this.setInterestLevel = this.setInterestLevel.bind(this);
+        this.callback = input.callback;
     }
 
     componentDidMount() {
@@ -77,15 +78,25 @@ class AddFandomToUserForm extends React.Component {
         return options;
     }
 
-    setSelectedFandom(fandom) {
+    setSelectedFandom(selection) {
         this.setState({
-            selectedFandom: fandom,
+            selectedFandom: selection.data,
             fandomSelected: true
         });
     }
 
-    setInterestLevel(interestLevel) {
-        this.setState({ selectedInterestLevel: interestLevel });
+    setInterestLevel(selection) {
+        this.setState({
+            selectedInterestLevel: selection.data
+        });
+
+        // Execute callback if it exists
+        if (this.callback && this.callback instanceof Function) {
+            this.callback({
+                fandom: this.state.selectedFandom,
+                interestLevel: selection.data
+            });
+        }
     }
 
     render() {
