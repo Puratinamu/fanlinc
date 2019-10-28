@@ -11,8 +11,8 @@ import java.util.Map;
 public class LoginRequestMapper {
     public LoginRequest toLoginRequest(Map<String, Object> requestBody) {
         LoginRequest request = new LoginRequest();
-        request.setEmail(MapperUtils.toEmptyIfNull(requestBody.get("email")));
-        request.setPassword(MapperUtils.toEmptyIfNull(requestBody.get("password")));
+        request.setEmail((String) requestBody.get("email"));
+        request.setPassword((String) requestBody.get("password"));
         return request;
     }
 }
