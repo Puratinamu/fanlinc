@@ -1,28 +1,16 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
-
 import java.util.List;
 
 public class RegistrationResponse {
 
-    private String oidUser;
+    private Long oidUser;
     private String email;
     private String username;
     private String description;
-    private List<String> fandoms;
+    private List<Long> fandoms;
 
-    public RegistrationResponse(RegistrationRequest request) {
-        this.oidUser = request.getOidUser();
-        this.email = request.getEmail();
-        this.username = request.getUsername();
-        this.description = request.getDescription();
-        this.fandoms = request.getFandoms();
-    }
-
-    public String getOidUser() {
+    public Long getOidUser() {
         return oidUser;
     }
 
@@ -38,7 +26,27 @@ public class RegistrationResponse {
         return description;
     }
 
-    public List<String> getFandoms() {
+    public List<Long> getFandoms() {
         return fandoms;
+    }
+
+    public void setOidUser(Long oidUser) {
+        this.oidUser = oidUser;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setFandoms(List<Long> fandoms) {
+        this.fandoms = fandoms;
     }
 }

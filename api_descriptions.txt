@@ -85,7 +85,12 @@ Request Body:
 	"username": "Carla99",
 	"password": "password",
 	"description": "second user",
-	"fandoms": [123]
+	"fandoms": [
+	    {
+	        "oidFandom": 123,
+	        "level": "CASUAL"
+	    }
+	]
 }
 
 Response Body:

@@ -11,7 +11,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 
 public interface UserService {
 
-    void registerUser(RegistrationRequest request);
+    User registerUser(RegistrationRequest request);
     void loginUser(LoginRequest request);
     User getUserByUsername(User user);
     ProfileResponse getProfile(Long oidUser);
