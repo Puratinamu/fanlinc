@@ -1,11 +1,11 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.FandomObject;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomObjectMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 
@@ -24,14 +24,14 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
     private final UserMapper userMapper;
-    private final FandomObjectMapper fandomObjMapper;
+    private final RelationshipRequestMapper relationshipRequestMapper;
     private final RelationshipService relationshipService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, FandomObjectMapper fandomObjMapper, RelationshipService relationshipService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userMapper = userMapper;
-        this.fandomObjMapper = fandomObjMapper;
+        this.relationshipRequestMapper = relationshipRequestMapper;
         this.relationshipService = relationshipService;
     }
 
@@ -55,22 +55,22 @@ public class UserServiceImpl implements UserService {
         String password = newUser.getPassword();
         password = BcryptUtils.encodePassword(password);
         // Map the list of request objects {"id":1, "level": CASUAL} to list of Fandom Objects
-        List<FandomObject> fandomObjs = new ArrayList<>();
+        List<RelationshipRequest> relRequests = new ArrayList<>();
         for (Map<String, Object> m : request.getFandoms()) {
-            fandomObjs.add(fandomObjMapper.toFandomObject(m));
+            relRequests.add(relationshipRequestMapper.toRelationshipRequest(m));
         }
         // Find fandoms by id and save to user
         List<Fandom> fandoms = new ArrayList<>();
-        for (FandomObject f : fandomObjs) {
+        for (RelationshipRequest r : relRequests) {
             Optional<Fandom> optionalFandom;
             try {
-                optionalFandom = fandomRepository.findById(f.getOidFandom());
+                optionalFandom = fandomRepository.findById(r.getOidFandom());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Fandom ID '" + f.getOidFandom() + "' is not a long type");
+                throw new IllegalArgumentException("Fandom ID '" + r.getOidFandom() + "' is not a long type");
             }
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
-                throw new FandomNotFoundException("Fandom with ID '" + f.getOidFandom() + "' not found");
+                throw new FandomNotFoundException("Fandom with ID '" + r.getOidFandom() + "' not found");
             }
             Fandom fandom = optionalFandom.get();
             fandoms.add(fandom);
@@ -86,10 +86,10 @@ public class UserServiceImpl implements UserService {
 
         newUser = userRepository.save(newUser);
 
-        for (FandomObject f : fandomObjs) {
+        for (RelationshipRequest r : relRequests) {
             // Add relationship between fandom and user with level of interest
             relationshipService.addUserToFandom(
-                    newUser.getOidUser(), f.getOidFandom(), f.getLevel());
+                    newUser.getOidUser(), r.getOidFandom(), r.getLevel());
         }
         return newUser;
     }
