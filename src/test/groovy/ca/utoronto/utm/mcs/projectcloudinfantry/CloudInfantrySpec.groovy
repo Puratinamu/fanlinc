@@ -33,9 +33,15 @@ class CloudInfantrySpec extends BaseSpecification {
         expect:
         // make a GET request to /api/health
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/health'))
+                .get('/api/health')
+                .content("{}")
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
+
+        // to check the JSON response
+        result.getResponse().getContentAsString().isEmpty();
+        // you can now access the JSON as a map
 
         // you can also access the repository to check on the database
         userRepository.count() >= 0

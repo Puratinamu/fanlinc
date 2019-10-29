@@ -13,11 +13,11 @@ public class RegistrationRequestMapper {
 
     public RegistrationRequest toRegisrationRequest(Map<String, Object> requestBody) {
         RegistrationRequest request = new RegistrationRequest();
-        request.setEmail(MapperUtils.toEmptyIfNull(requestBody.get("email")));
-        request.setUsername(MapperUtils.toEmptyIfNull(requestBody.get("username")));
-        request.setPassword(MapperUtils.toEmptyIfNull(requestBody.get("password")));
-        request.setDescription(MapperUtils.toEmptyIfNull(requestBody.get("description")));
-        request.setFandomIds(MapperUtils.objToListOfString(requestBody.get("fandoms")));
+        request.setEmail((String) requestBody.get("email"));
+        request.setUsername((String) requestBody.get("username"));
+        request.setPassword((String) requestBody.get("password"));
+        request.setDescription((String) requestBody.get("description"));
+        request.setFandoms((List<Map<String, Object>>) requestBody.get("fandoms"));
         return request;
     }
 

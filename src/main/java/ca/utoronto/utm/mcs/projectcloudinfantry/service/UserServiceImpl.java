@@ -6,11 +6,13 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundExceptio
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
     private final UserMapper userMapper;
+    private final RelationshipRequestMapper relationshipRequestMapper;
+    private final RelationshipService relationshipService;
     private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userMapper = userMapper;
+        this.relationshipRequestMapper = relationshipRequestMapper;
+        this.relationshipService = relationshipService;
         this.tokenService = tokenService;
     }
 
@@ -52,19 +58,23 @@ public class UserServiceImpl implements UserService {
         // Bcrypt password to store in db
         String password = newUser.getPassword();
         password = BcryptUtils.encodePassword(password);
-        // Create list of Fandoms from list of Fandom Ids
-        List<String> fandomIds = request.getFandomIds();
+        // Map the list of request objects {"id":1, "level": CASUAL} to list of Fandom Objects
+        List<RelationshipRequest> relRequests = new ArrayList<>();
+        for (Map<String, Object> m : request.getFandoms()) {
+            relRequests.add(relationshipRequestMapper.toRelationshipRequest(m));
+        }
+        // Find fandoms by id and save to user
         List<Fandom> fandoms = new ArrayList<>();
-        for (String f : fandomIds) {
+        for (RelationshipRequest r : relRequests) {
             Optional<Fandom> optionalFandom;
             try {
-                optionalFandom = fandomRepository.findById(Long.valueOf(f));
+                optionalFandom = fandomRepository.findById(r.getOidFandom());
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Fandom ID '" + f + "' is not a long type");
+                throw new IllegalArgumentException("Fandom ID '" + r.getOidFandom() + "' is not a long type");
             }
             // If fandom does not exist, throw exception
             if (!optionalFandom.isPresent()) {
-                throw new FandomNotFoundException("Fandom with ID '" + f + "' not found");
+                throw new FandomNotFoundException("Fandom with ID '" + r.getOidFandom() + "' not found");
             }
             Fandom fandom = optionalFandom.get();
             fandoms.add(fandom);
@@ -78,7 +88,14 @@ public class UserServiceImpl implements UserService {
         newUser.setLastLoginTimestamp(date);
         newUser.setLastUpdateTimestamp(date);
 
-        return userRepository.save(newUser);
+        newUser = userRepository.save(newUser);
+
+        for (RelationshipRequest r : relRequests) {
+            // Add relationship between fandom and user with level of interest
+            relationshipService.addUserToFandom(
+                    newUser.getOidUser(), r.getOidFandom(), r.getLevel());
+        }
+        return newUser;
     }
 
     @Override

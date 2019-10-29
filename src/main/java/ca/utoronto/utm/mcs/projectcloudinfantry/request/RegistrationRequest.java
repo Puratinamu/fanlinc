@@ -1,10 +1,7 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.request;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RegistrationRequest {
 
@@ -12,7 +9,7 @@ public class RegistrationRequest {
     private String username;
     private String password;
     private String description;
-    private List<String> fandomIds;
+    private List<Map<String, Object>> fandoms;
 
     public String getEmail() {
         return email;
@@ -46,11 +43,11 @@ public class RegistrationRequest {
         this.description = description;
     }
 
-    public List<String> getFandomIds() {
-        return fandomIds;
+    public List<Map<String, Object>> getFandoms() {
+        return fandoms;
     }
 
-    public void setFandomIds(List<String> fandomIds) {
-        this.fandomIds = fandomIds;
+    public void setFandoms(List<Map<String, Object>> fandoms) {
+        this.fandoms = fandoms;
     }
 }
