@@ -170,7 +170,7 @@ class UserServiceTest extends BaseSpecification {
     def 'User Login'() {
 
         User user = new User()
-        user.setEmail("carla.johnson@gmail.com")
+        user.setEmail("logmein@gmail.com")
         user.setPassword(BcryptUtils.encodePassword("password"))
         User savedUser = userRepository.save(user)
 
@@ -179,7 +179,7 @@ class UserServiceTest extends BaseSpecification {
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/login')
                 .content('{\n' +
-                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"email" : "logmein@gmail.com",\n' +
                         '\t"password": "password"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
