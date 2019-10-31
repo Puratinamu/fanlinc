@@ -76,7 +76,7 @@ export default function RegistrationProgress(props) {
       props.callback(step);
     }
   };
-  
+
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
