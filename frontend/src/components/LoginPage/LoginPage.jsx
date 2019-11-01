@@ -7,6 +7,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import  { Redirect } from 'react-router-dom'
 
 import userRequests from '../../requests/userRequests'
 require('./LoginPage.scss')
@@ -50,8 +51,6 @@ export default function LoginPage(props) {
                     Sign In
                 </Typography>
                 <LoginMain />
-
-
             </Card>
         </Container>
     )
@@ -72,7 +71,8 @@ class LoginMain extends React.Component {
             loginInProgress: false,
             loginFailUnauthorizedError: false,
             loginFailInternalServerError: false,
-            loginFailBadRequestError: false
+            loginFailBadRequestError: false,
+            loginSuccess:false
         }
     }
 
@@ -145,22 +145,18 @@ class LoginMain extends React.Component {
         this.validateLoginInput()
             .then(
                 () => {
-                    console.log(!this.state.passwordError && !this.state.emailError)
                     if (!this.state.passwordError && !this.state.emailError) {
                         this.setState({ loginInProgress: true })
                         this.setState({loginFailUnauthorizedError: false, loginFailBadRequestError: false, loginFailInternalServerError:false})
                         userRequests.loginUserRequest(this.state.email, this.state.password).then(
                             (loginResponse) => {
                                 if (loginResponse.status === 200) {
-                                    console.log("Success")
+                                  this.setState({loginSuccess: true})
                                 } else if (loginResponse.status === 401) {
-                                    console.log("Unauthorized")
                                     this.setState({ loginFailUnauthorizedError: true })
                                 } else if (loginResponse.status === 400) {
-                                    console.log("Bad Request")
                                     this.setState({ loginFailBadRequestError: true })
                                 } else if (loginResponse.status === 500) {
-                                    console.log("Internal Server Error")
                                     this.setState({ loginFailInternalServerError: true })
                                 }
                                 this.setState({ loginInProgress: false })
@@ -170,7 +166,12 @@ class LoginMain extends React.Component {
                 }
             )
     }
+    checkLoginSuccess(){
+      if(this.state.loginSuccess){
+        return <Redirect to='/'/>;
 
+      } 
+    }
     render() {
         return (
             <Box>
@@ -186,6 +187,7 @@ class LoginMain extends React.Component {
                     <LoginButton onClick={this.handleLoginAttempt} />
                     {this.renderLoginLoading()}
                 </Box>
+                {this.checkLoginSuccess()}
             </Box>
         )
     }
