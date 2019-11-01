@@ -1,0 +1,17 @@
+$spacing: 1rem;
+
+container{
+    display: 'flex';
+    flex-wrap: 'wrap';
+}
+
+.post-text-box {
+    margin-left:spacing;
+    margin-right: spacing;
+    width: 70%,
+}
+
+.post-button{
+    margin-top: 1rem;
+    width: 150;
+}

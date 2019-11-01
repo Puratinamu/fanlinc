@@ -3,16 +3,20 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./routes/Home/Home"
 import Signup from "./routes/Signup/Signup"
 import Login from "./routes/Login/Login";
+import NewPost from "./routes/NewPost/NewPost";
 
 
 class App extends React.Component {
-  
+
   render() {
     return (
-      
+
       <Router>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <Switch>
+          <Route path="/newpost">
+            <NewPost />
+          </Route>
           <Route path="/signup">
             <Signup />
           </Route>
