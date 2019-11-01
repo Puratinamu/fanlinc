@@ -56,8 +56,7 @@ class LoginMain extends React.Component {
 
     validateLoginInput() {
         let promise = new Promise((resolve, reject) => {
-            this.setState( {emailError : this.state.email === ""})
-            this.setState( {passwordError : this.state.password === ""})
+            this.setState( {passwordError : this.state.password === "", emailError : this.state.email === ""})
             resolve()
         })
 
