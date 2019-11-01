@@ -29,7 +29,7 @@ public class FandomController {
     }
 
     @RequestMapping(value = "/api/v1/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Optional<Fandom> getFandom(@RequestBody Map<String, String> body, HttpServletResponse res) {
+    public Fandom getFandom(@RequestBody Map<String, String> body, HttpServletResponse res) {
         return fandomService.getFandom(Long.parseLong(body.get("oidFandom")));
     }
 

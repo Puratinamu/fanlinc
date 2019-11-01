@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface FandomService {
 
-    Optional<Fandom> getFandom(Long oidfandom);
+    Fandom getFandom(Long oidfandom);
     Fandom getFandomByName(Fandom fandom);
     Fandom addFandom(Fandom fandom);
     Collection<Fandom> getFandoms();

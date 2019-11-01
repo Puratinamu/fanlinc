@@ -19,12 +19,12 @@ public class FandomServiceImpl implements FandomService {
         this.fandomRepository = fandomRepository;
     }
 
-    public Optional<Fandom> getFandom(Long oidFandom) throws FandomNotFoundException{
+    public Fandom getFandom(Long oidFandom) {
         Optional<Fandom> result = this.fandomRepository.findById(oidFandom);
         if (!result.isPresent()){
             throw new FandomNotFoundException();
         }
-        return result;
+        return result.get();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class FandomServiceImpl implements FandomService {
     }
 
     @Override
-    public Fandom addFandom(Fandom fandom) throws FandomAlreadyExistsException{
+    public Fandom addFandom(Fandom fandom) {
         // check if fandom already exists
         Fandom existingFandom = this.fandomRepository.getFandomByName(fandom.getName());
         if (existingFandom == null) {
