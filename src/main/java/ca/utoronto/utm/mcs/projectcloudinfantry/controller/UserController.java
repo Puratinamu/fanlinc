@@ -56,7 +56,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity login(@RequestBody Map<String, Object> body) {
         try {
