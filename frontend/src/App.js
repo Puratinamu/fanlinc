@@ -6,9 +6,12 @@ import Login from "./routes/Login/Login";
 
 
 class App extends React.Component {
+  
   render() {
     return (
+      
       <Router>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <Switch>
           <Route path="/signup">
             <Signup />

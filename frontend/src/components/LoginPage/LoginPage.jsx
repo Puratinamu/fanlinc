@@ -16,7 +16,6 @@ require('./LoginPage.scss')
 export default function LoginPage(props) {
     return (
         <Container maxWidth="sm" >
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
             <Card className="login-card">
                 <img src={process.env.PUBLIC_URL + '/main.jpg'} alt="logo" width={50} />
                 <Typography variant="h6" gutterBottom>
@@ -57,16 +56,8 @@ class LoginMain extends React.Component {
 
     validateLoginInput() {
         let promise = new Promise((resolve, reject) => {
-            if (this.state.email === "") {
-                this.setState({ emailError: true })
-            } else {
-                this.setState({ emailError: false })
-            }
-            if (this.state.password === "") {
-                this.setState({ passwordError: true })
-            } else {
-                this.setState({ passwordError: false })
-            }
+            this.setState( {emailError : this.state.email === ""})
+            this.setState( {passwordError : this.state.password === ""})
             resolve()
         })
 
@@ -80,7 +71,7 @@ class LoginMain extends React.Component {
     renderUnauthorized() {
         if (this.state.loginFailUnauthorizedError) {
             return (
-                <Typography className="error-text" variant="subtitle2">
+                <Typography color="error" variant="subtitle2">
                     Wrong Password!
             </Typography>
             )
@@ -89,7 +80,7 @@ class LoginMain extends React.Component {
     renderInternalServerError() {
         if (this.state.loginFailInternalServerError) {
             return (
-                <Typography className="error-text" variant="subtitle2">
+                <Typography color="error" variant="subtitle2">
                     Internal Server Error!
             </Typography>
             )
@@ -98,7 +89,7 @@ class LoginMain extends React.Component {
     renderBadRequest() {
         if (this.state.loginFailBadRequestError) {
             return (
-                <Typography className="error-text" variant="subtitle2">
+                <Typography color="error" variant="subtitle2">
                     Wrong Username / Password!
             </Typography>
             )
@@ -118,8 +109,7 @@ class LoginMain extends React.Component {
             .then(
                 () => {
                     if (!this.state.passwordError && !this.state.emailError) {
-                        this.setState({ loginInProgress: true })
-                        this.setState({loginFailUnauthorizedError: false, loginFailBadRequestError: false, loginFailInternalServerError:false})
+                        this.setState({loginInProgress: true, loginFailUnauthorizedError: false, loginFailBadRequestError: false, loginFailInternalServerError:false})
                         userRequests.loginUserRequest(this.state.email, this.state.password).then(
                             (loginResponse) => {
                                 if (loginResponse.status === 200) {
