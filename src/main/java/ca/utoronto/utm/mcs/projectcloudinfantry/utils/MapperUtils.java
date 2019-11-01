@@ -3,6 +3,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MapperUtils {
 
@@ -23,6 +24,14 @@ public class MapperUtils {
         }
 
         return (List<String>) input;
+    }
+
+    public static List<Map<String, Object>> objToListOfObj(Object input){
+        if(input == null){
+            return new ArrayList<>();
+        }
+
+        return (List<Map<String, Object>>) input;
     }
 
 }
