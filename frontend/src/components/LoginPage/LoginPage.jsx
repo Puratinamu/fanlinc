@@ -1,7 +1,6 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -12,40 +11,13 @@ import  { Redirect } from 'react-router-dom'
 import userRequests from '../../requests/userRequests'
 require('./LoginPage.scss')
 
-const useStyles = makeStyles(theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        width: 300
-    },
-    dense: {
-        marginTop: theme.spacing(2),
-    },
-    menu: {
-        width: 200,
-    },
-    card: {
-        padding: theme.spacing(3)
-    },
-    button: {
-        marginTop: theme.spacing(2),
-        width: 150
-    },
-    progressHolder: {
-        marginTop: 15,
-        marginLeft: 15
-    }
-}));
 
 
 export default function LoginPage(props) {
-    const classes = useStyles();
     return (
         <Container maxWidth="sm" >
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-            <Card className={classes.card}>
+            <Card className="login-card">
                 <img src={process.env.PUBLIC_URL + '/main.jpg'} alt="logo" width={50} />
                 <Typography variant="h6" gutterBottom>
                     Sign In
@@ -193,12 +165,11 @@ class LoginMain extends React.Component {
     }
 }
 function LoginButton(props) {
-    const classes = useStyles();
     return (
         <Button
             variant="contained"
             color="primary"
-            className={classes.button}
+            className="login-button"
             onClick={props.onClick}
         >
             Sign In
@@ -208,7 +179,6 @@ function LoginButton(props) {
 
 
 function EmailField(props) {
-    const classes = useStyles();
 
     return (<TextField
         id="email"
@@ -216,7 +186,7 @@ function EmailField(props) {
         error={props.error}
         label="Email"
         placeholder="somebody@email.com"
-        className={classes.textField}
+        className="login-text-field"
         margin="normal"
         variant="outlined"
         onInput={props.onInput}
@@ -226,7 +196,6 @@ function EmailField(props) {
 }
 
 function PasswordField(props) {
-    const classes = useStyles();
 
     return (<TextField
         id="password"
@@ -234,7 +203,7 @@ function PasswordField(props) {
         onInput={props.onInput}
         error={props.error}
         label="Password"
-        className={classes.textField}
+        className="login-text-field"
         margin="normal"
         type="password"
         variant="outlined"
@@ -243,7 +212,6 @@ function PasswordField(props) {
 }
 
 function CircularLoading() {
-    const classes = useStyles();
     const [progress, setProgress] = React.useState(0);
 
     React.useEffect(() => {
@@ -259,7 +227,7 @@ function CircularLoading() {
     }, []);
 
     return (
-        <Box display="flex" className={classes.progressHolder}>
+        <Box display="flex" className="login-progress-holder">
             <CircularProgress size={30} variant="determinate" value={progress} />
         </Box>
     );
