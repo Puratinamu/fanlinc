@@ -39,12 +39,14 @@ class AddFandomToUserForm extends React.Component {
     componentDidMount() {
         // Get the list of all fandoms
         fandomRequest.getAllFandoms().then(response => {
+            let fandomsList = [];
             if (response.status === 200) {
-                this.setState({
-                    fandomsList: this.createFandomOptions(response.data),
-                    loading: false
-                });
+                fandomsList = this.createFandomOptions(response.data);
             }
+            this.setState({
+                fandomsList: fandomsList,
+                loading: false
+            });
         })
     }
 
@@ -100,12 +102,22 @@ class AddFandomToUserForm extends React.Component {
     }
 
     render() {
+
+        // If there are no fandoms to select from, show a message
+        if (!this.state.loading && this.state.fandomsList.length === 0) {
+            return (
+                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+                    Sorry, No Fandoms Currently Exist.
+                </Typography>
+            );
+        }
+
         return (
             <Box className="cldi-add-fandom-to-user-form-container">
               <Paper>
                 <Box p={2}>
                   <Grid container spacing={4} direction="column">
-                    {this.state.loading === false &&
+                    {!this.state.loading &&
                       (
                         <Grid item xs={12}>
                           <Typography component="h3">{SearchAFandom}</Typography>
