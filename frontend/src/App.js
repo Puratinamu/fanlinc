@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from "./routes/Home/Home"
 import Signup from './routes/Signup/Signup'
 import Login from './routes/Login/Login';
-import ViewProfile from "./routes/ViewProfile/";
+import ViewProfilePage from "./routes/ViewProfilePage/";
 
 
 class App extends React.Component {
@@ -15,7 +15,7 @@ class App extends React.Component {
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <Switch>
           <Route path="/viewprofile">
-            <ViewProfile />
+            <ViewProfilePage />
           </Route>
           <Route path="/signup">
             <Signup />

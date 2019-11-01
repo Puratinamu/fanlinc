@@ -1,7 +1,10 @@
+$avatar-size: 180px;
+
 .cldi-view-user-profile {
+
     .cldi-profile-avatar {
-        height: 180px;
-        width: 180px;
+        height: $avatar-size;
+        width: $avatar-size;
     }
 
     // Disbale the pointer events to remove the hover and click events
@@ -12,6 +15,15 @@
     }
 
     .cldi-profile-heading {
+        margin-top: 12px;
+    }
+
+    .cldi-profile-heading-label {
         font-weight: 400;
     }
+
+    .cldi-profile-field-label {
+        font-size: 20px;
+    }
+
 }

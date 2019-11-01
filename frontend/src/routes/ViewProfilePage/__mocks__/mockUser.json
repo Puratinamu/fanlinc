@@ -2,12 +2,12 @@
     "oidUser": 1,
     "email": "sample@hotmail.com",
     "username": "sampleUsername",
-    "description": "This is just a sample description of the user",
+    "description": "This is just a sample description of the user.",
     "fandoms": [
         {
             "oidFandom": 2,
             "name": "Fandom1",
-            "level": "CASUAl"
+            "level": "CASUAL"
         },
         {
             "oidFandom": 3,
