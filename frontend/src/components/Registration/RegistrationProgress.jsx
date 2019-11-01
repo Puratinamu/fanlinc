@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     maxHeight: 40
+  },
+  stepper: {
+    'background-color': '#fafafa'
   }
 }));
 

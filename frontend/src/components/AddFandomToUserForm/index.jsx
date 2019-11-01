@@ -115,12 +115,12 @@ class AddFandomToUserForm extends React.Component {
         return (
             <Box className="cldi-add-fandom-to-user-form-container">
               <Paper>
-                <Box p={2}>
+                <Box px={2} pb={4} pt={3}>
                   <Grid container spacing={4} direction="column">
                     {!this.state.loading &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{SearchAFandom}</Typography>
+                          <Typography variant="h6">{SearchAFandom}</Typography>
                           <Divider/>
                           <SearchField
                             callback={this.setSelectedFandom}
@@ -132,7 +132,7 @@ class AddFandomToUserForm extends React.Component {
                     {this.state.fandomSelected &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{SelectInterestLevel}</Typography>
+                          <Typography variant="h6">{SelectInterestLevel}</Typography>
                           <Divider/>
                           <SearchField
                             callback={this.setInterestLevel}

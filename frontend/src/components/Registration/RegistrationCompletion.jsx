@@ -80,7 +80,10 @@ class RegistrationCompletion extends React.Component {
 
         // Add the fandom oids to the request
         if (props.fandom) {
-            this.state.request.fandoms.push(`${props.fandom.oidFandom}`);
+            this.state.request.fandoms.push({
+                oidFandom: `${props.fandom.oidFandom}`,
+                level: `${props.interestLevel}`
+            });
         }
     }
 
