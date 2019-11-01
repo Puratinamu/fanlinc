@@ -1,0 +1,19 @@
+{
+    "oidUser": 1,
+    "email": "sample@hotmail.com",
+    "username": "sampleUsername",
+    "description": "This is just a sample description of the user",
+    "fandoms": [
+        {
+            "oidFandom": 2,
+            "name": "Fandom1",
+            "level": "CASUAl"
+        },
+        {
+            "oidFandom": 3,
+            "name": "Fandom2",
+            "level": "LIMITED"
+        }
+    ]
+}
+
