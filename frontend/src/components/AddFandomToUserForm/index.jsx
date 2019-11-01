@@ -124,7 +124,7 @@ class AddFandomToUserForm extends React.Component {
         return (
             <Box className="cldi-add-fandom-to-user-form-container">
               <Paper>
-                <Box px={2} pb={4} pt={3}>
+                <Box px={4} pb={4} pt={3}>
                   <Grid container spacing={4} direction="column">
                     {!this.state.loading &&
                       (
