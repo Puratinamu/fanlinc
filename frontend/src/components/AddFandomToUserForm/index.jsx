@@ -33,7 +33,9 @@ class AddFandomToUserForm extends React.Component {
         // Needed to change the scope of 'this' in the function
         this.setSelectedFandom = this.setSelectedFandom.bind(this);
         this.setInterestLevel = this.setInterestLevel.bind(this);
+
         this.callback = input.callback;
+        this.children = input.children;
     }
 
     componentDidMount() {
@@ -48,6 +50,13 @@ class AddFandomToUserForm extends React.Component {
                 loading: false
             });
         })
+    }
+
+    /*
+     * Rerender the children component whenever the parent of this node is rerendered
+     */
+    componentWillUpdate(input) {
+        this.children = input.children;
     }
 
     createInterestLevelOptions(levels) {
@@ -142,6 +151,7 @@ class AddFandomToUserForm extends React.Component {
                         </Grid>
                       )
                     }
+                    {this.children}
                   </Grid>
                 </Box>
               </Paper>
