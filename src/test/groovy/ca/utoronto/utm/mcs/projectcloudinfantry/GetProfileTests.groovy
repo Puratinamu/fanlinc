@@ -7,6 +7,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFando
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
@@ -127,7 +128,8 @@ class GetProfileTests extends BaseSpecification {
         resultMap.get("username").toString() == "Tanner"
         resultMap.get("description").toString() == "I am a user"
         List<Object> fandoms = resultMap.get("fandoms") as List<Object>
-        fandoms.size() == 2
+        UserFandomAndRelationshipInfo data = fandoms.get(1) as UserFandomAndRelationshipInfo
+        data.getName() == "LOL" || data.getName() == "Minecraft"
     }
 }
 

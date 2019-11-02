@@ -1,6 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 
-public class FandomInfo {
+public class UserFandomAndRelationshipInfo {
 
     private Long oidFandom;
     private String name;

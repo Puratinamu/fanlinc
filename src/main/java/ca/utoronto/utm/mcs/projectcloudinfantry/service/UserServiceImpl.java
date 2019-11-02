@@ -8,7 +8,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.FandomInfo;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
@@ -127,7 +127,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileResponse getProfile(Long oidUser) {
+    public ProfileResponse getProfile(Map<String, Object> requestBody) {
+        // Check request body args
+        if (!requestBody.containsKey("oidUser")) throw new IllegalArgumentException();
+        Long oidUser = Long.parseLong(((Integer) requestBody.get("oidUser")).toString());
+
         Optional<User> user = userRepository.findById(oidUser);
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
@@ -135,9 +139,9 @@ public class UserServiceImpl implements UserService {
         // Get the list of fandoms a user belongs to and it's corresponding level of intrest
         List<FandomInfoResult> results = fandomRepository.getFandomsAndRelationshipsByOidUser(foundUser.getOidUser());
 
-        List<FandomInfo> infoList = new ArrayList<>();
+        List<UserFandomAndRelationshipInfo> infoList = new ArrayList<>();
         for (FandomInfoResult result: results) {
-            FandomInfo info = new FandomInfo();
+            UserFandomAndRelationshipInfo info = new UserFandomAndRelationshipInfo();
             info.setOidFandom(result.getFandom().getOidFandom());
             info.setName(result.getFandom().getName());
             info.setDescription((result.getFandom().getDescription()));

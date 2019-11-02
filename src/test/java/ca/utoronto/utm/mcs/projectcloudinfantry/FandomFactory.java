@@ -2,13 +2,12 @@ package ca.utoronto.utm.mcs.projectcloudinfantry;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import java.util.ArrayList;
-import static java.time.LocalDate.now;
+import java.util.Date;
 
 public class FandomFactory {
 
-    public static Fandom createFandom(Long fandomId, String name) {
+    public static Fandom CreateFandom(String name) {
         Fandom fandom = new Fandom();
-        fandom.setOidFandom(fandomId);
         fandom.setName(name);
         fandom.setDescription("General fandom description");
         fandom.setMembers(new ArrayList<>());

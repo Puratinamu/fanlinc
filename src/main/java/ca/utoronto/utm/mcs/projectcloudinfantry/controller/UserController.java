@@ -77,19 +77,18 @@ public class UserController {
     @RequestMapping(value = "/api/v1/getProfile", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity getProfile(@RequestBody Map<String, Object> body) {
-        // Check body args
-        if (!body.containsKey("oidUser")) return new ResponseEntity(HttpStatus.BAD_REQUEST);
-
-        // Query for user data
-        Long oidUser = Long.parseLong(((Integer) body.get("oidUser")).toString());
-        ProfileResponse userProfile;
         try {
-            userProfile = userService.getProfile(oidUser);
+            ProfileResponse userProfile = userService.getProfile(body);
+            return new ResponseEntity<>(userProfile, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         // Return the request
-        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+
     }
 }
