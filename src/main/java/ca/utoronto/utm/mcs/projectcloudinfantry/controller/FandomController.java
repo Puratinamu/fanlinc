@@ -3,7 +3,10 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.FandomService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,7 @@ public class FandomController {
 
     private FandomService fandomService;
     private FandomMapper fandomMapper;
+    private TokenService tokenService;
 
     public FandomController(FandomService fandomService, FandomMapper fandomMapper) {
         this.fandomService = fandomService;
@@ -42,8 +46,10 @@ public class FandomController {
     public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom);}
 
     @RequestMapping(value = "/api/v1/addFandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom addFandom(@RequestBody Map<String, Object> body) {
+    public Fandom addFandom(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
+        tokenService.authenticate(headers.getFirst("jwt"), (Long) body.get("oidUser"));
         Fandom fandom = fandomMapper.toFandom(body);
+
         return fandomService.addFandom(fandom);
     }
 }

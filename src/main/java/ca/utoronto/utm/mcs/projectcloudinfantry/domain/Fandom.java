@@ -26,6 +26,9 @@ public class Fandom {
     @Relationship(type = "POSTED_TO", direction = Relationship.INCOMING)
     private List<Post> posts;
 
+    @Relationship(type = "CREATED_BY", direction = Relationship.INCOMING)
+    private User creator;
+
     @CreatedDate
     private Date creationTimestamp;
 
@@ -85,5 +88,13 @@ public class Fandom {
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

@@ -375,6 +375,7 @@ Request Body:
 {
 	"name" : "WOW",
     "description": "world of warcraft"
+    "oidUser": 1234
 }
 
 Response Body:
