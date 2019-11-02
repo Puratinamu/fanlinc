@@ -13,5 +13,11 @@ public interface FandomRepository extends Neo4jRepository<Fandom, Long>  {
     Fandom getFandomByName(String name);
 
     @Query("MATCH (u:User)-[:BELONGS_TO]->(f) WHERE ID(u)={oidUser} RETURN f")
-    List<Fandom> getFandomsByUserId(Long oidUser);
+    List<Fandom> getFandomsByOidUser(Long oidUser);
+
+    @Query("MATCH (u:User)-[r:BELONGS_TO]->(f:Fandom)\n" +
+            " WHERE ID(u)={oidUser}\n" +
+            " RETURN f as fandom, r.relationship as relationship")
+    List<FandomInfoResult> getFandomsAndRelationshipsByOidUser(Long oidUser);
 }
+

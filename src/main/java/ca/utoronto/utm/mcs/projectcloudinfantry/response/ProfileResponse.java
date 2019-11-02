@@ -3,28 +3,26 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import org.springframework.data.neo4j.annotation.QueryResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileResponse {
 
-    private String oidUser;
+    private Long oidUser;
     private String username;
     private String description;
-    private List<Long> fandoms;
+    private List<FandomInfo> fandoms;
 
-    public ProfileResponse(User user) {
-        this.oidUser = user.getOidUser().toString();
+    public ProfileResponse(User user, List<FandomInfo> fandoms) {
+        this.oidUser = user.getOidUser();
         this.username = user.getUsername();
         this.description = user.getDescription();
-        this.fandoms = new ArrayList<>();
-        for (Fandom fandom: user.getFandoms()) {
-            this.fandoms.add(fandom.getOidFandom());
-        }
+        this.fandoms = fandoms;
     }
 
-    public String getOidUser() {
+    public Long getOidUser() {
         return oidUser;
     }
 
@@ -36,7 +34,7 @@ public class ProfileResponse {
         return description;
     }
 
-    public List<Long> getFandoms() {
+    public List<FandomInfo> getFandoms() {
         return fandoms;
     }
 }

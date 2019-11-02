@@ -1,4 +1,6 @@
 import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
+import ca.utoronto.utm.mcs.projectcloudinfantry.FandomFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -24,12 +26,13 @@ class GetProfileTests extends BaseSpecification {
     private ObjectMapper objectMapper = new ObjectMapper()
 
     @Autowired
-    @Shared
     private FandomRepository fandomRepository
 
     @Autowired
-    @Shared
     private UserRepository userRepository
+
+    @Autowired
+    private UserToFandomRepository userToFandomRepository;
 
     @Shared
     User testUser
@@ -39,62 +42,92 @@ class GetProfileTests extends BaseSpecification {
 
     def setupSpec() {
         // Create new User and new fandom and add them to repo
-        testUser = new User()
-        testUser.setUsername("tberg")
-        testUser.setEmail("tanner@email.com")
-        testUser.setDescription("I like books")
+        testUser = UserFactory.CreateUser("Tanner", "tanner@email.com");
+        testFandom = FandomFactory.CreateFandom("Minecraft");
 
-        testFandom = new Fandom()
-        testFandom.setName("Book Fandom")
-        testFandom.setDescription("Fandom for people who like books")
+    }
 
+    def 'Get profile of not existent user'() {
+        expect:
+        // make a GET to get profile and expect a 404 Not Found
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getProfile')
+                .content('{"oidUser" : -1 }')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andReturn()
+    }
+
+    def 'Get profile with bad request body'() {
+        expect:
+        // make a GET to get profile and expect a 400 Bad Request
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getProfile')
+                .content('{"wrongField" : 3 }')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn()
+    }
+
+    def 'Get profile with existing user and no fandoms'() {
         // Add to db
         testUser = userRepository.save(testUser)
+        // testFandom = fandomRepository.save(testFandom)
+
+        // Create a relationship
+        // UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL");
+        // userToFandomRepository.save(rel);
+        expect:
+        // make a GET to get profile and expect a 400 Bad Request
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getProfile')
+                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        // to check the JSON response
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
+
+        // Make sure all elements in post body are included
+        resultMap.get("oidUser").toString() != null
+        resultMap.get("username").toString() == "Tanner"
+        resultMap.get("description").toString() == "I am a user"
+        List<Object> fandoms = resultMap.get("fandoms") as List<Object>
+        fandoms.toString() == "[]"
+    }
+
+    def 'Get profile with existing user with multiple fandoms'() {
+        // Add to db
+        testUser = userRepository.save(testUser)
+
         testFandom = fandomRepository.save(testFandom)
-    }
+        UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL");
+        userToFandomRepository.save(rel);
 
-    def 'Add fresh relationship from existing user to fandom'() {
+        testFandom = FandomFactory.CreateFandom("LOL");
+        testFandom = fandomRepository.save(testFandom)
+        rel = new UserToFandom(testUser, testFandom, "EXPERT");
+        userToFandomRepository.save(rel);
+
         expect:
-        // make a PUT request to updateFandomRelationship and get back expected json
+        // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .put('/api/v1/updateFandomRelationship')
-                .content('{\n' +
-                        '\t"oidUser" : ' + testUser.getOidUser().toString() + ',\n' +
-                        '\t"oidFandom": ' + testFandom.getOidFandom().toString() + ',\n' +
-                        '\t"relationship": "CASUAL" \n' +
-                        '}')
+                .get('/api/v1/getProfile')
+                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
 
-        // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
+        // to check the JSON response
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
 
-        relationship != null
-
+        // Make sure all elements in post body are included
+        resultMap.get("oidUser").toString() != null
+        resultMap.get("username").toString() == "Tanner"
+        resultMap.get("description").toString() == "I am a user"
+        List<Object> fandoms = resultMap.get("fandoms") as List<Object>
+        fandoms.size() == 2
     }
-
-    def 'Update existing relationship'() {
-        expect:
-        // make a PUT request to updateFandomRelationship and get back expected json
-        MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .put('/api/v1/updateFandomRelationship')
-                .content('{\n' +
-                        '\t"oidUser" : ' + testUser.getOidUser().toString() + ',\n' +
-                        '\t"oidFandom": ' + testFandom.getOidFandom().toString() + ',\n' +
-                        '\t"relationship": "EXPERT" \n' +
-                        '}')
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn()
-
-        // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
-        assert relationship != null
-
-        relationship.getRelationship() == "EXPERT"
-
-    }
-
 }
 

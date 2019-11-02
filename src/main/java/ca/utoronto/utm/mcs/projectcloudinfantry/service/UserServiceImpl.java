@@ -1,12 +1,14 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.FandomInfo;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
@@ -130,11 +132,20 @@ public class UserServiceImpl implements UserService {
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 
-        // Get and overwrite this local User obj with the proper fandoms
-        List<Fandom> fandoms = fandomRepository.getFandomsByUserId(foundUser.getOidUser());
-        foundUser.setFandoms(fandoms);
+        // Get the list of fandoms a user belongs to and it's corresponding level of intrest
+        List<FandomInfoResult> results = fandomRepository.getFandomsAndRelationshipsByOidUser(foundUser.getOidUser());
 
-        // We only want their Id, Username, Description, and Fandoms. The profile contructor handles that
-        return new ProfileResponse(foundUser);
+        List<FandomInfo> infoList = new ArrayList<>();
+        for (FandomInfoResult result: results) {
+            FandomInfo info = new FandomInfo();
+            info.setOidFandom(result.getFandom().getOidFandom());
+            info.setName(result.getFandom().getName());
+            info.setDescription((result.getFandom().getDescription()));
+            info.setRelationship(result.getRelationship());
+            infoList.add(info);
+        }
+
+        // The constructor handles setting the appropriate fields.
+        return new ProfileResponse(foundUser, infoList);
     }
 }

@@ -35,7 +35,14 @@ Response Body:
 	"oidUser" : 1234,
 	"username": "TheBobMarley",
 	"description": "a person",
-	"fandoms": [54, 11, 67]
+	"fandoms": [
+	    {
+	        "oidFandom": 34,
+	        "name": "Minecraft",
+	        "description": "The Minecraft Fandom",
+	        "relationshipType": "CASUAL"
+	    }
+	]
 }
 
 Expected Headers:
