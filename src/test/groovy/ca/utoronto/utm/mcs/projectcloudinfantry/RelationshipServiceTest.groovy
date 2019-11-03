@@ -1,4 +1,5 @@
-import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
+package ca.utoronto.utm.mcs.projectcloudinfantry
+
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
