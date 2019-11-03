@@ -35,6 +35,10 @@ class UserServiceTest extends BaseSpecification {
     @Autowired
     private TokenExtractor tokenExtractor
 
+    def setup() {
+
+    }
+
     def 'Register User and Add to Database'() {
         expect:
         // make a POST request to addUser and get back expected json
