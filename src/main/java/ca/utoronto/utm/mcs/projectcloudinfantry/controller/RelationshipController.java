@@ -3,6 +3,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.RelationshipService;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.http.HttpHeaders;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,9 @@ public class RelationshipController {
     }
 
     @RequestMapping(value="api/v1/updateFandomRelationship", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public void updateFandomRelationship(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
-        Long oidUser = Long.parseLong(((Integer) body.get("oidUser")).toString());
-        Long oidFandom = Long.parseLong(((Integer) body.get("oidFandom")).toString());
+    public void updateFandomRelationship(@RequestBody Map<String, Object> body) {
+        Long oidUser = MapperUtils.toLong(body.get("oidUser"));
+        Long oidFandom = MapperUtils.toLong(body.get("oidFandom"));
         String relationship = (String) body.get("relationship");
         tokenService.authenticate(headers.getFirst("jwt"), oidUser);
         relationshipService.addUserToFandom(oidUser, oidFandom, relationship);
