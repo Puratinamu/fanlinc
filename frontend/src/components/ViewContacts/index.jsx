@@ -12,24 +12,43 @@ import './styles.scss';
 const SearchAFandom = "Search for a Fandom";
 const SelectInterestLevel = "Select Level of Interest";
 
+// Request Body:
+// {
+//     "oidUser" : 123
+// }
+//
+// Response Body:
+// {
+//     "contacts": [
+//     {
+//         "oidUser" : 1234,
+//         "email" : "bob.marley@gmail.com",
+//         "username": "TheBobMarley",
+//         "description": "a person",
+//         "fandoms": [123]
+//     },
+//     ...
+// ]
+// }
+
+const ContactsList = "Contact List";
+const UserName = "Username: "
+const Description = "Description: "
+const Email = "Email: "
+
 
 class ViewContacts extends React.Component {
 
     constructor(input) {
         super(input);
 
-        // Generate options for the Interest levels
-        // this.interestLevels = this.createInterestLevelOptions(fandomRequest.getLevels());
 
         // 
 
         // Initialize the state
         this.state = {
             loading: true,
-            fandomsList: [],
-            fandomSelected: false,
-            selectedFandom: null,
-            selectedInterestLevel: ""
+            contactsList: [],
         }
 
         // Needed to change the scope of 'this' in the function
@@ -115,7 +134,7 @@ class ViewContacts extends React.Component {
         }
 
         return (
-            <Box className="cldi-add-fandom-to-user-form-container">
+            <Box className="cldi-view-contacts-form-container">
               <Paper>
                 <Box p={2}>
                   <Grid container spacing={4} direction="column">
@@ -152,5 +171,5 @@ class ViewContacts extends React.Component {
     }
 }
 
-export default AddFandomToUserForm;
+export default ViewContacts;
 
