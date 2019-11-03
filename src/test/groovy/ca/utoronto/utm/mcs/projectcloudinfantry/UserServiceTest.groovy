@@ -35,10 +35,6 @@ class UserServiceTest extends BaseSpecification {
     @Autowired
     private TokenExtractor tokenExtractor
 
-    def setup() {
-
-    }
-
     def 'Register User and Add to Database'() {
         expect:
         // make a POST request to addUser and get back expected json
@@ -172,7 +168,7 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'User Login'() {
-
+        Date now = Date.from(Instant.now())
         User user = new User()
         user.setEmail("logmein@gmail.com")
         user.setPassword(BcryptUtils.encodePassword("password"))
@@ -192,6 +188,6 @@ class UserServiceTest extends BaseSpecification {
         String jwt = result.getResponse().getHeader("jwt")
         Claims claims = tokenExtractor.extractToken(jwt)
         claims.getSubject() as Long == savedUser.getOidUser()
-        claims.getExpiration().after(Date.from(Instant.now()))
+        claims.getExpiration().after(now)
     }
 }

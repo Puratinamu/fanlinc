@@ -40,6 +40,9 @@ class RelationshipServiceTest extends BaseSpecification {
     @Shared
     Fandom testFandom
 
+    @Shared
+    String jwt
+
     def setupSpec() {
         // Create new User and new fandom and add them to repo
         testUser = new User()
