@@ -15,7 +15,7 @@ public class MapperUtils {
     }
 
     public static Long toLong(Object input) {
-        return Long.valueOf((Integer) input);
+        return Long.valueOf(input.toString());
     }
 
     public static List<String> objToListOfString(Object input){
