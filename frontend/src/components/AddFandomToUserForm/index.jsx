@@ -33,7 +33,9 @@ class AddFandomToUserForm extends React.Component {
         // Needed to change the scope of 'this' in the function
         this.setSelectedFandom = this.setSelectedFandom.bind(this);
         this.setInterestLevel = this.setInterestLevel.bind(this);
+
         this.callback = input.callback;
+        this.children = input.children;
     }
 
     componentDidMount() {
@@ -48,6 +50,13 @@ class AddFandomToUserForm extends React.Component {
                 loading: false
             });
         })
+    }
+
+    /*
+     * Rerender the children component whenever the parent of this node is rerendered
+     */
+    componentWillUpdate(input) {
+        this.children = input.children;
     }
 
     createInterestLevelOptions(levels) {
@@ -115,12 +124,12 @@ class AddFandomToUserForm extends React.Component {
         return (
             <Box className="cldi-add-fandom-to-user-form-container">
               <Paper>
-                <Box p={2}>
+                <Box px={4} pb={4} pt={3}>
                   <Grid container spacing={4} direction="column">
                     {!this.state.loading &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{SearchAFandom}</Typography>
+                          <Typography variant="h6">{SearchAFandom}</Typography>
                           <Divider/>
                           <SearchField
                             callback={this.setSelectedFandom}
@@ -132,7 +141,7 @@ class AddFandomToUserForm extends React.Component {
                     {this.state.fandomSelected &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{SelectInterestLevel}</Typography>
+                          <Typography variant="h6">{SelectInterestLevel}</Typography>
                           <Divider/>
                           <SearchField
                             callback={this.setInterestLevel}
@@ -142,6 +151,7 @@ class AddFandomToUserForm extends React.Component {
                         </Grid>
                       )
                     }
+                    {this.children}
                   </Grid>
                 </Box>
               </Paper>

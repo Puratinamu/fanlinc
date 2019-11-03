@@ -9,15 +9,31 @@ const LEVELS = {
 
 let fandomRequests = {
     getLevels: () => LEVELS,
+
     getAllFandoms: async function () {
         try {
             const response = await axios.get("/api/v1/getFandoms", {data: {}});
             return response;
         } catch (error) {
             console.error(error)
-            return {}
+            return {};
+        }
+    },
+
+    addFandomToUser: async function (oidUser, oidFandom, interestLevel) {
+        try {
+            const response = await axios.put("/api/v1/updateFandomRelationship", {
+                oidUser,
+                oidFandom,
+                relationship: interestLevel
+            });
+            return response;
+        } catch (error) {
+            console.error(error)
+            return {};
         }
     }
 };
 
-export default fandomRequests
+export default fandomRequests;
+

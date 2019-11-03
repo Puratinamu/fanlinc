@@ -21,6 +21,15 @@ let userRequests = {
             console.error(error);
             return error
         }
+    },
+    loginUserRequest: async function (email, password) {
+        try {
+            const response = await axios.post('/api/v1/login', { "email": email, "password": password })
+            return response
+        }
+        catch (error) {
+            return error.response
+        }
     }
 }
 export default userRequests
