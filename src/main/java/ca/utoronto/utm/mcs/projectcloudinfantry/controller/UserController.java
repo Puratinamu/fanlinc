@@ -8,6 +8,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationResponseMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class UserController {
@@ -56,7 +58,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+        @RequestMapping(value = "/api/v1/login", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity login(@RequestBody Map<String, Object> body) {
         try {
@@ -72,4 +74,21 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/api/v1/getProfile", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity getProfile(@RequestBody Map<String, Object> body) {
+        try {
+            ProfileResponse userProfile = userService.getProfile(body);
+            return new ResponseEntity<>(userProfile, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // Return the request
+
+    }
 }
