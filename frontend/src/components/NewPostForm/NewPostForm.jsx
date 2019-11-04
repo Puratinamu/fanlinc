@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import textPostRequests from '../../requests/textPostRequests';
 require('./NewPostForm.scss')
 
 class NewPostForm extends React.Component {
@@ -24,16 +25,29 @@ class NewPostForm extends React.Component {
 
     handlePostAttempt(newPost) {
         this.setState({ postTextMissingError: this.state.postText === "" })
+        textPostRequests.putTextPost({
+            "oidCreator": "",
+            "text": this.state.postText,
+            "oidFandom": "",
+        }).then(response => {
+            if (response.status === 200) {
+                //success
+            } else if (response.status === 500) {
+                this.setState({ postFailInternalServerError: true })
+            } else if (response.status === 400) {
+                this.setState({ postFailBadRequestError: true })
+            }
+        })
     }
 
     handlePostInput(newPost) {
         this.setState({ postText: newPost.target.value, postTextMissingError: false })
     }
 
-    renderErrorMessages() {
-        if (this.state.postTextMissingError) {
+    renderErrorMessage() {
+        if (this.state.postTextMissingError || this.state.fandomMissingError) {
             return (
-                <div> Please type a post!</div>
+                <div> Please enter the required fields!</div>
             )
         }
     }
@@ -47,7 +61,7 @@ class NewPostForm extends React.Component {
                 <Box>
                     <PostButton onClick={this.handlePostAttempt} />
                 </Box>
-                <Box>{this.renderErrorMessages()}</Box>
+                <Box>{this.renderErrorMessage()}</Box>
 
             </Box>
         )
