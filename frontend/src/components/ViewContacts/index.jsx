@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import SearchField from '../core/searchfield/';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-// import fandomRequest from '../../requests/fandomRequests';
+import userRequest from '../../requests/userRequests';
+import ContactList from './ContactsList'
 import './styles.scss';
 
 
@@ -32,9 +33,6 @@ const SelectInterestLevel = "Select Level of Interest";
 // }
 
 const ContactsList = "Contact List";
-const UserName = "Username: "
-const Description = "Description: "
-const Email = "Email: "
 
 
 class ViewContacts extends React.Component {
@@ -42,58 +40,47 @@ class ViewContacts extends React.Component {
     constructor(input) {
         super(input);
 
-
-        // 
-
         // Initialize the state
         this.state = {
             loading: true,
+            oidUser: null,
             contactsList: [],
         }
 
         // Needed to change the scope of 'this' in the function
-        this.setSelectedFandom = this.setSelectedFandom.bind(this);
-        this.setInterestLevel = this.setInterestLevel.bind(this);
         this.callback = input.callback;
     }
 
     componentDidMount() {
-        // Get the list of all fandoms
-        fandomRequest.getAllFandoms().then(response => {
-            let fandomsList = [];
+        // Get the list of all contacts
+        userRequest.getContacts(this.state.oidUser).then(response => {
+            let contactsList = [];
             if (response.status === 200) {
-                fandomsList = this.createFandomOptions(response.data);
+                contactsList = this.createContactList(response.data);
             }
             this.setState({
-                fandomsList: fandomsList,
+                contactsList: contactsList,
                 loading: false
             });
         })
     }
 
-    createInterestLevelOptions(levels) {
-        let options = [];
-
-        for (let level in levels) {
-            options.push({
-                value: levels[level],
-                label: `${level} - ${levels[level]}`,
-                data: levels[level]
-            });
-        }
-
-        return options;
+    /*
+     * Rerender the children component whenever the parent of this node is rerendered
+     */
+    componentWillUpdate(input) {
+        this.children = input.children;
     }
 
-    createFandomOptions(fandoms) {
+    createContactList(contacts) {
         let options = [];
 
-        for (let i = 0; i < fandoms.length; i++) {
-            if (fandoms[i]) {
+        for (let i = 0; i < contacts.length; i++) {
+            if (contacts[i]) {
                 options.push({
-                    value: `${fandoms[i].oidFandom}`,
-                    label: `${fandoms[i].name}`,
-                    data: fandoms[i]
+                    value: `${contacts[i].oidUser}`,
+                    label: `${contacts[i].username}`,
+                    data: contacts[i]
                 });
             }
         }
@@ -101,65 +88,41 @@ class ViewContacts extends React.Component {
         return options;
     }
 
-    setSelectedFandom(selection) {
-        this.setState({
-            selectedFandom: selection.data,
-            fandomSelected: true
-        });
-    }
 
-    setInterestLevel(selection) {
-        this.setState({
-            selectedInterestLevel: selection.data
-        });
-
-        // Execute callback if it exists
-        if (this.callback && this.callback instanceof Function) {
-            this.callback({
-                fandom: this.state.selectedFandom,
-                interestLevel: selection.data
-            });
-        }
-    }
 
     render() {
 
-        // If there are no fandoms to select from, show a message
-        if (!this.state.loading && this.state.fandomsList.length === 0) {
-            return (
-                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
-                    Sorry, No Fandoms Currently Exist.
-                </Typography>
-            );
-        }
+        // // If there are no contacts, show a message
+        // if (!this.state.loading && this.state.contactsList.length === 0) {
+        //     return (
+        //         <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+        //             You Have No Contacts.
+        //         </Typography>
+        //     );
+        // }
 
         return (
             <Box className="cldi-view-contacts-form-container">
               <Paper>
-                <Box p={2}>
+                <Box px={4} pb={4} pt={3}>
                   <Grid container spacing={4} direction="column">
                     {!this.state.loading &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{SearchAFandom}</Typography>
+                          <Typography component="h3">{ContactsList}</Typography>
                           <Divider/>
-                          <SearchField
-                            callback={this.setSelectedFandom}
-                            placeHolder={SearchAFandom}
-                            searchList={this.state.fandomsList}/>
-                        </Grid>
-                      )
-                    }
-                    {this.state.fandomSelected &&
-                      (
-                        <Grid item xs={12}>
-                          <Typography component="h3">{SelectInterestLevel}</Typography>
-                          <Divider/>
-                          <SearchField
-                            callback={this.setInterestLevel}
-                            isSearchable={false}
-                            placeHolder={SelectInterestLevel}
-                            searchList={this.interestLevels}/>
+                            {/*// If there are no contacts, show a message*/}
+                            {this.state.contactsList.length === 0 &&
+                            (
+                                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+                                    You Have No Contacts.
+                                </Typography>
+                            )}
+                            {!this.state.contactsList.length === 0 &&
+                              (
+                                <ContactList/>
+                              )
+                            }
                         </Grid>
                       )
                     }

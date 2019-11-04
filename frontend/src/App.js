@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./routes/Home/Home"
 import Signup from "./routes/Signup/Signup"
 import JoinFandom from "./routes/JoinFandom/";
+import ViewContacts from "./routes/ViewContacts/ViewContacts";
 import Login from "./routes/Login/Login";
 
 import "./styles.scss";
@@ -17,6 +18,9 @@ class App extends React.Component {
         <Switch>
           <Route path="/joinfandom">
             <JoinFandom />
+          </Route>
+          <Route path="/viewContacts">
+            <ViewContacts />
           </Route>
           <Route path="/signup">
             <Signup />

@@ -30,6 +30,18 @@ let userRequests = {
         catch (error) {
             return error.response
         }
+    },
+
+    getContacts: async function (oidUser) {
+        try {
+            return await axios.put("/api/v1/getContacts", {
+                oidUser,
+            });
+        } catch (error) {
+            console.error(error)
+            return {};
+        }
     }
-}
+
+};
 export default userRequests
