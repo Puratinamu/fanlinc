@@ -4,7 +4,9 @@ import Home from "./routes/Home/Home"
 import Signup from './routes/Signup/Signup'
 import Login from './routes/Login/Login';
 import ViewProfilePage from "./routes/ViewProfilePage/";
+import JoinFandom from "./routes/JoinFandom/";
 
+import "./styles.scss";
 
 class App extends React.Component {
 
@@ -16,6 +18,9 @@ class App extends React.Component {
         <Switch>
           <Route path="/viewprofile">
             <ViewProfilePage />
+          </Route>
+          <Route path="/joinfandom">
+            <JoinFandom />
           </Route>
           <Route path="/signup">
             <Signup />
@@ -31,4 +36,6 @@ class App extends React.Component {
     );
   }
 }
-export default App
+
+export default App;
+
