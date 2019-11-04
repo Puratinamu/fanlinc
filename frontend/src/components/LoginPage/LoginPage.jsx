@@ -11,8 +11,6 @@ import  { Redirect } from 'react-router-dom'
 import userRequests from '../../requests/userRequests'
 require('./LoginPage.scss')
 
-
-
 export default function LoginPage(props) {
     return (
         <Container maxWidth="sm" >
