@@ -79,4 +79,62 @@ class TextPostServiceTest extends BaseSpecification {
         text1.getText() == 'Hello World!'
     }
 
+    def 'Test get text post'() {
+        expect:
+        MvcResult fandom = mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addFandom')
+                .content('{\n' +
+                        '\t"name": "Fandom_2",\n' +
+                        '\t"description": "fandom 2 description"\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        Map fandomMap = objectMapper.readValue(fandom.getResponse().getContentAsString(), HashMap)
+        Long oidFandom = fandomMap.get("oidFandom")
+
+        MvcResult user = mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addUser')
+                .content('{\n' +
+                        '\t"email" : "user2@gmail.com",\n' +
+                        '\t"username": "test_2",\n' +
+                        '\t"password": "password",\n' +
+                        '\t"description": "test user",\n' +
+                        '\t"fandoms": []\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        Map userMap = objectMapper.readValue(user.getResponse().getContentAsString(), HashMap)
+        Long oidUser = userMap.get("oidUser")
+
+        MvcResult textPost = mvc.perform(MockMvcRequestBuilders
+                .post('/api/v1/addTextPost')
+                .content('{\n' +
+                        '\t"oidUser": "' + oidUser.toString() + '",\n' +
+                        '\t"oidFandom": "' + oidFandom.toString() + '",\n' +
+                        '\t"text": "Hello World!"' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        Map postTextMap = objectMapper.readValue(textPost.getResponse().getContentAsString(), HashMap)
+        Long oidContent = postTextMap.get("oidContent")
+
+        MvcResult getResult = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getTextPost')
+                .content('{\n' +
+                        '\t"oidTextPost":' + oidContent.toString() +'\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        Map getTextMap = objectMapper.readValue(getResult.getResponse().getContentAsString(), HashMap)
+        String text = getTextMap.get("text")
+        text == 'Hello World!'
+    }
 }

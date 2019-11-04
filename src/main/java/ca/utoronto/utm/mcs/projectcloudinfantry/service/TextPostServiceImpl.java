@@ -21,8 +21,11 @@ public class TextPostServiceImpl implements TextPostService {
     private UserRepository userRepository;
     private FandomRepository fandomRepository;
 
-    public TextPostServiceImpl(TextPostRepository textPostRepository) {
+    public TextPostServiceImpl(TextPostRepository textPostRepository, UserRepository userRepository,
+                               FandomRepository fandomRepository) {
         this.textPostRepository = textPostRepository;
+        this.userRepository = userRepository;
+        this.fandomRepository = fandomRepository;
     }
 
     public TextContent getTextPost(Long oidTextPost){
