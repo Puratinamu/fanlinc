@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Slide from '@material-ui/core/Slide'
-import {withStore} from '../../store'
+import { withStore } from '../../store'
 
 import fandomRequests from '../../requests/fandomRequests'
 import './styles.scss';
@@ -21,6 +21,7 @@ class NewFandomPage extends React.Component {
         this.handleFandomNameChange = this.handleFandomNameChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleCreateFandomRequest = this.handleCreateFandomRequest.bind(this);
+
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {
@@ -42,6 +43,8 @@ class NewFandomPage extends React.Component {
     handleDescriptionChange(e) {
         this.setState({ fandomDescription: e.target.value })
     }
+
+    
     async handleCreateFandomRequest() {
         let fandomName = this.state.fandomName;
         let fandomDescription = this.state.fandomDescription;
@@ -140,7 +143,7 @@ class NewFandomPage extends React.Component {
 
                 >
                     <SnackbarContent style={{
-                        backgroundColor: `${this.state.error ? 'red':''}`,
+                        backgroundColor: `${this.state.error ? 'red' : ''}`,
                     }}
                         message={this.state.message}
 

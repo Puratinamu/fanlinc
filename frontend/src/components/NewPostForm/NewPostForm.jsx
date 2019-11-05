@@ -9,12 +9,16 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container'
 import SearchField from '../core/searchfield'
+import fandomRequest from '../../requests/fandomRequests';
+
 require('./NewPostForm.scss')
 
 class NewPostForm extends React.Component {
     constructor(props) {
         super()
         this.handlePostAttempt = this.handlePostAttempt.bind(this);
+        this.setSelectedFandom = this.setSelectedFandom.bind(this);
+        this.createFandomOptions = this.createFandomOptions.bind(this);
         this.handlePostInput = this.handlePostInput.bind(this);
 
         this.state = {
@@ -26,7 +30,11 @@ class NewPostForm extends React.Component {
             postFailInternalServerError: false,
             postFailBadRequestError: false,
             unknownError: false,
-            postSuccess: false
+            postSuccess: false,
+            selectedFandom: "",
+            fandomSelected: false,
+            fandomsList: [],
+            loading:true
         }
     }
 
@@ -35,7 +43,21 @@ class NewPostForm extends React.Component {
             return <Redirect to='/' />;
         }
     }
+    componentDidMount() {
+        // Get the list of all fandoms
+        fandomRequest.getAllFandoms().then(response => {
+            let newFandomsList = [];
 
+            if (response.status === 200) {
+                newFandomsList = this.createFandomOptions(response.data);
+                console.log(response.data)
+            }
+            this.setState({
+                fandomsList: newFandomsList,
+                loading:false
+            });
+        })
+    }
     postAttempt() {
         textPostRequests.putTextPost({
             "oidCreator": "",
@@ -54,6 +76,21 @@ class NewPostForm extends React.Component {
             }
         })
     }
+    createFandomOptions(fandoms) {
+        let options = [];
+
+        for (let i = 0; i < fandoms.length; i++) {
+            if (fandoms[i]) {
+                options.push({
+                    value: `${fandoms[i].oidFandom}`,
+                    label: `${fandoms[i].name}`,
+                    data: fandoms[i]
+                });
+            }
+        }
+
+        return options;
+    }
 
     handlePostAttempt(newPost) {
         this.setState({ postTextMissingError: this.state.postText === "" })
@@ -67,26 +104,35 @@ class NewPostForm extends React.Component {
     renderErrorMessage() {
         if (this.state.postTextMissingError || this.state.fandomMissingError) {
             return (
-                <div> Please enter the required fields!</div>
+                <Typography> Please enter the required fields!</Typography>
             )
         }
         else if (this.state.postFailInternalServerError) {
             return (
-                <div> Internal Server Error</div>
+                <Typography> Internal Server Error</Typography>
             )
         }
         else if (this.state.postFailBadRequestError) {
             return (
-                <div> Bad Request Error</div>
+                <Typography> Bad Request Error</Typography>
             )
         }
         else if (this.state.unknownError) {
             return (
-                <div> An unknown error has occured</div>
+                <Typography> An unknown error has occured</Typography>
             )
         }
     }
 
+    setSelectedFandom(selection) {
+        this.setState({
+            selectedFandom: selection.data,
+            fandomSelected: true
+        });
+    }
+    componentWillUpdate(input) {
+        this.children = input.children;
+    }
     render() {
         return (
             <Container maxWidth="md">
@@ -98,20 +144,25 @@ class NewPostForm extends React.Component {
 
                     <Box className="text-holder">
                         <Box >
-
-                        <SearchField 
-                        placeHolder="Search for a fandom"/>
-                        <Box>
+                            {!this.state.loading &&
+                                (
+                                    <SearchField
+                                        callback={this.setSelectedFandom}
+                                        placeHolder="Search A Fandom"
+                                        searchList={this.state.fandomsList} />
+                                )
+                            }
                             <Box>
-                                <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
+                                <Box>
+                                    <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
+                                </Box>
+                                <Box>
+                                    <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
+                                </Box>
+                                <Box>{this.renderErrorMessage()}</Box>
+                                {this.checkPostSuccess()}
                             </Box>
-                            <Box>
-                                <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
-                            </Box>
-                            <Box>{this.renderErrorMessage()}</Box>
-                            {this.checkPostSuccess()}
                         </Box>
-                    </Box>
                     </Box>
                 </Paper >
             </Container >
@@ -125,10 +176,9 @@ function PostField(props) {
         id="standard-multiline-static"
         required
         error={props.error}
-        label="Your Post"
         multiline
         rows="4"
-        placeholder="Say Something......."
+        placeholder="Your Post"
         className="post-text-box"
         margin="normal"
         variant="outlined"
