@@ -19,7 +19,7 @@ let userRequests = {
             
             let jwt = response.headers.jwt;
             cookieManager.setCookie("sessionToken",jwt, 1)
-            cookieManager.setCookie("authenticatedUserEmail", email)
+            cookieManager.setCookie("authenticatedUserEmail", email, 1)
             return response
         }
         catch (error) {
