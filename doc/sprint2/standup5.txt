@@ -1,0 +1,40 @@
+
+*************** Sprint 2 - Standup 6 ***************
+
+Date: October 30th
+Note: Busy with school assignments and midterms
+
+___Member 1___
+Name: Tanner
+Accomplishments: None, keep meaning to finish the tests.
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Looking into understanding frontend code.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Modified some styles
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: None
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on Login page
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

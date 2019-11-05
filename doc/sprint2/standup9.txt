@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 1 ***************
+
+Date: November 3rd
+
+___Member 1___
+Name: Tanner
+Accomplishments: Moved getAuthenticatedUser to “In-Progress”
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Made progress on the view contacts page.
+Blockers: Sofia’s getContacts endpoint
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Added auth to more methods, fixing broken tests
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on frontend authentication 
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

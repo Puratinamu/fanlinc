@@ -2,9 +2,11 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./routes/Home/Home"
 import Signup from "./routes/Signup/Signup"
+import JoinFandom from "./routes/JoinFandom/";
 import Login from "./routes/Login/Login";
 import NewPost from "./routes/NewPost/NewPost";
 
+import "./styles.scss";
 
 class App extends React.Component {
 
@@ -16,6 +18,9 @@ class App extends React.Component {
         <Switch>
           <Route path="/newpost">
             <NewPost />
+          </Route>
+          <Route path="/joinfandom">
+            <JoinFandom />
           </Route>
           <Route path="/signup">
             <Signup />
@@ -31,4 +36,6 @@ class App extends React.Component {
     );
   }
 }
-export default App
+
+export default App;
+
