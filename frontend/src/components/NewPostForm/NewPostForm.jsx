@@ -16,7 +16,7 @@ class NewPostForm extends React.Component {
             fandom: "",
             postText: "",
             fandomMissingError: false,
-            postTextMissingError: false,
+            postTextMissingError: true,
             postFailUnauthorizedError: false,
             postFailInternalServerError: false,
             postFailBadRequestError: false,
@@ -89,7 +89,7 @@ class NewPostForm extends React.Component {
                     <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
                 </Box>
                 <Box>
-                    <PostButton onClick={this.handlePostAttempt} />
+                    <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
                 </Box>
                 <Box>{this.renderErrorMessage()}</Box>
                 {this.checkPostSuccess()}
@@ -122,7 +122,7 @@ function PostButton(props) {
             color="primary"
             className="post-button"
             onClick={props.onClick}
-
+            disabled={props.error}
         >
             Post
         </Button>
