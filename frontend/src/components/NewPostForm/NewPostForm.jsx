@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import textPostRequests from '../../requests/textPostRequests';
+import { Redirect } from 'react-router-dom'
 require('./NewPostForm.scss')
 
 class NewPostForm extends React.Component {
@@ -15,39 +16,68 @@ class NewPostForm extends React.Component {
             fandom: "",
             postText: "",
             fandomMissingError: false,
-            postTextMissingError: false,
+            postTextMissingError: true,
             postFailUnauthorizedError: false,
             postFailInternalServerError: false,
             postFailBadRequestError: false,
+            unknownError: false,
             postSuccess: false
         }
     }
 
-    handlePostAttempt(newPost) {
-        this.setState({ postTextMissingError: this.state.postText === "" })
+    checkPostSuccess() {
+        if (this.state.postSuccess) {
+            return <Redirect to='/' />;
+        }
+    }
+
+    postAttempt() {
         textPostRequests.putTextPost({
             "oidCreator": "",
             "text": this.state.postText,
-            "oidFandom": "",
+            "oidFandom": ""
         }).then(response => {
             if (response.status === 200) {
-                //success
+                this.setState({ postSuccess: true })
             } else if (response.status === 500) {
                 this.setState({ postFailInternalServerError: true })
             } else if (response.status === 400) {
                 this.setState({ postFailBadRequestError: true })
             }
+            else {
+                this.setState({ unknownError: true })
+            }
         })
     }
 
+    handlePostAttempt(newPost) {
+        this.setState({ postTextMissingError: this.state.postText === "" })
+        this.postAttempt()
+    }
+
     handlePostInput(newPost) {
-        this.setState({ postText: newPost.target.value, postTextMissingError: false })
+        this.setState({ postText: newPost.target.value, postTextMissingError: false, unknownError: false })
     }
 
     renderErrorMessage() {
         if (this.state.postTextMissingError || this.state.fandomMissingError) {
             return (
                 <div> Please enter the required fields!</div>
+            )
+        }
+        else if (this.state.postFailInternalServerError) {
+            return (
+                <div> Internal Server Error</div>
+            )
+        }
+        else if (this.state.postFailBadRequestError) {
+            return (
+                <div> Bad Request Error</div>
+            )
+        }
+        else if (this.state.unknownError) {
+            return (
+                <div> An unknown error has occured</div>
             )
         }
     }
@@ -59,10 +89,10 @@ class NewPostForm extends React.Component {
                     <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
                 </Box>
                 <Box>
-                    <PostButton onClick={this.handlePostAttempt} />
+                    <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
                 </Box>
                 <Box>{this.renderErrorMessage()}</Box>
-
+                {this.checkPostSuccess()}
             </Box>
         )
     }
@@ -92,7 +122,7 @@ function PostButton(props) {
             color="primary"
             className="post-button"
             onClick={props.onClick}
-
+            disabled={props.error}
         >
             Post
         </Button>
