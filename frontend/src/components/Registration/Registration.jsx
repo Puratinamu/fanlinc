@@ -58,8 +58,8 @@ class Registration extends React.Component {
         this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps} />;
     }
 
-    handleRegistration1Update(e) {
-        this.setState({ RegistrationFormProps: e });
+    async handleRegistration1Update(e) {
+        await this.setState({ RegistrationFormProps: e });
         this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationFormProps} />;
         this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps} />;
     }

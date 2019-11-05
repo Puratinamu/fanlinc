@@ -1,8 +1,16 @@
 import React from 'react';
-class Home extends React.Component{
+import { withStore } from '../../store';
+import LoginManager from '../../components/core/LoginManager'
 
-    render(){
-        return <div>Hello</div>
+class Home extends React.Component {
+
+    render() {
+        return (
+            <div>
+                <LoginManager />
+                This is place holder for the home page
+            </div>
+        )
     }
 }
-export default Home;
+export default withStore(Home);
