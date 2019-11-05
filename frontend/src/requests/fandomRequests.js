@@ -21,15 +21,23 @@ let fandomRequests = {
             return {};
         }
     },
-     createFandom: async function(inputName, inputDescription){
+    createFandom: async function (inputName, inputDescription, oidUser, sessionToken) {
         try {
             const response = await axios.post("/api/v1/addFandom", {
-                name:inputName,
-                description:inputDescription    
+                name: inputName,
+                description: inputDescription,
+                creator: parseInt(oidUser)
+            }, {
+                headers: {
+                    jwt: sessionToken
+                }
             });
             return response;
         } catch (error) {
-            console.error(error)
+            
+            if (error.response.status === 500) {
+                redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
+            }
             return error.response;
         }
     },
@@ -49,8 +57,8 @@ let fandomRequests = {
             return response;
         } catch (error) {
             console.log(error.response)
-            if(error.response.status === 500){
-                //redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
+            if (error.response.status === 500) {
+                redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
             }
             return {};
         }

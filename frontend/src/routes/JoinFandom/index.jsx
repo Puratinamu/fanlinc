@@ -32,7 +32,7 @@ class JoinFandom extends React.Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
-    addUserToFandom() {
+    addUserToFandom() {   
         fandomRequest.addFandomToUser(this.props.store.get("authenticatedOidUser"), this.state.fandom.oidFandom, this.state.interestLevel, this.props.store.sessionToken).then(response => {
             if (response.status === 200) {
                 this.setState({

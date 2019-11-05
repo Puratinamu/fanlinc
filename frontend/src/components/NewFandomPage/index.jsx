@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Slide from '@material-ui/core/Slide'
+import {withStore} from '../../store'
 
 import fandomRequests from '../../requests/fandomRequests'
 import './styles.scss';
@@ -44,7 +45,7 @@ class NewFandomPage extends React.Component {
     async handleCreateFandomRequest() {
         let fandomName = this.state.fandomName;
         let fandomDescription = this.state.fandomDescription;
-        let response = await fandomRequests.createFandom(fandomName, fandomDescription)
+        let response = await fandomRequests.createFandom(fandomName, fandomDescription, this.props.store.get("authenticatedOidUser"), this.props.store.get("sessionToken"))
         if (response.status === 200) {
             console.log("Success Creating Fandom")
             this.setState({
@@ -65,6 +66,7 @@ class NewFandomPage extends React.Component {
         else {
             this.setState({
                 notificationOpen: true,
+                error: true,
                 message: "Something has gone horribly wrong!"
             })
         }
@@ -103,6 +105,7 @@ class NewFandomPage extends React.Component {
                                 <Box marginLeft="auto">
                                     <TextField
                                         id="Fandom Name"
+                                        error={this.state.error}
                                         placeholder="The world's largest salt mine"
                                         multiline={true}
                                         rows="5"
@@ -149,4 +152,4 @@ class NewFandomPage extends React.Component {
     }
 
 }
-export default NewFandomPage
+export default withStore(NewFandomPage)
