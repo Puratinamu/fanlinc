@@ -1,7 +1,22 @@
 .cldi-view-contacts-form-container {
 
-    .cldi-search-field {
-        margin-top: 12px;
+    //.cldi-search-field {
+    //    margin-top: 12px;
+    //}
+    margin-top: 32px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+
+    .contact {
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #bbb;
+        background-color: #eee;
+    }
+
+    .contact span {
+        font-size: 1.2em;
+        text-decoration: none;
+        color: #333;
     }
 
 }

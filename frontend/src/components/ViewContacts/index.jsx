@@ -49,6 +49,7 @@ class ViewContacts extends React.Component {
 
         // Needed to change the scope of 'this' in the function
         this.callback = input.callback;
+        this.children = input.children;
     }
 
     componentDidMount() {
@@ -102,14 +103,14 @@ class ViewContacts extends React.Component {
         // }
 
         return (
-            <Box className="cldi-view-contacts-form-container">
+            <Box className="cldi-view-contacts-form-container" container justify='center'>
               <Paper>
                 <Box px={4} pb={4} pt={3}>
                   <Grid container spacing={4} direction="column">
                     {!this.state.loading &&
                       (
                         <Grid item xs={12}>
-                          <Typography component="h3">{ContactsList}</Typography>
+                          <Typography component="h3" variant='h4'>{ContactsList}</Typography>
                           <Divider/>
                             {/*// If there are no contacts, show a message*/}
                             {this.state.contactsList.length === 0 &&
@@ -118,7 +119,7 @@ class ViewContacts extends React.Component {
                                     You Have No Contacts.
                                 </Typography>
                             )}
-                            {!this.state.contactsList.length === 0 &&
+                            {this.state.contactsList.length === 0 &&
                               (
                                 <ContactList/>
                               )
@@ -126,6 +127,7 @@ class ViewContacts extends React.Component {
                         </Grid>
                       )
                     }
+                    {this.children}
                   </Grid>
                 </Box>
               </Paper>
