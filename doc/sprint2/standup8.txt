@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 8 ***************
+
+Date: November 2nd
+
+___Member 1___
+Name: Tanner
+Accomplishments: Finished getProfile implementation and tests
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Researched react apis and implementation for view contacts link.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Modified some styles
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Finished add Text Post endpoint but tests do not work yet
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Reviewing, some auth progress
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on frontend authentication
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None
