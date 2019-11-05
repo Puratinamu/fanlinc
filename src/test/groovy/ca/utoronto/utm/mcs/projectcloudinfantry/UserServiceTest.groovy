@@ -2,7 +2,11 @@ package ca.utoronto.utm.mcs.projectcloudinfantry
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
+import io.jsonwebtoken.Claims
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
@@ -11,6 +15,8 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
+
+import java.time.Instant
 
 
 @PropertySource(value = "classpath:application-test.yml")
@@ -23,8 +29,12 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserRepository userRepository
+
     @Autowired
     private FandomRepository fandomRepository
+
+    @Autowired
+    private TokenExtractor tokenExtractor
 
     def 'Register User and Add to Database'() {
         expect:
@@ -159,17 +169,27 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'User Login'() {
+        Date now = Date.from(Instant.now())
+        User user = new User()
+        user.setEmail("logmein@gmail.com")
+        user.setPassword(BcryptUtils.encodePassword("password"))
+        User savedUser = userRepository.save(user)
+
         expect:
         // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/login')
                 .content('{\n' +
-                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"email" : "logmein@gmail.com",\n' +
                         '\t"password": "password"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
+        String jwt = result.getResponse().getHeader("jwt")
+        Claims claims = tokenExtractor.extractToken(jwt)
+        claims.getSubject() as Long == savedUser.getOidUser()
+        claims.getExpiration().after(now)
     }
 
 
