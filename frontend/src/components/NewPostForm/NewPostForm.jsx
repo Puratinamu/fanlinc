@@ -10,16 +10,24 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container'
 import SearchField from '../core/searchfield'
 import fandomRequest from '../../requests/fandomRequests';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Slide from '@material-ui/core/Slide'
+import { withStore } from '../../store'
 
 require('./NewPostForm.scss')
 
+const SNACKBAR_TIMEOUT = 4000;
+
 class NewPostForm extends React.Component {
     constructor(props) {
-        super()
+        super(props)
         this.handlePostAttempt = this.handlePostAttempt.bind(this);
         this.setSelectedFandom = this.setSelectedFandom.bind(this);
         this.createFandomOptions = this.createFandomOptions.bind(this);
         this.handlePostInput = this.handlePostInput.bind(this);
+
+        this.handleClose = this.handleClose.bind(this);
 
         this.state = {
             fandom: "",
@@ -34,10 +42,17 @@ class NewPostForm extends React.Component {
             selectedFandom: "",
             fandomSelected: false,
             fandomsList: [],
-            loading:true
+            notificationOpen: false,
+            loading: true,
+            message: "oopsies"
         }
     }
 
+    handleClose() {
+        this.setState({
+            notificationOpen: false
+        });
+    }
     checkPostSuccess() {
         if (this.state.postSuccess) {
             return <Redirect to='/' />;
@@ -54,25 +69,26 @@ class NewPostForm extends React.Component {
             }
             this.setState({
                 fandomsList: newFandomsList,
-                loading:false
+                loading: false
             });
         })
     }
-    postAttempt() {
+    async postAttempt() {
+
         textPostRequests.putTextPost({
-            "oidCreator": "",
+            "oidCreator": this.props.store.get("authenticatedOidUser"),
             "text": this.state.postText,
             "oidFandom": ""
         }).then(response => {
             if (response.status === 200) {
-                this.setState({ postSuccess: true })
+                this.setState({ postSuccess: true, message: "Your post has been successfully added!", notificationOpen: true })
             } else if (response.status === 500) {
-                this.setState({ postFailInternalServerError: true })
+                this.setState({ postFailInternalServerError: true, message: "Internal server error: Please contact support", notificationOpen: true })
             } else if (response.status === 400) {
-                this.setState({ postFailBadRequestError: true })
+                this.setState({ postFailBadRequestError: true, message: "Bad request error: Please contact support", notificationOpen: true })
             }
             else {
-                this.setState({ unknownError: true })
+                this.setState({ unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
             }
         })
     }
@@ -91,37 +107,12 @@ class NewPostForm extends React.Component {
 
         return options;
     }
-
     handlePostAttempt(newPost) {
         this.setState({ postTextMissingError: this.state.postText === "" })
         this.postAttempt()
     }
-
     handlePostInput(newPost) {
         this.setState({ postText: newPost.target.value, postTextMissingError: newPost.target.value === "", unknownError: false })
-    }
-
-    renderErrorMessage() {
-        if (this.state.postTextMissingError || this.state.fandomMissingError) {
-            return (
-                <Typography> Please enter the required fields!</Typography>
-            )
-        }
-        else if (this.state.postFailInternalServerError) {
-            return (
-                <Typography> Internal Server Error</Typography>
-            )
-        }
-        else if (this.state.postFailBadRequestError) {
-            return (
-                <Typography> Bad Request Error</Typography>
-            )
-        }
-        else if (this.state.unknownError) {
-            return (
-                <Typography> An unknown error has occured</Typography>
-            )
-        }
     }
 
     setSelectedFandom(selection) {
@@ -159,8 +150,21 @@ class NewPostForm extends React.Component {
                                 <Box>
                                     <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
                                 </Box>
-                                <Box>{this.renderErrorMessage()}</Box>
                                 {this.checkPostSuccess()}
+                                <Snackbar
+                                    autoHideDuration={SNACKBAR_TIMEOUT}
+                                    open={this.state.notificationOpen}
+                                    onClose={this.handleClose}
+                                    TransitionComponent={Slide}
+
+                                >
+                                    <SnackbarContent style={{
+                                        backgroundColor: `${!this.state.postSuccess ? 'red' : 'green'}`,
+                                    }}
+                                        message={this.state.message}
+
+                                    />
+                                </Snackbar>
                             </Box>
                         </Box>
                     </Box>
@@ -200,4 +204,4 @@ function PostButton(props) {
     )
 }
 
-export default NewPostForm
+export default withStore(NewPostForm)
