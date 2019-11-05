@@ -38,7 +38,7 @@ let fandomRequests = {
         } catch (error) {
             console.log(error.response)
             if(error.response.status === 500){
-                //redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
+                redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
             }
             return {};
         }
