@@ -2,7 +2,6 @@ import React from 'react';
 import RegistrationProgress from './RegistrationProgress';
 import RegistrationForm1 from './RegistrationForm1';
 import RegistrationForm2 from './RegistrationForm2';
-import RegistrationForm3 from './RegistrationForm3';
 import RegistrationForm4 from './RegistrationForm4';
 import AddFandomToUserForm from '../AddFandomToUserForm/';
 import RegistrationCompletion from './RegistrationCompletion';
