@@ -29,6 +29,7 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserRepository userRepository
+
     @Autowired
     private FandomRepository fandomRepository
 
