@@ -22,10 +22,7 @@ public class RelationshipController {
 
     @RequestMapping(value="api/v1/updateFandomRelationship", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public void updateFandomRelationship(@RequestBody Map<String, Object> body) {
-        Long oidUser = MapperUtils.toLong(body.get("oidUser"));
-        Long oidFandom = MapperUtils.toLong(body.get("oidFandom"));
-        String relationship = (String) body.get("relationship");
 
-        relationshipService.addUserToFandom(oidUser, oidFandom, relationship);
+        relationshipService.addUserToFandom(body);
     }
 }

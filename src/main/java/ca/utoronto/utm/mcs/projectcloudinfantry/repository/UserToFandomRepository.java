@@ -14,6 +14,6 @@ public interface UserToFandomRepository extends Neo4jRepository<UserToFandom, Lo
     //@Query("MATCH (:User {name:{username}})-[r:BELONGS_TO]->(:Fandom {name: {fandomName}}) RETURN r")
     UserToFandom findByUserAndFandom(User user, Fandom fandom);
 
-    @Query("MATCH (u:User)-[r:BELONGS_TO]->(f:Fandom) WHERE ID(u) = {userId} and ID (f) = {fandomId} RETURN r")
-    UserToFandom findByUserIdAndFandomID(Long userId, Long fandomId);
+    @Query("MATCH (u:User)-[r:BELONGS_TO]->(f:Fandom) WHERE ID(u) = {userId} and ID(f) = {fandomId} RETURN r")
+    UserToFandom findByUserIDAndFandomID(Long userId, Long fandomId);
 }

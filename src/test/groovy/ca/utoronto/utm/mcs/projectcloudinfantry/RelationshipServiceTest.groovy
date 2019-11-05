@@ -1,4 +1,6 @@
 import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
+import ca.utoronto.utm.mcs.projectcloudinfantry.FandomFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -27,11 +29,9 @@ class RelationshipServiceTest extends BaseSpecification {
     private UserToFandomRepository userToFandomRepository
 
     @Autowired
-    @Shared
     private FandomRepository fandomRepository
 
     @Autowired
-    @Shared
     private UserRepository userRepository
 
     @Shared
@@ -40,23 +40,17 @@ class RelationshipServiceTest extends BaseSpecification {
     @Shared
     Fandom testFandom
 
-    def setupSpec() {
-        // Create new User and new fandom and add them to repo
-        testUser = new User()
-        testUser.setUsername("tberg")
-        testUser.setEmail("tanner@email.com")
-        testUser.setDescription("I like books")
-
-        testFandom = new Fandom()
-        testFandom.setName("Book Fandom")
-        testFandom.setDescription("Fandom for people who like books")
-
-        // Add to db
-        testUser = userRepository.save(testUser)
-        testFandom = fandomRepository.save(testFandom)
-    }
 
     def 'Add fresh relationship from existing user to fandom'() {
+        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        testFandom = FandomFactory.CreateFandom("Minecraft")
+        testUser = userRepository.save(testUser);
+        testFandom = fandomRepository.save(testFandom);
+        //UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")
+        //rel = userToFandomRepository.save(rel)
+        System.out.println(testUser.getOidUser())
+        System.out.println(testFandom.getOidFandom())
+
         expect:
         // make a PUT request to updateFandomRelationship and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
@@ -71,13 +65,19 @@ class RelationshipServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
-
-        relationship != null
+        // UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID (testUser.getOidUser(), testFandom.getOidFandom())
+        // relationship != null
 
     }
 
     def 'Update existing relationship'() {
+        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        testFandom = FandomFactory.CreateFandom("Minecraft")
+        testUser = userRepository.save(testUser);
+        testFandom = fandomRepository.save(testFandom);
+        UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")
+        rel = userToFandomRepository.save(rel)
+
         expect:
         // make a PUT request to updateFandomRelationship and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
@@ -92,11 +92,11 @@ class RelationshipServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
-        assert relationship != null
+        Optional<UserToFandom> relationship = userToFandomRepository.findById(rel.getOidUserToFandom())
+        relationship.isPresent()
 
-        relationship.getRelationship() == "EXPERT"
-
+        // Check for the changed property
+        relationship.get().getRelationship().equals("EXPERT")
     }
 
 }
