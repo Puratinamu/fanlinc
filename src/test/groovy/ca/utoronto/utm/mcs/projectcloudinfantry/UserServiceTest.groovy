@@ -172,7 +172,7 @@ class UserServiceTest extends BaseSpecification {
                 .andReturn()
     }
 
-    
+
     def 'User Login Fails'() {
         expect:
         // make a POST request to addUser and get back expected json
@@ -180,7 +180,7 @@ class UserServiceTest extends BaseSpecification {
                 .post('/api/v1/login')
                 .content('{\n' +
                         '\t"email" : "carla.johnson@gmail.com",\n' +
-                        '\t"password": "wrongpassword"\n' +
+                        '\t"password": "wrongbadpassword"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
