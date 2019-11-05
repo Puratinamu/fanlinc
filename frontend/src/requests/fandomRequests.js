@@ -19,7 +19,18 @@ let fandomRequests = {
             return {};
         }
     },
-
+    createFandom: async function(inputName, inputDescription){
+        try {
+            const response = await axios.post("/api/v1/addFandom", {
+                name:inputName,
+                description:inputDescription    
+            });
+            return response;
+        } catch (error) {
+            console.error(error)
+            return error.response;
+        }
+    },
     addFandomToUser: async function (oidUser, oidFandom, interestLevel) {
         try {
             const response = await axios.put("/api/v1/updateFandomRelationship", {

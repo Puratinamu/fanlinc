@@ -4,6 +4,7 @@ import Home from "./routes/Home/Home"
 import Signup from "./routes/Signup/Signup"
 import JoinFandom from "./routes/JoinFandom/";
 import Login from "./routes/Login/Login";
+import NewFandom from './routes/NewFandom'
 
 import "./styles.scss";
 
@@ -17,6 +18,9 @@ class App extends React.Component {
         <Switch>
           <Route path="/joinfandom">
             <JoinFandom />
+          </Route>
+          <Route path="/makefandom">
+            <NewFandom />
           </Route>
           <Route path="/signup">
             <Signup />
