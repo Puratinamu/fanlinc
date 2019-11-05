@@ -1,8 +1,14 @@
 import React from "react";
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import './styles.scss';
 
-const UserName = "Username: ";
-const Description = "Description: ";
-const Email = "Email: ";
+
 
 class Contact extends React.Component {
     constructor(props) {
@@ -16,14 +22,28 @@ class Contact extends React.Component {
     }
 
     render() {
+        // return (
+        //     <div className="contact">
+        //         <span>
+        //             {UserName}{this.state.username}
+        //             <br/>
+        //         </span>
+        //         <span>
+        //             {Description}{this.state.description}
+        //             <br/>
+        //         </span>
+        //         <span>
+        //             {Email}{this.state.email}
+        //             <br/>
+        //         </span>
+        //     </div>
+        // );
         return (
-            <div className="contact">
-                <span>{UserName}{this.state.username},</span>
-                <span>   </span>
-                <span>{Description}{this.state.description},</span>
-                <span>   </span>
-                <span>{Email}{this.state.email},</span>
-            </div>
+            <TableRow key={this.state.username} className="contact">
+                <TableCell>{this.state.username}</TableCell>
+                <TableCell align="center" colspan="3">{this.state.description}</TableCell>
+                <TableCell align="right">{this.state.email}</TableCell>
+            </TableRow>
         );
     }
 }

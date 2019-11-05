@@ -19,7 +19,7 @@ class App extends React.Component {
           <Route path="/joinfandom">
             <JoinFandom />
           </Route>
-          <Route path="/viewContacts">
+          <Route path="/viewcontacts">
             <ViewContacts />
           </Route>
           <Route path="/signup">
