@@ -34,9 +34,9 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public void addUserToFandom(Long iodUser, Long oidFandom, String type) {
+    public void addUserToFandom(Long oidUser, Long oidFandom, String type) {
         // Get the fandom and user.
-        Optional<User> user = userRepository.findById(iodUser);
+        Optional<User> user = userRepository.findById(oidUser);
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 
@@ -45,11 +45,11 @@ public class RelationshipServiceImpl implements RelationshipService {
         Fandom foundFandom = fandom.get();
 
         if (foundUser.getFandoms() == null) {
-            foundUser.setFandoms(new ArrayList<Fandom>());
+            foundUser.setFandoms(new ArrayList<>());
         }
 
         // Try to get the relationship if it already exists
-        UserToFandom relationship = userToFandomRepository.findByUserIdAndFandomID(iodUser, oidFandom);
+        UserToFandom relationship = userToFandomRepository.findByUserIdAndFandomID(oidUser, oidFandom);
 
         // If not exists, create it
         if (relationship == null) {

@@ -1,23 +1,24 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,19 +29,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
-    private final UserToFandomRepository userToFandomRepository;
 
     private final UserMapper userMapper;
     private final RelationshipRequestMapper relationshipRequestMapper;
     private final RelationshipService relationshipService;
+    private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserToFandomRepository userToFandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
-        this.userToFandomRepository = userToFandomRepository;
         this.userMapper = userMapper;
         this.relationshipRequestMapper = relationshipRequestMapper;
         this.relationshipService = relationshipService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void loginUser(LoginRequest request) {
+    public LoginResponse loginUser(LoginRequest request) {
         // Validate that username and password are not empty
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
@@ -119,6 +120,10 @@ public class UserServiceImpl implements UserService {
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
         }
+        LoginResponse response = new LoginResponse();
+        response.setJwt( tokenService.generateToken(user.getOidUser(), new HashMap<>()));
+        response.setOidUser(user.getOidUser());
+        return response;
     }
   
     @Override
@@ -136,7 +141,7 @@ public class UserServiceImpl implements UserService {
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 
-        // Get the list of fandoms a user belongs to and it's corresponding level of intrest
+        // Get the list of fandoms a user belongs to and it's corresponding level of interest
         List<FandomInfoResult> results = fandomRepository.getFandomsAndRelationshipsByOidUser(foundUser.getOidUser());
 
         List<UserFandomAndRelationshipInfo> infoList = new ArrayList<>();

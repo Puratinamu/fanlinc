@@ -1,8 +1,10 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -32,13 +34,25 @@ class FandomServiceTest extends BaseSpecification {
     @Autowired
     private FandomRepository fandomRepository
 
+    @Autowired
+    private TokenService tokenService
+
+    def setup() {
+        User user = new User()
+        user.setOidUser(1234)
+        user.setUsername("yos")
+        userRepository.save(user)
+    }
+
     def 'Test add fandom'() {
         expect:
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "testFandom",\n' +
-                        '\t"description": "testDescription"\n' +
+                        '\t"description": "testDescription",\n' +
+                        '\t"creator": 1234\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -55,9 +69,11 @@ class FandomServiceTest extends BaseSpecification {
         expect:
         MvcResult postResult = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "Fandom_1",\n' +
-                        '\t"description": "fandom 1 descr"\n' +
+                        '\t"description": "fandom 1 descr",\n' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -86,9 +102,11 @@ class FandomServiceTest extends BaseSpecification {
         expect:
         mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "Fandom_2",\n' +
-                        '\t"description": "fandom 2 descr"\n' +
+                        '\t"description": "fandom 2 descr",\n' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -113,9 +131,11 @@ class FandomServiceTest extends BaseSpecification {
         expect:
         MvcResult postResult_1 = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "Fandom_3",\n' +
-                        '\t"description": "fandom 3 descr"\n' +
+                        '\t"description": "fandom 3 descr",\n' +
+                        '\t"creator": 1234\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -123,9 +143,11 @@ class FandomServiceTest extends BaseSpecification {
 
         MvcResult postResult_2 = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "Fandom_3",\n' +
-                        '\t"description": "this should not be added to db"\n' +
+                        '\t"description": "this should not be added to db",\n' +
+                        '\t"creator": 1234\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
@@ -150,7 +172,7 @@ class FandomServiceTest extends BaseSpecification {
         mvc.perform(MockMvcRequestBuilders
                 .get('/api/v1/getFandom')
                 .content('{\n' +
-                        '\t"oidFandom": "9999999999999" \n' +
+                        '\t"oidFandom": "9999999999999"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -161,7 +183,7 @@ class FandomServiceTest extends BaseSpecification {
         mvc.perform(MockMvcRequestBuilders
                 .get('/api/v1/getFandom')
                 .content('{\n' +
-                        '\t"oidFandom": "9999999999999" \n' +
+                        '\t"oidFandom": "9999999999999"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())

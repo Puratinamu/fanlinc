@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 1 ***************
+
+Date: October 26th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Fixed Sign-up backend with Nick’s comments, pending review
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Traced registration code and made simple search and form components
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Sprint 1/2 documentation: SR1 retro summary, sprint 2 tasks
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Reviewed Andrew’s PR, Looked into JWT stuff
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Login page stuff
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None
