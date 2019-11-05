@@ -131,6 +131,7 @@ class LoginPage extends React.Component {
                                     /// After we have completed the login sucessfully, we update the global store to have the authenticated user, to be used throughout the app
                                     this.props.store.set('authenticatedUserEmail', this.state.email)
                                     this.props.store.set('isLoggedIn', true)
+                                    this.props.store.set('authenticatedOidUser', loginResponse.data.oidUser)
                                     
                                     
                                 } else if (loginResponse.status === 401) {

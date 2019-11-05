@@ -33,7 +33,7 @@ class JoinFandom extends React.Component {
     }
 
     addUserToFandom() {
-        fandomRequest.addFandomToUser(44, this.state.fandom.oidFandom, this.state.interestLevel, this.props.store.sessionToken).then(response => {
+        fandomRequest.addFandomToUser(this.props.store.get("authenticatedOidUser"), this.state.fandom.oidFandom, this.state.interestLevel, this.props.store.sessionToken).then(response => {
             if (response.status === 200) {
                 this.setState({
                     notificationOpen: true,

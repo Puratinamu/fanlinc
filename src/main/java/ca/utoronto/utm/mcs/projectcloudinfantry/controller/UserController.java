@@ -8,6 +8,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationResponseMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
@@ -63,10 +64,8 @@ public class UserController {
     public ResponseEntity login(@RequestBody Map<String, Object> body) {
         try {
             LoginRequest request = loginRequestMapper.toLoginRequest(body);
-            String authenticationToken = this.userService.loginUser(request);
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("jwt", authenticationToken);
-            return new ResponseEntity(httpHeaders, HttpStatus.OK);
+            LoginResponse response = this.userService.loginUser(request);
+            return new ResponseEntity<>( response, HttpStatus.OK);
         } catch (UserNotFoundException | IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (NotAuthorizedException e) {

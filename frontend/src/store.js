@@ -21,6 +21,7 @@ const createStore = WrappedComponent => {
       },
       'authenticatedUserEmail':cookieManager.getCookie("authenticatedUserEmail"),
       'sessionToken':cookieManager.getCookie("sessionToken"),
+      'authenticatedOidUser':cookieManager.getCookie("authenticatedOidUser"),
       'isLoggedIn':cookieManager.getCookie("authenticatedUserEmail") !== ""
     }
     render() {

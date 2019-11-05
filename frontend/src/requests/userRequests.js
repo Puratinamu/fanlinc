@@ -16,10 +16,12 @@ let userRequests = {
     loginUserRequest: async function (email, password) {
         try {
             const response = await axios.post('/api/v1/login', { "email": email, "password": password })
-            
-            let jwt = response.headers.jwt;
+
+            let jwt = response.data.jwt;
+            let oidUser = response.data.oidUser;
             cookieManager.setCookie("sessionToken",jwt, 1)
             cookieManager.setCookie("authenticatedUserEmail", email, 1)
+            cookieManager.setCookie("authenticatedOidUser", oidUser, 1)
             return response
         }
         catch (error) {

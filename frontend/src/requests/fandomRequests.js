@@ -37,8 +37,8 @@ let fandomRequests = {
             return response;
         } catch (error) {
             console.log(error.response)
-            if(error.response.data.message === "Invalid JWT" || error.response.data.message === "Authorization header is empty"){
-                redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
+            if(error.response.status === 500){
+                //redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
             }
             return {};
         }

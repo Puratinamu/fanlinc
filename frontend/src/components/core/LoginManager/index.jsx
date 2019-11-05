@@ -29,6 +29,7 @@ class LoginManager extends React.Component {
     handleLogOut() {
         cookieManager.setCookie("authenticatedUserEmail", "")
         cookieManager.setCookie("sessionToken", "")
+        cookieManager.setCookie("authenticatedOidUser", "")
         redirectManger.reloadPage()
 
     }
