@@ -1,0 +1,43 @@
+
+*************** Sprint 2 - Standup 2 ***************
+
+Date: October 27th
+
+___Member 1___
+Name: Tanner
+Accomplishments: - Tried to fix the relationship tests for many hours today with Nick and Sofia. Still broken
+				 - Started getProfile (General User)
+				 - Might have to make a db response to User func in UserMapper
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Modified addUser by adding relationships manually.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Integrated the form to the registration component and modified the final request to add the user in the backend
+Blockers: Need support to add interest level in the add user endpoint
+
+___Member 4___
+Name: Sofia
+Accomplishments: Added error handling to fandom endpoints, set up stuff for testing but tests are not yet successful
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Added jwt generation and extraction
+				 Added a few jwt tests
+				 Reviewed code, helped Tanner/Sofia set up tests
+Blockers: Waiting for authenticated endpoints to be completed
+
+___Member 6___
+Name: Michael
+Accomplishments: Login page stuff
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 3 ***************
+
+Date: October 28th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None as of now, but plan to finish the tests for getProfile later tonight
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: None
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Traced registration code and made simple search and form components
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Completed tests for fandom endpoints, including error checking. Tests pass and branch has PR
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: RGoing to merge master into auth to fix conflicts
+Blockers: Waiting for authenticated endpoints to be completed
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on Login page
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None
