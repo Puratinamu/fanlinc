@@ -4,6 +4,11 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import textPostRequests from '../../requests/textPostRequests';
 import { Redirect } from 'react-router-dom'
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container'
+import SearchField from '../core/searchfield'
 require('./NewPostForm.scss')
 
 class NewPostForm extends React.Component {
@@ -16,7 +21,7 @@ class NewPostForm extends React.Component {
             fandom: "",
             postText: "",
             fandomMissingError: false,
-            postTextMissingError: true,
+            postTextMissingError: false,
             postFailUnauthorizedError: false,
             postFailInternalServerError: false,
             postFailBadRequestError: false,
@@ -56,7 +61,7 @@ class NewPostForm extends React.Component {
     }
 
     handlePostInput(newPost) {
-        this.setState({ postText: newPost.target.value, postTextMissingError: false, unknownError: false })
+        this.setState({ postText: newPost.target.value, postTextMissingError: newPost.target.value === "", unknownError: false })
     }
 
     renderErrorMessage() {
@@ -84,16 +89,32 @@ class NewPostForm extends React.Component {
 
     render() {
         return (
-            <Box>
-                <Box>
-                    <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
-                </Box>
-                <Box>
-                    <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
-                </Box>
-                <Box>{this.renderErrorMessage()}</Box>
-                {this.checkPostSuccess()}
-            </Box>
+            <Container maxWidth="md">
+                <Paper className="cldi-make-post-main" >
+                    <Typography variant="h6">
+                        Make a Post
+                      </Typography>
+                    <Divider />
+
+                    <Box className="text-holder">
+                        <Box >
+
+                        <SearchField 
+                        placeHolder="Search for a fandom"/>
+                        <Box>
+                            <Box>
+                                <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
+                            </Box>
+                            <Box>
+                                <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
+                            </Box>
+                            <Box>{this.renderErrorMessage()}</Box>
+                            {this.checkPostSuccess()}
+                        </Box>
+                    </Box>
+                    </Box>
+                </Paper >
+            </Container >
         )
     }
 }

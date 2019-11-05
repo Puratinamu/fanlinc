@@ -1,5 +1,7 @@
 $spacing: 1rem;
-
+.cldi-make-post-main{
+    padding:1rem;
+}
 .post-text-box {
     margin-left: spacing;
     margin-right: spacing;
@@ -9,4 +11,7 @@ $spacing: 1rem;
 .post-button{
     margin-top: spacing;
     width: 150;
+}
+.text-holder{
+    margin-top:20px;
 }
