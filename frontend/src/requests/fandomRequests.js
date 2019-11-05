@@ -1,3 +1,5 @@
+import redirectManager from '../redirectManager'
+
 const axios = require('axios');
 
 const LEVELS = {
@@ -12,7 +14,7 @@ let fandomRequests = {
 
     getAllFandoms: async function () {
         try {
-            const response = await axios.get("/api/v1/getFandoms", {data: {}});
+            const response = await axios.get("/api/v1/getFandoms", { data: {} });
             return response;
         } catch (error) {
             console.error(error)
@@ -20,16 +22,24 @@ let fandomRequests = {
         }
     },
 
-    addFandomToUser: async function (oidUser, oidFandom, interestLevel) {
+    addFandomToUser: async function (oidUser, oidFandom, interestLevel, sessionToken) {
         try {
             const response = await axios.put("/api/v1/updateFandomRelationship", {
                 oidUser,
                 oidFandom,
                 relationship: interestLevel
+
+            }, {
+                headers: {
+                    jwt: sessionToken
+                }
             });
             return response;
         } catch (error) {
-            console.error(error)
+            console.log(error.response)
+            if(error.response.data.message === "Invalid JWT" || error.response.data.message === "Authorization header is empty"){
+                redirectManager.goTo(`login?redirect=${redirectManager.getCurrentPath()}`)
+            }
             return {};
         }
     }

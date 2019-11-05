@@ -1,5 +1,6 @@
 import React from 'react';
 import AddFandomToUserForm from '../../components/AddFandomToUserForm/';
+import {withStore} from '../../store'
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
@@ -32,7 +33,7 @@ class JoinFandom extends React.Component {
     }
 
     addUserToFandom() {
-        fandomRequest.addFandomToUser(44, this.state.fandom.oidFandom, this.state.interestLevel).then(response => {
+        fandomRequest.addFandomToUser(44, this.state.fandom.oidFandom, this.state.interestLevel, this.props.store.sessionToken).then(response => {
             if (response.status === 200) {
                 this.setState({
                     notificationOpen: true,
@@ -89,5 +90,5 @@ class JoinFandom extends React.Component {
     }
 }
 
-export default JoinFandom;
+export default withStore(JoinFandom);
 
