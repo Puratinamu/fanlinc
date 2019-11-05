@@ -6,28 +6,14 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import  { Redirect } from 'react-router-dom'
-
+import { withStore } from '../../store';
+import redirectManager from '../../redirectManager';
 import userRequests from '../../requests/userRequests'
+
 require('./LoginPage.scss')
 
-
-
-export default function LoginPage(props) {
-    return (
-        <Container maxWidth="sm" >
-            <Card className="login-card">
-                <img src={process.env.PUBLIC_URL + '/main.jpg'} alt="logo" width={50} />
-                <Typography variant="h6" gutterBottom>
-                    Sign In
-                </Typography>
-                <LoginMain />
-            </Card>
-        </Container>
-    )
-}
-class LoginMain extends React.Component {
-    constructor(props) {
+class LoginPage extends React.Component {
+    constructor() {
         super()
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -43,10 +29,39 @@ class LoginMain extends React.Component {
             loginFailUnauthorizedError: false,
             loginFailInternalServerError: false,
             loginFailBadRequestError: false,
-            loginSuccess:false
+            loginSuccess: false
         }
     }
+    componentDidUpdate(){
+        this.checkLoginSuccess()
+    }
+    render() {
+        return (
+            <Container maxWidth="sm" >
+                <Card className="login-card">
+                    <Typography variant="h6" gutterBottom>
+                        Sign In
+                    </Typography>
+                    <Box>
+                        <Box>
+                            <EmailField onInput={this.handleEmailChange} error={this.state.emailError} />
+                        </Box>
+                        <Box>
+                            <PasswordField onInput={this.handlePasswordChange} error={this.state.passwordError} />
+                        </Box>
 
+                        {this.renderLoginFailErrorText()}
+                        <Box display="flex">
+                            <LoginButton onClick={this.handleLoginAttempt} />
+                            {this.renderLoginLoading()}
+                        </Box>
+                        
+                    </Box>
+                </Card>
+            </Container>
+        )
+    }
+ 
     handleEmailChange(newEmail) {
         this.setState({ email: newEmail.target.value, emailError: false })
     }
@@ -56,7 +71,7 @@ class LoginMain extends React.Component {
 
     validateLoginInput() {
         let promise = new Promise((resolve, reject) => {
-            this.setState( {passwordError : this.state.password === "", emailError : this.state.email === ""})
+            this.setState({ passwordError: this.state.password === "", emailError: this.state.email === "" })
             resolve()
         })
 
@@ -108,11 +123,17 @@ class LoginMain extends React.Component {
             .then(
                 () => {
                     if (!this.state.passwordError && !this.state.emailError) {
-                        this.setState({loginInProgress: true, loginFailUnauthorizedError: false, loginFailBadRequestError: false, loginFailInternalServerError:false})
+                        this.setState({ loginInProgress: true, loginFailUnauthorizedError: false, loginFailBadRequestError: false, loginFailInternalServerError: false })
                         userRequests.loginUserRequest(this.state.email, this.state.password).then(
                             (loginResponse) => {
                                 if (loginResponse.status === 200) {
-                                  this.setState({loginSuccess: true})
+                                    this.setState({ loginSuccess: true })
+                                    /// After we have completed the login sucessfully, we update the global store to have the authenticated user, to be used throughout the app
+                                    this.props.store.set('authenticatedUserEmail', this.state.email)
+                                    this.props.store.set('isLoggedIn', true)
+                                    this.props.store.set('authenticatedOidUser', loginResponse.data.oidUser)
+                                    
+                                    
                                 } else if (loginResponse.status === 401) {
                                     this.setState({ loginFailUnauthorizedError: true })
                                 } else if (loginResponse.status === 400) {
@@ -121,37 +142,19 @@ class LoginMain extends React.Component {
                                     this.setState({ loginFailInternalServerError: true })
                                 }
                                 this.setState({ loginInProgress: false })
+                                
                             }
                         )
                     }
                 }
             )
     }
-    checkLoginSuccess(){
-      if(this.state.loginSuccess){
-        return <Redirect to='/'/>;
-
-      } 
+    checkLoginSuccess() {
+        if (this.state.loginSuccess) {
+            redirectManager.handleRedirect()
+        }
     }
-    render() {
-        return (
-            <Box>
-                <Box>
-                    <EmailField onInput={this.handleEmailChange} error={this.state.emailError} />
-                </Box>
-                <Box>
-                    <PasswordField onInput={this.handlePasswordChange} error={this.state.passwordError} />
-                </Box>
-
-                {this.renderLoginFailErrorText()}
-                <Box display="flex">
-                    <LoginButton onClick={this.handleLoginAttempt} />
-                    {this.renderLoginLoading()}
-                </Box>
-                {this.checkLoginSuccess()}
-            </Box>
-        )
-    }
+   
 }
 function LoginButton(props) {
     return (
@@ -221,3 +224,4 @@ function CircularLoading() {
         </Box>
     );
 }
+export default withStore(LoginPage)
