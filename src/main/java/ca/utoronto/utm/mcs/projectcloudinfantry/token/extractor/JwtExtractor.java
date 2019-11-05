@@ -1,6 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.token.KeyUtil;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.key.KeyUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang3.StringUtils;

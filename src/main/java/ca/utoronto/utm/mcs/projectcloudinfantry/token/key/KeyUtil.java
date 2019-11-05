@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.projectcloudinfantry.token;
+package ca.utoronto.utm.mcs.projectcloudinfantry.token.key;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 

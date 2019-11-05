@@ -1,18 +1,10 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.token.generator;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.token.KeyUtil;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.key.KeyUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
