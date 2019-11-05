@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 1 ***************
+
+Date: November 4th
+
+___Member 1___
+Name: Tanner
+Accomplishments: Working on tests
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Almost finished implementing view contacts end point. Polishing finishing touches.
+Blockers: Sofia’s getContacts (now request parameters)
+
+___Member 3___
+Name: Anandha
+Accomplishments: Tried integrating get profile with view user profile. But blocked on getProfile BE.
+Blockers: Cant send request body using axios get. getProfile, getContacts
+
+___Member 4___
+Name: Sofia
+Accomplishments: Finished Text post endpoints, submitted PR with working tests
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Fixing broken tests
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on frontend authentication 
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Worked on the frontend text posts and other user’s profiles
+Blockers: None
