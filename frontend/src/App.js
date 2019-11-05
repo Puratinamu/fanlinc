@@ -1,11 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createStore } from './store'
 import Home from "./routes/Home/Home"
 import Signup from './routes/Signup/Signup'
-import Login from './routes/Login/Login';
 import ViewProfilePage from "./routes/ViewProfilePage/";
 import JoinFandom from "./routes/JoinFandom/";
 import Login from "./routes/Login/Login";
