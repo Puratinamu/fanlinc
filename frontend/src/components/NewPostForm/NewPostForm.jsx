@@ -120,23 +120,14 @@ class NewPostForm extends React.Component {
             if (response.status === 200) {
                 newFandomsList = this.createFandomOptions(response.fandoms);
                 console.log(response.data)
-            }
-            else { //TODO: Change to error handling
-                newFandomsList.push({
-                    value: "1",
-                    label: "Mincraft",
-                    data: true
-                });
-                newFandomsList.push({
-                    value: "2",
-                    label: "LOL",
-                    data: true
-                });
-                newFandomsList.push({
-                    value: "3",
-                    label: "beans",
-                    data: true
-                });
+            } else if (response.status === 500) {
+                this.setState({ postFailInternalServerError: true, message: "Internal server error generating fandoms: Please contact support", notificationOpen: true })
+            } else if (response.status === 400) {
+                this.setState({ postFailBadRequestError: true, message: "Bad request error generating fandoms: Please contact support", notificationOpen: true })
+            } else if (response.status === 404) {
+                this.setState({ postFailUnauthorizedError: true, message: "Unauthorized user error generating fandoms: Please contact support", notificationOpen: true })
+            } else {
+                this.setState({ unknownError: true, message: "Unknown error generating fandoms: Please contact support", notificationOpen: true })
             }
             this.setState({
                 fandomsList: newFandomsList,
