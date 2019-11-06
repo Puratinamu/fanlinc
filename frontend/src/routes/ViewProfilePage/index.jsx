@@ -1,9 +1,9 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import ViewProfile from '../../components/ViewProfile/';
+import mockUser from './__mocks__/mockUser.json';
 
 import './styles.scss';
-import mockUser from './__mocks__/mockUser.json';
 
 class ViewProfilePage extends React.Component {
 
