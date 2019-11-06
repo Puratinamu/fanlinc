@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class FandomServiceImpl implements FandomService {
@@ -18,9 +19,12 @@ public class FandomServiceImpl implements FandomService {
         this.fandomRepository = fandomRepository;
     }
 
-    public Fandom getFandom(Long oidFandom){
-        // TODO: validation
-        return this.fandomRepository.findById(oidFandom).orElseThrow(FandomNotFoundException::new);
+    public Fandom getFandom(Long oidFandom) {
+        Optional<Fandom> result = this.fandomRepository.findById(oidFandom);
+        if (!result.isPresent()){
+            throw new FandomNotFoundException();
+        }
+        return result.get();
     }
 
     @Override

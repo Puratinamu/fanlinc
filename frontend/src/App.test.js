@@ -10,3 +10,4 @@ test('Link changes the class when hovered', () => {
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
+

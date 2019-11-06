@@ -23,29 +23,33 @@ Expected Headers:
 	404 NOT FOUND if user with such id does not exist
 	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
 _____________________________________________________________________________________________________
-GET/api/v1/getUserByUsername
+GET/api/v1/getProfile
 
 Request Body:
 {
-	"username": "TheBobMarley"
+	"oidUser" : 1234
 }
 
 Response Body:
 {
 	"oidUser" : 1234,
-	"email" : "bob.marley@gmail.com",
-    "username": "TheBobMarley",
-    "description": "a person",
-    "fandoms": [123]
+	"username": "TheBobMarley",
+	"description": "a person",
+	"fandoms": [
+	    {
+	        "oidFandom": 34,
+	        "name": "Minecraft",
+	        "description": "The Minecraft Fandom",
+	        "relationshipType": "CASUAL"
+	    }
+	]
 }
 
 Expected Headers:
 	200 OK if user exists
 	400 BAD REQUEST if request body is improperly formatted or missing required information
-	404 NOT FOUND if user with such username does not exist
+	404 NOT FOUND if user with such id does not exist
 	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
-
-
 _____________________________________________________________________________________________________
 # Get Contacts: gets the list of contacts for the current user
 _____________________________________________________________________________________________________
@@ -375,6 +379,7 @@ Request Body:
 {
 	"name" : "WOW",
     "description": "world of warcraft"
+    "creator": 1234
 }
 
 Response Body:

@@ -15,7 +15,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class RESTController {
 
-    @RequestMapping(value = "/api/health", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/health", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity health(@RequestBody Map<String, Object> body) {
         return new ResponseEntity(HttpStatus.OK);

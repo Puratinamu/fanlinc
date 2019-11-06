@@ -34,6 +34,7 @@ function CircularDeterminate() {
         </div>
     );
 }
+
 function LoginComplete() {
     return (
         <Box>
@@ -46,6 +47,7 @@ function LoginComplete() {
         </Box>
     )
 }
+
 function LoginFail() {
     return (
         <Box>
@@ -58,7 +60,9 @@ function LoginFail() {
         </Box>
     )
 }
+
 class RegistrationCompletion extends React.Component {
+
     constructor(props) {
         super()
         this.getSignupStatus = this.getSignupStatus.bind(this);
@@ -69,12 +73,20 @@ class RegistrationCompletion extends React.Component {
                 "description": props.bio,
                 "password": props.passwordValue,
                 "fandoms": [
-
                 ]
             },
             currentState: "loading"
         }
+
+        // Add the fandom oids to the request
+        if (props.fandom) {
+            this.state.request.fandoms.push({
+                oidFandom: `${props.fandom.oidFandom}`,
+                level: `${props.interestLevel}`
+            });
+        }
     }
+
     componentDidMount() {
         userRequests.putUser(this.state.request).then(response => {
             if (response.status === 200) {
@@ -82,8 +94,9 @@ class RegistrationCompletion extends React.Component {
             } else {
                 this.setState({ currentState: "failed" })
             }
-        })
+        });
     }
+
     getSignupStatus() {
         if (this.state.currentState === "loading") {
             return <CircularDeterminate />
@@ -96,12 +109,12 @@ class RegistrationCompletion extends React.Component {
 
     render() {
         return (
-            <Box display="flex" justifyContent="center">
-                {this.getSignupStatus()}
-            </Box>
-
+          <Box display="flex" justifyContent="center">
+            {this.getSignupStatus()}
+          </Box>
         )
     }
 }
 
-export default RegistrationCompletion
+export default RegistrationCompletion;
+
