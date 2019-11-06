@@ -49,7 +49,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         }
 
         // Try to get the relationship if it already exists
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(foundUser.getUsername(), foundFandom.getName());
+        UserToFandom relationship = userToFandomRepository.findByUserIdAndFandomID(iodUser, oidFandom);
 
         // If not exists, create it
         if (relationship == null) {
@@ -58,9 +58,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         }
 
         // Update the relationship strength type if its different
-        if (!relationship.getRelationship().equals(type)) {
-            relationship.setRelationship(type);
-        }
+        relationship.setRelationship(type);
 
         userToFandomRepository.save(relationship);
     }
