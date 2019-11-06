@@ -10,16 +10,33 @@
 7. Sofia Ilina (ilinasof)
 
 ##Unfinished user stories:
-# TODO
+- As Miranda, Jarrod, or Steven, I should be able to view my profile after logging in 
+to the website to see any personal information and fandoms I have provided the website.
+- As Miranda, I should be able to view other cosplayers' profiles to see their information and their interests
+- As Miranda, Jarrod, or Steven, I should be able to add users to my list of contacts when I view their 
+profile so that I can keep my contacts list up to date.
 
 ##Practices we should continue using in the following sprints
-#TODO
+- Slight relative increase in productivity
+- Better communication - Standups, doc
+- Better tests
+- Better front end improvement
+- System design fixed
 
 ##New practices we want to start using in the following sprints
-#TODO
+- Finishing tasks on time
+- Speaking up when things go wrong
+- Make burndown chart look more like what is recommended 
 
 ##Harmful practices we should stop using in the following sprints
-#TODO
+- Not finishing assigned tasks
+- Distractions during meetings
 
 ##Best/worst experience from sprint 2
-#TODO
+Best: 
+* Learning new material
+* working well as a team
+
+Worst:
+* Balancing assignment along with project tasks
+* Balancing midterms with assignment and project
