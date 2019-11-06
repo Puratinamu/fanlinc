@@ -9,7 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container'
 import SearchField from '../core/searchfield'
-import fandomRequest from '../../requests/fandomRequests';
+import userRequests from '../../requests/userRequests';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Slide from '@material-ui/core/Slide'
@@ -30,55 +30,27 @@ class NewPostForm extends React.Component {
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {
-            fandom: "",
             postText: "",
-            fandomMissingError: false,
             postTextMissingError: false,
             postFailUnauthorizedError: false,
             postFailInternalServerError: false,
             postFailBadRequestError: false,
             unknownError: false,
             postSuccess: false,
-            selectedFandom: "",
+            selectedFandom: null,
             fandomSelected: false,
             fandomsList: [],
             notificationOpen: false,
             loading: true,
-            message: "oopsies"
+            message: "Unknown Error: Please contact support"
         }
     }
 
-    handleClose() {
-        this.setState({
-            notificationOpen: false
-        });
-    }
-    checkPostSuccess() {
-        if (this.state.postSuccess) {
-            return <Redirect to='/' />;
-        }
-    }
-    componentDidMount() {
-        // Get the list of all fandoms
-        fandomRequest.getAllFandoms().then(response => {
-            let newFandomsList = [];
-
-            if (response.status === 200) {
-                newFandomsList = this.createFandomOptions(response.data);
-                console.log(response.data)
-            }
-            this.setState({
-                fandomsList: newFandomsList,
-                loading: false
-            });
-        })
-    }
     async postAttempt() {
-
         textPostRequests.putTextPost({
             "oidCreator": this.props.store.get("authenticatedOidUser"),
             "text": this.state.postText,
-            "oidFandom": ""
+            "oidFandom": this.state.selectedFandom
         }).then(response => {
             if (response.status === 200) {
                 this.setState({ postSuccess: true, message: "Your post has been successfully added!", notificationOpen: true })
@@ -91,6 +63,30 @@ class NewPostForm extends React.Component {
                 this.setState({ unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
             }
         })
+    }
+    checkPostSuccess() {
+        if (this.state.postSuccess) {
+            return <Redirect to='/' />;
+        }
+    }
+    handleClose() {
+        this.setState({
+            notificationOpen: false
+        });
+    }
+    handlePostInput(newPost) {
+        this.setState({ postText: newPost.target.value, postTextMissingError: newPost.target.value === "", unknownError: false })
+    }
+    handlePostAttempt(newPost) {
+        this.setState({ postTextMissingError: this.state.postText === "" })
+        if (this.state.postTextMissingError || this.state.postText === "") {
+            this.setState({ message: "Please enter a post", notificationOpen: true })
+        } else if (!this.state.fandomSelected) {
+            this.setState({ message: "Please select a fandom", notificationOpen: true })
+        } else {
+            this.postAttempt()
+        }
+
     }
     createFandomOptions(fandoms) {
         let options = [];
@@ -107,14 +103,6 @@ class NewPostForm extends React.Component {
 
         return options;
     }
-    handlePostAttempt(newPost) {
-        this.setState({ postTextMissingError: this.state.postText === "" })
-        this.postAttempt()
-    }
-    handlePostInput(newPost) {
-        this.setState({ postText: newPost.target.value, postTextMissingError: newPost.target.value === "", unknownError: false })
-    }
-
     setSelectedFandom(selection) {
         this.setState({
             selectedFandom: selection.data,
@@ -124,6 +112,39 @@ class NewPostForm extends React.Component {
     componentWillUpdate(input) {
         this.children = input.children;
     }
+    componentDidMount() {
+        // Get the user
+        userRequests.getUser(this.props.store.get("authenticatedOidUser")).then(response => {
+            let newFandomsList = [];
+
+            if (response.status === 200) {
+                newFandomsList = this.createFandomOptions(response.fandoms);
+                console.log(response.data)
+            }
+            else { //TODO: Change to error handling
+                newFandomsList.push({
+                    value: "1",
+                    label: "Mincraft",
+                    data: true
+                });
+                newFandomsList.push({
+                    value: "2",
+                    label: "LOL",
+                    data: true
+                });
+                newFandomsList.push({
+                    value: "3",
+                    label: "beans",
+                    data: true
+                });
+            }
+            this.setState({
+                fandomsList: newFandomsList,
+                loading: false
+            });
+        })
+    }
+
     render() {
         return (
             <Container maxWidth="md">
@@ -135,14 +156,7 @@ class NewPostForm extends React.Component {
 
                     <Box className="text-holder">
                         <Box >
-                            {!this.state.loading &&
-                                (
-                                    <SearchField
-                                        callback={this.setSelectedFandom}
-                                        placeHolder="Search A Fandom"
-                                        searchList={this.state.fandomsList} />
-                                )
-                            }
+                            <SelectFandom loading={this.state.loading} callback={this.setSelectedFandom} searchList={this.state.fandomsList} />
                             <Box>
                                 <Box>
                                     <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
@@ -150,21 +164,8 @@ class NewPostForm extends React.Component {
                                 <Box>
                                     <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
                                 </Box>
+                                <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} postSuccess={this.state.postSuccess} message={this.state.message} />
                                 {this.checkPostSuccess()}
-                                <Snackbar
-                                    autoHideDuration={SNACKBAR_TIMEOUT}
-                                    open={this.state.notificationOpen}
-                                    onClose={this.handleClose}
-                                    TransitionComponent={Slide}
-
-                                >
-                                    <SnackbarContent style={{
-                                        backgroundColor: `${!this.state.postSuccess ? 'red' : 'green'}`,
-                                    }}
-                                        message={this.state.message}
-
-                                    />
-                                </Snackbar>
                             </Box>
                         </Box>
                     </Box>
@@ -172,6 +173,17 @@ class NewPostForm extends React.Component {
             </Container >
         )
     }
+}
+
+function SelectFandom(props) {
+    return (!props.loading &&
+        (
+            <SearchField
+                callback={props.callback}
+                placeHolder="Search A Fandom"
+                searchList={props.searchList} />
+        )
+    )
 }
 
 function PostField(props) {
@@ -203,5 +215,24 @@ function PostButton(props) {
         </Button>
     )
 }
+
+function ShowMessages(props) {
+    return (
+        <Snackbar
+            autoHideDuration={SNACKBAR_TIMEOUT}
+            open={props.open}
+            onClose={props.handleClose}
+            TransitionComponent={Slide}
+
+        >
+            <SnackbarContent style={{
+                backgroundColor: `${!props.postSuccess ? 'red' : 'green'}`,
+            }}
+                message={props.message}
+            />
+        </Snackbar>
+    )
+}
+
 
 export default withStore(NewPostForm)
