@@ -3,6 +3,15 @@ import cookieManager from '../cookieManager'
 const axios = require('axios')
 
 let userRequests = {
+    getUser: async function (userID) {
+        try {
+            const response = await axios.get("/api/v1/getUser", { oidUser: {userID} });
+            return response;
+        } catch (error) {
+            console.error(error)
+            return {};
+        }
+    },
     putUser: async function (requestBody) {
         try {
             const response = await axios.post('/api/v1/addUser', requestBody)
