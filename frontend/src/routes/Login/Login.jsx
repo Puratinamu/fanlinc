@@ -4,7 +4,7 @@ import LoginPage from '../../components/LoginPage/LoginPage'
 class Login extends React.Component {
 
     render() {
-        return <LoginPage />
+        return <LoginPage/>
     }
 }
 export default Login;

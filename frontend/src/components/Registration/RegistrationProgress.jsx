@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     maxHeight: 40
+  },
+  stepper: {
+    'background-color': '#fafafa'
   }
 }));
 
@@ -76,7 +79,7 @@ export default function RegistrationProgress(props) {
       props.callback(step);
     }
   };
-  
+
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">

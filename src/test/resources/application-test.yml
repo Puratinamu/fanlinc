@@ -1,4 +1,60 @@
 spring:
   data.neo4j:
     username: neo4j
-    password: cloudinfantry
+    password: neo4j
+
+jwt-generation-properties:
+  key-id: "0"
+  issuer: "cloud-infantry"
+  algorithm: "RS256"
+  secret-key: '-----BEGIN RSA PRIVATE KEY-----
+    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
+    -----END RSA PRIVATE KEY-----'

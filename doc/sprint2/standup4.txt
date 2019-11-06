@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 4 ***************
+
+Date: October 29th
+
+___Member 1___
+Name: Tanner
+Accomplishments: Still writing tests for getProfile, other assignments are taking priority though
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Looking into understanding frontend code.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Started writing code for addTextPost endpoint
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Merged code into auth branch, fixed tests
+Blockers: Waiting for authenticated endpoints to be completed
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on Login page
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

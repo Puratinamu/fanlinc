@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 7 ***************
+
+Date: November 1th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None, keep meaning to finish the tests.
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Learning react for front end component and creating tests.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Modified some styles
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Addressed PR comments for fandom stuff. Now that branch is merged to master
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Reviewing code from pull requests.
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on frontend authentication
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

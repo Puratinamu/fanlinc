@@ -1,18 +1,24 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
-
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,16 +29,19 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
+
     private final UserMapper userMapper;
     private final RelationshipRequestMapper relationshipRequestMapper;
     private final RelationshipService relationshipService;
+    private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userMapper = userMapper;
         this.relationshipRequestMapper = relationshipRequestMapper;
         this.relationshipService = relationshipService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -95,7 +104,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void loginUser(LoginRequest request) {
+    public LoginResponse loginUser(LoginRequest request) {
         // Validate that username and password are not empty
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
@@ -111,10 +120,41 @@ public class UserServiceImpl implements UserService {
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
         }
+        LoginResponse response = new LoginResponse();
+        response.setJwt( tokenService.generateToken(user.getOidUser(), new HashMap<>()));
+        response.setOidUser(user.getOidUser());
+        return response;
     }
   
     @Override
     public User getUserByUsername(User user) {
         return userRepository.findByUsername(user.getUsername());
+    }
+
+    @Override
+    public ProfileResponse getProfile(Map<String, Object> requestBody) {
+        // Check request body args
+        if (!requestBody.containsKey("oidUser")) throw new IllegalArgumentException();
+        Long oidUser = Long.parseLong(((Integer) requestBody.get("oidUser")).toString());
+
+        Optional<User> user = userRepository.findById(oidUser);
+        if (!user.isPresent()) throw new UserNotFoundException();
+        User foundUser = user.get();
+
+        // Get the list of fandoms a user belongs to and it's corresponding level of interest
+        List<FandomInfoResult> results = fandomRepository.getFandomsAndRelationshipsByOidUser(foundUser.getOidUser());
+
+        List<UserFandomAndRelationshipInfo> infoList = new ArrayList<>();
+        for (FandomInfoResult result: results) {
+            UserFandomAndRelationshipInfo info = new UserFandomAndRelationshipInfo();
+            info.setOidFandom(result.getFandom().getOidFandom());
+            info.setName(result.getFandom().getName());
+            info.setDescription((result.getFandom().getDescription()));
+            info.setRelationship(result.getRelationship());
+            infoList.add(info);
+        }
+
+        // The constructor handles setting the appropriate fields.
+        return new ProfileResponse(foundUser, infoList);
     }
 }
