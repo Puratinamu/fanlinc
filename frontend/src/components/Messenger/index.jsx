@@ -3,15 +3,17 @@ import MessageHolder from './MessageHolder'
 import MessageComposer from './MessageComposer'
 require('./styles.scss')
 
-class Messenger extends React.Component{
-    constructor(){
+class Messenger extends React.Component {
+    constructor() {
         super()
     }
 
-    render(){
-        return(
-            //<MessageHolder />
-            <MessageComposer />
+    render() {
+        return (
+            <div>
+                <MessageHolder />
+                <MessageComposer />
+            </div>
         )
     }
 }
