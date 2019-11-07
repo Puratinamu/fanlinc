@@ -1,4 +1,5 @@
-import '../../requests/__mocks__/fandomRequestsMock';
+import '../../requests/__mocks__/mockRequests';
+import '../../__mocks__/store';
 import React from 'react';
 import JoinFandom from './';
 import renderer from 'react-test-renderer';
