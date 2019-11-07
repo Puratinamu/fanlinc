@@ -1,12 +1,14 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createStore } from './store'
 import Home from "./routes/Home/Home"
-import Signup from "./routes/Signup/Signup"
+import Signup from './routes/Signup/Signup'
+import ViewProfilePage from "./routes/ViewProfilePage/";
 import JoinFandom from "./routes/JoinFandom/";
 import Login from "./routes/Login/Login";
 import NewPost from "./routes/NewPost/NewPost";
 import NewFandom from './routes/NewFandom'
+
 
 import "./styles.scss";
 
@@ -19,6 +21,9 @@ class App extends React.Component {
         <Switch>
           <Route path="/newpost">
             <NewPost />
+          </Route>
+          <Route path="/viewprofile">
+            <ViewProfilePage />
           </Route>
           <Route path="/joinfandom">
             <JoinFandom />
