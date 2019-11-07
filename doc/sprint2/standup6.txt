@@ -1,0 +1,39 @@
+
+*************** Sprint 2 - Standup 6 ***************
+
+Date: October 31th
+
+___Member 1___
+Name: Tanner
+Accomplishments: Still studying, will work on C01 this weekend
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Started writing view contacts components
+Blockers: /getContacts endpoint
+
+___Member 3___
+Name: Anandha
+Accomplishments: Created a join fandom page to add a user to a fandom. Route:/joinfandom
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: None
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked on frontend authentication 
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

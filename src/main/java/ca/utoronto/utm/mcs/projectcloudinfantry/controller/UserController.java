@@ -8,16 +8,17 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationRequestMapper
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RegistrationResponseMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -63,8 +64,8 @@ public class UserController {
     public ResponseEntity login(@RequestBody Map<String, Object> body) {
         try {
             LoginRequest request = loginRequestMapper.toLoginRequest(body);
-            this.userService.loginUser(request);
-            return new ResponseEntity(HttpStatus.OK);
+            LoginResponse response = this.userService.loginUser(request);
+            return new ResponseEntity<>( response, HttpStatus.OK);
         } catch (UserNotFoundException | IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (NotAuthorizedException e) {

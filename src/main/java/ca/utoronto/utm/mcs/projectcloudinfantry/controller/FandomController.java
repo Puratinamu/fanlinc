@@ -3,17 +3,18 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.FandomService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.*;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -22,10 +23,12 @@ public class FandomController {
 
     private FandomService fandomService;
     private FandomMapper fandomMapper;
+    private TokenService tokenService;
 
-    public FandomController(FandomService fandomService, FandomMapper fandomMapper) {
+    public FandomController(FandomService fandomService, FandomMapper fandomMapper, TokenService tokenService) {
         this.fandomService = fandomService;
         this.fandomMapper = fandomMapper;
+        this.tokenService = tokenService;
     }
 
     @RequestMapping(value = "/api/v1/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -39,10 +42,13 @@ public class FandomController {
     }
 
     @RequestMapping(value = "/api/v1/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandomByName(@RequestBody Fandom fandom) {return fandomService.getFandomByName(fandom);}
+    public Fandom getFandomByName(@RequestBody Fandom fandom) {
+        return fandomService.getFandomByName(fandom);
+    }
 
     @RequestMapping(value = "/api/v1/addFandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom addFandom(@RequestBody Map<String, Object> body) {
+    public Fandom addFandom(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
+        tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf((Integer) body.get("creator")));
         Fandom fandom = fandomMapper.toFandom(body);
         return fandomService.addFandom(fandom);
     }

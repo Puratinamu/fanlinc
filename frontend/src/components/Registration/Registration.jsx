@@ -2,7 +2,6 @@ import React from 'react';
 import RegistrationProgress from './RegistrationProgress';
 import RegistrationForm1 from './RegistrationForm1';
 import RegistrationForm2 from './RegistrationForm2';
-import RegistrationForm3 from './RegistrationForm3';
 import RegistrationForm4 from './RegistrationForm4';
 import AddFandomToUserForm from '../AddFandomToUserForm/';
 import RegistrationCompletion from './RegistrationCompletion';
@@ -59,8 +58,8 @@ class Registration extends React.Component {
         this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps} />;
     }
 
-    handleRegistration1Update(e) {
-        this.setState({ RegistrationFormProps: e });
+    async handleRegistration1Update(e) {
+        await this.setState({ RegistrationFormProps: e });
         this.state.registrationSteps[3] = <RegistrationForm4 {...this.state.RegistrationFormProps} />;
         this.state.registrationSteps[4] = <RegistrationCompletion {...this.state.RegistrationFormProps} />;
     }
