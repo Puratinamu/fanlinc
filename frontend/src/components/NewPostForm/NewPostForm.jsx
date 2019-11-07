@@ -118,7 +118,7 @@ class NewPostForm extends React.Component {
             let newFandomsList = [];
 
             if (response.status === 200) {
-                newFandomsList = this.createFandomOptions(response.fandoms);
+                newFandomsList = this.createFandomOptions(response.data.fandoms);
                 console.log(response.data)
             } else if (response.status === 500) {
                 this.setState({ postFailInternalServerError: true, message: "Internal server error generating fandoms: Please contact support", notificationOpen: true })
