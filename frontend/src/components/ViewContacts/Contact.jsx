@@ -15,6 +15,7 @@ class Contact extends React.Component {
         super(props);
 
         this.state = {
+            id: props.id,
             username: props.username,
             description: props.description,
             email: props.email
@@ -39,10 +40,10 @@ class Contact extends React.Component {
         //     </div>
         // );
         return (
-            <TableRow key={this.state.username} className="contact">
+            <TableRow key={this.state.username} className="contact" tabIndex={-1}>
                 <TableCell>{this.state.username}</TableCell>
-                <TableCell align="center" colspan="3">{this.state.description}</TableCell>
-                <TableCell align="right">{this.state.email}</TableCell>
+                <TableCell colSpan="4">{this.state.description}</TableCell>
+                <TableCell >{this.state.email}</TableCell>
             </TableRow>
         );
     }
