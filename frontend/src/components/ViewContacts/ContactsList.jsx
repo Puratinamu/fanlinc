@@ -126,25 +126,23 @@ export default function ContactsList() {
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
-                <div className={classes.tableWrapper}>
-                    <Table size="medium" stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow >
-                                <TableCell >{UserName}</TableCell>
-                                <TableCell colSpan="4">{Description}</TableCell>
-                                <TableCell>{Email}</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody >
-                            {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>
-                                    <Contact id={row.id}
-                                            username={row.username}
-                                             description={row.description}
-                                             email={row.email}/>
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
+                <Table className={classes.table} size="medium" stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow >
+                            <TableCell >{UserName}</TableCell>
+                            <TableCell colSpan="4">{Description}</TableCell>
+                            <TableCell>{Email}</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody >
+                        {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>
+                                <Contact id={row.id}
+                                        username={row.username}
+                                         description={row.description}
+                                         email={row.email}/>
+                        )}
+                    </TableBody>
+                </Table>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
