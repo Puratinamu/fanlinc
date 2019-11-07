@@ -156,7 +156,7 @@ class NewPostForm extends React.Component {
                                     <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
                                 </Box>
                                 <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} postSuccess={this.state.postSuccess} message={this.state.message} />
-                                {this.checkPostSuccess()}
+                                {/* {this.checkPostSuccess()} */}
                             </Box>
                         </Box>
                     </Box>
