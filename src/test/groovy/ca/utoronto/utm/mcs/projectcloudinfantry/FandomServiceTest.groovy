@@ -153,17 +153,15 @@ class FandomServiceTest extends BaseSpecification {
                 .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
                 .andReturn()
 
-        Map result1Map = objectMapper.readValue(postResult_1.getResponse().getContentAsString(), HashMap)
-        Long oidFandom = result1Map.get("oidFandom")
+        Map result_1Map = objectMapper.readValue(postResult_1.getResponse().getContentAsString(), HashMap)
+        Long oidFandom = result_1Map.get("oidFandom")
 
-        String name = result1Map.get("name")
-        String description = result1Map.get("description")
-        name == "Fandom_3"
-        description == "fandom 3 descr"
+        result_1Map.get("name").toString() == "Fandom_3"
+        String description = result_1Map.get("description").toString() == "fandom 3 descr"
 
         Fandom fandom = fandomRepository.findById(oidFandom).get()
-        fandom.getName() == name
-        fandom.getDescription() == description
+        fandom.getName() == "Fandom_3"
+        fandom.getDescription() == "fandom 3 descr"
 
     }
 
