@@ -16,9 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.web.context.WebApplicationContext
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
-/**
- * EXAMPLE TEST CLASS
- */
+
 
 @PropertySource(value = "classpath:application-test.yml")
 class FandomServiceTest extends BaseSpecification {
