@@ -8,10 +8,6 @@ import './styles.scss';
 
 class ViewProfilePage extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
           <Grid className="cldi-view-user-profile-page" container justify='center'>

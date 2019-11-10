@@ -48,10 +48,19 @@ class ViewProfile extends React.Component {
     }
 
     render() {
-        // Return loader if it is loading
+        // Render loader if it is loading
         if (this.state.loading && !this.state.user) {
             return (
                 <CircularProgress />
+            );
+        }
+
+        // Render message if user was not found !! THIS SHOULDNT HAPPEN !!
+        if (!this.state.user) {
+            return (
+                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+                    User Profile Not Found
+                </Typography>
             );
         }
 
