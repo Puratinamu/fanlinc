@@ -1,7 +1,7 @@
 spring:
   data.neo4j:
     username: neo4j
-    password: cloudinfantry
+    password: user
     profiles:
         active: @spring.profiles.active@
 
