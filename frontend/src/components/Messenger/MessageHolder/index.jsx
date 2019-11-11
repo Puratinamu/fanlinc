@@ -3,10 +3,6 @@ import MessageBubble from '../MessageBubble'
 require('./styles.scss')
 
 class MessageHolder extends React.Component {
-    constructor() {
-        super()
-
-    }
 
     render() {
         return (
