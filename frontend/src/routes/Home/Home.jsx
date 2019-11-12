@@ -13,4 +13,5 @@ class Home extends React.Component {
         )
     }
 }
+
 export default withStore(Home);

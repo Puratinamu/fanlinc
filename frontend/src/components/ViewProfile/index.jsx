@@ -20,8 +20,10 @@ const USER_INFORMATION_LABEL = "User Information",
 
 class ViewProfile extends React.Component {
 
-    constructor(input) {
-        super(input);
+    constructor(props) {
+        super(props);
+
+        this.store = props.store;
 
         this.state = {
             user: null,
@@ -31,7 +33,7 @@ class ViewProfile extends React.Component {
 
 
     componentDidMount() {
-        userRequests.getUser("6").then(response => {
+        userRequests.getUser(this.store.get('authenticatedOidUser')).then(response => {
             let user;
 
             if (response.status === 200) {
@@ -46,10 +48,19 @@ class ViewProfile extends React.Component {
     }
 
     render() {
-        // Return loader if it is loading
+        // Render loader if it is loading
         if (this.state.loading && !this.state.user) {
             return (
                 <CircularProgress />
+            );
+        }
+
+        // Render message if user was not found !! THIS SHOULDNT HAPPEN !!
+        if (!this.state.user) {
+            return (
+                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+                    User Profile Not Found
+                </Typography>
             );
         }
 
