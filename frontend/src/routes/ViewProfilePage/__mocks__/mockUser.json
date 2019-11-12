@@ -1,18 +1,18 @@
 {
     "oidUser": 1,
-    "email": "sample@hotmail.com",
-    "username": "sampleUsername",
-    "description": "This is just a sample description of the user.",
+    "email": "john.doe@hotmail.com",
+    "username": "jdoe",
+    "description": "I am johny boi",
     "fandoms": [
         {
             "oidFandom": 2,
-            "name": "Fandom1",
-            "level": "CASUAL"
+            "name": "LOL",
+            "relationship": "EXPERT"
         },
         {
             "oidFandom": 3,
-            "name": "Fandom2",
-            "level": "LIMITED"
+            "name": "Memes",
+            "relationship": "CASUAL"
         }
     ]
 }

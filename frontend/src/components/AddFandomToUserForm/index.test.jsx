@@ -1,4 +1,4 @@
-import '../../requests/__mocks__/fandomRequestsMock';
+import '../../requests/__mocks__/mockRequests';
 import React from 'react';
 import AddFandomToUserForm from './';
 import renderer from 'react-test-renderer';

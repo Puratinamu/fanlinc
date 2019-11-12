@@ -6,12 +6,10 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 
-import java.util.Map;
-
 public interface UserService {
 
     User registerUser(RegistrationRequest request);
     LoginResponse loginUser(LoginRequest request);
     User getUserByUsername(User user);
-    ProfileResponse getProfile(Map<String, Object> requestBody);
+    ProfileResponse getProfile(String oidUser);
 }
