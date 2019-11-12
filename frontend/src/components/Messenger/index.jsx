@@ -1,19 +1,20 @@
 import React from 'react';
-import MessageHolder from './MessageHolder';
-import MessageComposer from './MessageComposer';
-
+import MessengerChats from  './MessengerChats'
+import MessengerMain from './MessengerMain'
+import { Box } from '@material-ui/core';
 require('./styles.scss')
 
 class Messenger extends React.Component {
 
     render() {
         return (
-            <div>
-                <MessageHolder />
-                <MessageComposer />
-            </div>
+            <Box display="flex">
+                <MessengerChats />
+                <MessengerMain />
+            </Box>
         )
     }
 }
+
 
 export default Messenger

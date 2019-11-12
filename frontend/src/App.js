@@ -10,7 +10,7 @@ import MessengerPage from "./routes/MessengerPage";
 import NewFandom from './routes/NewFandom'
 
 
-import "./styles.scss";
+require("./styles.scss");
 
 class App extends React.Component {
 
