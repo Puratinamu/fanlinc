@@ -19,6 +19,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationsh
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -132,12 +133,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileResponse getProfile(Map<String, Object> requestBody) {
+    public ProfileResponse getProfile(String oidUser) {
         // Check request body args
-        if (!requestBody.containsKey("oidUser")) throw new IllegalArgumentException();
-        Long oidUser = Long.parseLong(((Integer) requestBody.get("oidUser")).toString());
-
-        Optional<User> user = userRepository.findById(oidUser);
+        Optional<User> user = userRepository.findById(MapperUtils.toLong(oidUser));
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 

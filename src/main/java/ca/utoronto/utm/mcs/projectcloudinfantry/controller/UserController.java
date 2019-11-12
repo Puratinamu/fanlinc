@@ -15,10 +15,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -75,11 +72,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/api/v1/getProfile", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/api/v1/getProfile", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity getProfile(@RequestBody Map<String, Object> body) {
+    public ResponseEntity getProfile(@RequestParam String oidUser) {
         try {
-            ProfileResponse userProfile = userService.getProfile(body);
+            ProfileResponse userProfile = userService.getProfile(oidUser);
             return new ResponseEntity<>(userProfile, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
