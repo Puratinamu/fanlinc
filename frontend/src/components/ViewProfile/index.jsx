@@ -33,18 +33,7 @@ class ViewProfile extends React.Component {
 
 
     componentDidMount() {
-        userRequests.getUser(this.store.get('authenticatedOidUser')).then(response => {
-            let user;
-
-            if (response.status === 200) {
-                user = response.data;
-            }
-
-            this.setState({
-                user: user,
-                loading: false
-            });
-        });
+       this.setState({user:this.props.user})
     }
 
     render() {
