@@ -34,8 +34,8 @@ public class User {
     @Relationship(type = "CONTACT_WITH")
     private List<User> contacts;
 
-    @CreatedDate
-    private Date creationTimestamp;
+        @CreatedDate
+        private Date creationTimestamp;
 
     private Date lastUpdateTimestamp;
 
