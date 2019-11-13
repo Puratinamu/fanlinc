@@ -2,6 +2,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
@@ -9,6 +10,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.AddContactRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
@@ -153,6 +155,37 @@ public class UserServiceImpl implements UserService {
         // The constructor handles setting the appropriate fields.
         return new ProfileResponse(foundUser, infoList);
     }
+
+    @Override
+    public void addContact(AddContactRequest request) {
+
+        // If user and contactId are the same, throw exception
+        if (request.getOidUser() == request.getContactOidUser())
+            throw new IllegalArgumentException();
+
+        // Check if user exists
+        Optional<User> user = userRepository.findById(request.getOidUser());
+        if (!user.isPresent()) throw new UserNotFoundException();
+        User foundUser = user.get();
+
+        // Check if contact user exists
+        Optional<User> contactUser = userRepository.findById(request.getContactOidUser());
+        if (!contactUser.isPresent()) throw new UserNotFoundException();
+        User foundContactUser = contactUser.get();
+
+        // Try to get the relationship if it already exists
+        UserToContact relationship = userToContactRepository.findByUserIdAndUserContactId(
+                request.getOidUser(), request.getContactOidUser());
+
+        // If not exists, create it
+        if (relationship == null) {
+            // Create the relationship
+            relationship = new UserToContact(foundUser, foundContactUser);
+        }
+
+        userToContactRepository.save(relationship);
+    }
+
 
     @Override
     public UserContactsResponse getContacts(String oidUser) {
