@@ -1,7 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
@@ -105,18 +104,7 @@ public class UserServiceImpl implements UserService {
         newUser = userRepository.save(newUser);
 
         for (RelationshipRequest r : relRequests) {
-            // Add relationship between fandom and user with level of interest
-            Optional<Fandom> fandom = fandomRepository.findById(r.getOidFandom());
-            if (!fandom.isPresent()) {
-                // No fandom with that id
-                continue;
-            }
-            Fandom foundFandom = fandom.get();
-            UserToFandom rel = new UserToFandom(newUser, foundFandom, r.getLevel());
-            userToFandomRepository.save(rel);
-
-            // OLD CODE:
-            //relationshipService.addUserToFandom(newUser.getOidUser(), r.getOidFandom(), r.getLevel());
+            relationshipService.addUserToFandom(newUser.getOidUser(), r.getOidFandom(), r.getLevel());
         }
         return newUser;
     }
