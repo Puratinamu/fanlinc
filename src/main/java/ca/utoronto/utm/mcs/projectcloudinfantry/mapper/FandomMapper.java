@@ -11,8 +11,18 @@ public class FandomMapper {
 
     public Fandom toFandom(Map<String, Object> body) {
         Fandom fandom = new Fandom();
-        fandom.setName((String) body.get("name"));
-        fandom.setDescription((String) body.get("description"));
+        try {
+            fandom.setName((String) body.get("name"));
+        }
+        catch (Exception e) {
+            fandom.setName("");
+        }
+        try {
+            fandom.setDescription((String) body.get("description"));
+        }
+        catch (Exception e){
+            fandom.setDescription("");
+        }
         return fandom;
     }
 
