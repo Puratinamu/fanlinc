@@ -8,6 +8,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserContactInfoMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.AddContactRequest;
@@ -32,15 +33,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final RelationshipRequestMapper relationshipRequestMapper;
+    private final UserContactInfoMapper userContactInfoMapper;
     private final RelationshipService relationshipService;
     private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserToContactRepository userToContactRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserToContactRepository userToContactRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, UserContactInfoMapper userContactInfoMapper, RelationshipService relationshipService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userToContactRepository = userToContactRepository;
         this.userMapper = userMapper;
         this.relationshipRequestMapper = relationshipRequestMapper;
+        this.userContactInfoMapper = userContactInfoMapper;
         this.relationshipService = relationshipService;
         this.tokenService = tokenService;
     }
@@ -174,16 +177,17 @@ public class UserServiceImpl implements UserService {
         User foundContactUser = contactUser.get();
 
         // Try to get the relationship if it already exists
-        UserToContact relationship = userToContactRepository.findByUserIdAndUserContactId(
+        UserContactInfoResult dbRelationship = userToContactRepository.findByUserIdAndUserContactId(
                 request.getOidUser(), request.getContactOidUser());
 
+        UserToContact relationship = null;
         // If not exists, create it
-        if (relationship == null) {
+        if (dbRelationship == null) {
             // Create the relationship
             relationship = new UserToContact(foundUser, foundContactUser);
+            userToContactRepository.save(relationship);
         }
 
-        userToContactRepository.save(relationship);
     }
 
 
@@ -199,12 +203,10 @@ public class UserServiceImpl implements UserService {
 
         List<UserContactInfo> infoList = new ArrayList<>();
         for (UserContactInfoResult result: results) {
-            UserContactInfo info = new UserContactInfo();
-            info.setEmail(result.getUser().getEmail());
-            info.setOidUser(result.getUser().getOidUser());
-            info.setUsername(result.getUser().getUsername());
-            info.setDescription((result.getUser().getDescription()));
-            infoList.add(info);
+            if (result.getContact() != null) {
+                UserContactInfo info = userContactInfoMapper.toUserContactInfo(result);
+                infoList.add(info);
+            }
         }
 
         // The constructor handles setting the appropriate fields.
