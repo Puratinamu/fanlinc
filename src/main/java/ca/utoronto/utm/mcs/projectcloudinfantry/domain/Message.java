@@ -3,6 +3,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.domain;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
+import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
@@ -12,9 +13,11 @@ public class Message {
     @Id
     @GeneratedValue
     private Long oidMessage;
-
     private String fromId;
     private String fromUsername;
+
+    @Relationship(type = "FROM_CHAT")
+    private ChatRoom chatRoom;
 
     @CreatedDate
     private Date creationTimestamp;
@@ -59,5 +62,13 @@ public class Message {
 
     public void setFromUsername(String fromUsername) {
         this.fromUsername = fromUsername;
+    }
+
+    public ChatRoom getChatRoom() {
+        return chatRoom;
+    }
+
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
     }
 }
