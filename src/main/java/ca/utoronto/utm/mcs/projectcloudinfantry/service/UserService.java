@@ -5,6 +5,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserContactsResponse;
 
 public interface UserService {
 
@@ -12,4 +13,5 @@ public interface UserService {
     LoginResponse loginUser(LoginRequest request);
     User getUserByUsername(User user);
     ProfileResponse getProfile(String oidUser);
+    UserContactsResponse getContacts(String oidUser);
 }

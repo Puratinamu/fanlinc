@@ -11,6 +11,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.LoginResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserContactsResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -88,5 +89,20 @@ public class UserController {
 
         // Return the request
 
+    }
+
+    @RequestMapping(value = "/api/v1/getContacts", method = GET, produces = APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity getContacts(@RequestParam String oidUser) {
+        try {
+            UserContactsResponse userContacts = userService.getContacts(oidUser);
+            return new ResponseEntity<>(userContacts, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
