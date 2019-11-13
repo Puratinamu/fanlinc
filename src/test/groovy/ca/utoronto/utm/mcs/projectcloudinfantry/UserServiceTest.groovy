@@ -1,8 +1,16 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserContactInfoResult
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToContactRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
+import io.jsonwebtoken.Claims
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
@@ -11,6 +19,8 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
+
+import java.time.Instant
 
 
 @PropertySource(value = "classpath:application-test.yml")
@@ -23,8 +33,15 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserRepository userRepository
+
     @Autowired
     private FandomRepository fandomRepository
+
+    @Autowired
+    private UserToContactRepository userToContactRepository
+
+    @Autowired
+    private TokenExtractor tokenExtractor
 
     def 'Register User and Add to Database'() {
         expect:
@@ -159,17 +176,27 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'User Login'() {
+        Date now = Date.from(Instant.now())
+        User user = new User()
+        user.setEmail("logmein@gmail.com")
+        user.setPassword(BcryptUtils.encodePassword("password"))
+        User savedUser = userRepository.save(user)
+
         expect:
         // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/login')
                 .content('{\n' +
-                        '\t"email" : "carla.johnson@gmail.com",\n' +
+                        '\t"email" : "logmein@gmail.com",\n' +
                         '\t"password": "password"\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
+        String jwt = result.getResponse().getHeader("jwt")
+        Claims claims = tokenExtractor.extractToken(jwt)
+        claims.getSubject() as Long == savedUser.getOidUser()
+        claims.getExpiration().after(now)
     }
 
 
@@ -185,5 +212,75 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andReturn()
+    }
+
+
+    def 'Add Contact'() {
+        User user = new User()
+        user.setEmail("user1@gmail.com")
+        user.setPassword(BcryptUtils.encodePassword("password"))
+        User savedUser = userRepository.save(user)
+
+        User contactUser = new User()
+        contactUser.setEmail("contact1@gmail.com")
+        contactUser.setPassword(BcryptUtils.encodePassword("password"))
+        User savedContactUser = userRepository.save(contactUser)
+
+        expect:
+        // make a POST request to addUser and get back expected json
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .put('/api/v1/addContact')
+                .content('{\n' +
+                        '\t"oidUser" : ' + savedUser.getOidUser() +',\n' +
+                        '\t"contactOidUser": ' + savedContactUser.getOidUser() + '\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        UserContactInfoResult dbContact = userToContactRepository.findByUserIdAndUserContactId(
+                savedUser.getOidUser(), savedContactUser.getOidUser())
+
+        // Verify relationship is in database
+        dbContact.getUser().getOidUser() == savedUser.getOidUser()
+        dbContact.getContact().getOidUser() == savedContactUser.getOidUser()
+    }
+
+    def 'View Contacts'() {
+        User user = new User()
+        user.setEmail("currentUser@gmail.com")
+        user.setUsername("currentUser")
+        user.setPassword(BcryptUtils.encodePassword("password"))
+        User savedUser = userRepository.save(user)
+
+        User contactUser = new User()
+        contactUser.setEmail("viewcontact1@gmail.com")
+        contactUser.setUsername("viewContact1")
+        contactUser.setPassword(BcryptUtils.encodePassword("password"))
+        User savedContactUser = userRepository.save(contactUser)
+
+        // Add contactUser to user's contact list
+        UserToContact addContact = new UserToContact(savedUser, savedContactUser)
+        userToContactRepository.save(addContact)
+
+        expect:
+        // make a POST request to addUser and get back expected json
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getContacts')
+                .param("oidUser", savedUser.getOidUser() as String))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        // to check the JSON response
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
+
+        // Make sure all elements in post body are included
+        List<Object> contacts = resultMap.get("contacts") as List<Object>
+        Object contact = contacts.get(0) as Map<String, Object>
+        String email = contact.get("email") as String
+        String username = contact.get("username") as String
+
+        email == "viewcontact1@gmail.com"
+        username == "viewContact1"
     }
 }

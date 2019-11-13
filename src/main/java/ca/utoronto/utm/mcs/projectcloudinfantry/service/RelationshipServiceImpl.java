@@ -3,20 +3,16 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.BelongsToRelationshipAlreadyExists;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
-import org.springframework.context.annotation.Bean;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,9 +30,9 @@ public class RelationshipServiceImpl implements RelationshipService {
     }
 
     @Override
-    public void addUserToFandom(Long iodUser, Long oidFandom, String type) {
+    public void addUserToFandom(Long oidUser, Long oidFandom, String type) {
         // Get the fandom and user.
-        Optional<User> user = userRepository.findById(iodUser);
+        Optional<User> user = userRepository.findById(oidUser);
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 
@@ -45,11 +41,11 @@ public class RelationshipServiceImpl implements RelationshipService {
         Fandom foundFandom = fandom.get();
 
         if (foundUser.getFandoms() == null) {
-            foundUser.setFandoms(new ArrayList<Fandom>());
+            foundUser.setFandoms(new ArrayList<>());
         }
 
         // Try to get the relationship if it already exists
-        UserToFandom relationship = userToFandomRepository.findByUserIdAndFandomID(iodUser, oidFandom);
+        UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID(oidUser, oidFandom);
 
         // If not exists, create it
         if (relationship == null) {
@@ -62,4 +58,5 @@ public class RelationshipServiceImpl implements RelationshipService {
 
         userToFandomRepository.save(relationship);
     }
+
 }

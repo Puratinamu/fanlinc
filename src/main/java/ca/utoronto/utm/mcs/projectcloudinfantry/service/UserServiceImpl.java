@@ -5,19 +5,22 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserFandomAndRelationshipInfo;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserContactInfoMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
+import ca.utoronto.utm.mcs.projectcloudinfantry.request.AddContactRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RegistrationRequest;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,18 +32,24 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
     private final UserToFandomRepository userToFandomRepository;
+    private final UserToContactRepository userToContactRepository;
 
     private final UserMapper userMapper;
     private final RelationshipRequestMapper relationshipRequestMapper;
+    private final UserContactInfoMapper userContactInfoMapper;
     private final RelationshipService relationshipService;
+    private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserToFandomRepository userToFandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserToFandomRepository userToFandomRepository, UserToContactRepository userToContactRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, UserContactInfoMapper userContactInfoMapper, RelationshipService relationshipService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userToFandomRepository = userToFandomRepository;
+        this.userToContactRepository = userToContactRepository;
         this.userMapper = userMapper;
         this.relationshipRequestMapper = relationshipRequestMapper;
+        this.userContactInfoMapper = userContactInfoMapper;
         this.relationshipService = relationshipService;
+        this.tokenService = tokenService;
     }
 
     @Override
@@ -95,15 +104,13 @@ public class UserServiceImpl implements UserService {
         newUser = userRepository.save(newUser);
 
         for (RelationshipRequest r : relRequests) {
-            // Add relationship between fandom and user with level of interest
-            relationshipService.addUserToFandom(
-                    newUser.getOidUser(), r.getOidFandom(), r.getLevel());
+            relationshipService.addUserToFandom(newUser.getOidUser(), r.getOidFandom(), r.getLevel());
         }
         return newUser;
     }
 
     @Override
-    public void loginUser(LoginRequest request) {
+    public LoginResponse loginUser(LoginRequest request) {
         // Validate that username and password are not empty
         if (request.getEmail().isEmpty() || request.getPassword().isEmpty()) {
             throw new IllegalArgumentException();
@@ -119,6 +126,10 @@ public class UserServiceImpl implements UserService {
             if(!BcryptUtils.passwordEncoder().matches(request.getPassword(), user.getPassword()))
                 throw new NotAuthorizedException();
         }
+        LoginResponse response = new LoginResponse();
+        response.setJwt( tokenService.generateToken(user.getOidUser(), new HashMap<>()));
+        response.setOidUser(user.getOidUser());
+        return response;
     }
   
     @Override
@@ -127,16 +138,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ProfileResponse getProfile(Map<String, Object> requestBody) {
+    public ProfileResponse getProfile(String oidUser) {
         // Check request body args
-        if (!requestBody.containsKey("oidUser")) throw new IllegalArgumentException();
-        Long oidUser = Long.parseLong(((Integer) requestBody.get("oidUser")).toString());
-
-        Optional<User> user = userRepository.findById(oidUser);
+        Optional<User> user = userRepository.findById(MapperUtils.toLong(oidUser));
         if (!user.isPresent()) throw new UserNotFoundException();
         User foundUser = user.get();
 
-        // Get the list of fandoms a user belongs to and it's corresponding level of intrest
+        // Get the list of fandoms a user belongs to and it's corresponding level of interest
         List<FandomInfoResult> results = fandomRepository.getFandomsAndRelationshipsByOidUser(foundUser.getOidUser());
 
         List<UserFandomAndRelationshipInfo> infoList = new ArrayList<>();
@@ -151,5 +159,59 @@ public class UserServiceImpl implements UserService {
 
         // The constructor handles setting the appropriate fields.
         return new ProfileResponse(foundUser, infoList);
+    }
+
+    @Override
+    public void addContact(AddContactRequest request) {
+
+        // If user and contactId are the same, throw exception
+        if (request.getOidUser() == request.getContactOidUser())
+            throw new IllegalArgumentException();
+
+        // Check if user exists
+        Optional<User> user = userRepository.findById(request.getOidUser());
+        if (!user.isPresent()) throw new UserNotFoundException();
+        User foundUser = user.get();
+
+        // Check if contact user exists
+        Optional<User> contactUser = userRepository.findById(request.getContactOidUser());
+        if (!contactUser.isPresent()) throw new UserNotFoundException();
+        User foundContactUser = contactUser.get();
+
+        // Try to get the relationship if it already exists
+        UserContactInfoResult dbRelationship = userToContactRepository.findByUserIdAndUserContactId(
+                request.getOidUser(), request.getContactOidUser());
+
+        UserToContact relationship = null;
+        // If not exists, create it
+        if (dbRelationship == null) {
+            // Create the relationship
+            relationship = new UserToContact(foundUser, foundContactUser);
+            userToContactRepository.save(relationship);
+        }
+
+    }
+
+
+    @Override
+    public UserContactsResponse getContacts(String oidUser) {
+        // Check request body args
+        Optional<User> user = userRepository.findById(MapperUtils.toLong(oidUser));
+        if (!user.isPresent()) throw new UserNotFoundException();
+        User foundUser = user.get();
+
+        // Get the list of fandoms a user belongs to and it's corresponding level of interest
+        List<UserContactInfoResult> results = userToContactRepository.getUserContactsByOidUser(foundUser.getOidUser());
+
+        List<UserContactInfo> infoList = new ArrayList<>();
+        for (UserContactInfoResult result: results) {
+            if (result.getContact() != null) {
+                UserContactInfo info = userContactInfoMapper.toUserContactInfo(result);
+                infoList.add(info);
+            }
+        }
+
+        // The constructor handles setting the appropriate fields.
+        return new UserContactsResponse(infoList);
     }
 }

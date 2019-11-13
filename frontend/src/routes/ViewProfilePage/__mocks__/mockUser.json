@@ -1,0 +1,19 @@
+{
+    "oidUser": 1,
+    "email": "john.doe@hotmail.com",
+    "username": "jdoe",
+    "description": "I am johny boi",
+    "fandoms": [
+        {
+            "oidFandom": 2,
+            "name": "LOL",
+            "relationship": "EXPERT"
+        },
+        {
+            "oidFandom": 3,
+            "name": "Memes",
+            "relationship": "CASUAL"
+        }
+    ]
+}
+
