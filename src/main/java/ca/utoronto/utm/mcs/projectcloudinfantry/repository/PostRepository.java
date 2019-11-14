@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface PostRepository extends Neo4jRepository<Post, Long> {
 
-    @Query("MATCH (p:Post)-[:POSTED_TO]->(f:Fandom)\n" +
-            "MATCH (u:User)-[:BELONGS_TO]->(f)\n" +
+    @Query("MATCH (u:User)-[:BELONGS_TO]->(f:Fandom)\n" +
             "WHERE ID(u)={oidUser}\n" +
+            "MATCH (p:Post)-[:POSTED_TO]->(f)\n" +
             "RETURN p")
     List<Post> getPostFeed(Long oidUser);
 }
