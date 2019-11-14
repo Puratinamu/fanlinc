@@ -56,6 +56,17 @@ let userRequests = {
             console.error(error);
             return error.response;
         }
+    },
+
+    putContact: async function (requestBody) {
+        try {
+            const response = await axios.post('/api/v1/addContact', requestBody)
+            return response
+        }
+        catch (error) {
+            console.error(error);
+            return error
+        }
     }
 
 };
