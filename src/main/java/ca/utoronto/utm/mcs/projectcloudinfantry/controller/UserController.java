@@ -77,15 +77,17 @@ public class UserController {
 
     @RequestMapping(value = "/api/v1/addContact", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<RegistrationResponse> addContact(@Valid @RequestBody Map<String, Object> body) {
+    public ResponseEntity addContact(@Valid @RequestBody Map<String, Object> body) {
         try {
             AddContactRequest addContactRequest = addContactRequestMapper.toAddContactRequest(body);
             this.userService.addContact(addContactRequest);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (BelongsToRelationshipAlreadyExists e) {
+            return new ResponseEntity(HttpStatus.CONFLICT);
         } catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

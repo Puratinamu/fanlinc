@@ -1,15 +1,12 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.service;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
+import ca.utoronto.utm.mcs.projectcloudinfantry.exception.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.RelationshipRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.NotAuthorizedException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserContactInfoMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
@@ -165,7 +162,7 @@ public class UserServiceImpl implements UserService {
     public void addContact(AddContactRequest request) {
 
         // If user and contactId are the same, throw exception
-        if (request.getOidUser() == request.getContactOidUser())
+        if (request.getOidUser().equals(request.getContactOidUser()))
             throw new IllegalArgumentException();
 
         // Check if user exists
@@ -188,6 +185,9 @@ public class UserServiceImpl implements UserService {
             // Create the relationship
             relationship = new UserToContact(foundUser, foundContactUser);
             userToContactRepository.save(relationship);
+        } else {
+            // If it already exists, throw 409 CONFLICT error
+            throw new BelongsToRelationshipAlreadyExists();
         }
 
     }
