@@ -12,6 +12,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,6 +91,8 @@ public class MessengerServiceImpl implements MessengerService {
         Message msg = new Message();
         msg.setChatRoom(room);
         msg.setContent(messageContent);
+        Date creationDate = new Date();
+        msg.setCreationTimestamp(creationDate);
         msg.setFromId(fromUserId);
         msg.setFromUsername(user.get().getUsername());
 
