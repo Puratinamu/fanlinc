@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 
 @PropertySource(value = "classpath:application-test.yml")
-class RelationshipServiceTest extends BaseSpecification {
+class UserToFandomServiceTest extends BaseSpecification {
 
     @Autowired
     private MockMvc mvc

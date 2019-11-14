@@ -12,6 +12,4 @@ public class TextContent extends Content {
         this.text = text;
     }
 
-    public Long getOidUser() { return super.getOidUser(); }
-    public Long getOidFandom() { return super.getOidFandom(); }
 }

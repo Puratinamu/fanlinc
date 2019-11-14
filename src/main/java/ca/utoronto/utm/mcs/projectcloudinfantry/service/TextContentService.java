@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public interface TextPostService {
-    TextContent getTextPost(Long oidTextPost);
-    TextContent addTextPost(TextContent textPost);
+public interface TextContentService {
+    TextContent getTextContent(Long oidTextPost);
+    TextContent addTextContent(TextContent textPost);
 }

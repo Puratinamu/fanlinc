@@ -1,9 +1,11 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextPostRepository
+
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
@@ -30,13 +32,25 @@ class TextPostServiceTest extends BaseSpecification {
     @Autowired
     private TextPostRepository textPostRepository
 
+    @Autowired
+    private TokenService tokenService
+
+    def setup() {
+        User user = new User()
+        user.setOidUser(1234)
+        user.setUsername("yos")
+        userRepository.save(user)
+    }
+
     def 'Test add text post'() {
         expect:
         MvcResult fandom = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
-                        '\t"name": "Fandom_1",\n' +
-                        '\t"description": "fandom 1 description"\n' +
+                        '\t"name": "testFandom",\n' +
+                        '\t"description": "testDescription",\n' +
+                        '\t"creator": 1234\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -63,10 +77,12 @@ class TextPostServiceTest extends BaseSpecification {
 
         MvcResult textPost = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addTextPost')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"oidUser": "' + oidUser.toString() + '",\n' +
                         '\t"oidFandom": "' + oidFandom.toString() + '",\n' +
-                        '\t"text": "Hello World!"' +
+                        '\t"text": "Hello World!",' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -83,9 +99,11 @@ class TextPostServiceTest extends BaseSpecification {
         expect:
         MvcResult fandom = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addFandom')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"name": "Fandom_2",\n' +
-                        '\t"description": "fandom 2 description"\n' +
+                        '\t"description": "fandom 2 description",\n' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -112,10 +130,12 @@ class TextPostServiceTest extends BaseSpecification {
 
         MvcResult textPost = mvc.perform(MockMvcRequestBuilders
                 .post('/api/v1/addTextPost')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"oidUser": "' + oidUser.toString() + '",\n' +
                         '\t"oidFandom": "' + oidFandom.toString() + '",\n' +
-                        '\t"text": "Hello World!"' +
+                        '\t"text": "Hello World!",' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -126,8 +146,10 @@ class TextPostServiceTest extends BaseSpecification {
 
         MvcResult getResult = mvc.perform(MockMvcRequestBuilders
                 .get('/api/v1/getTextPost')
+                .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
-                        '\t"oidTextPost":' + oidContent.toString() +'\n' +
+                        '\t"oidTextPost":' + oidContent.toString() +',\n' +
+                        '\t"creator": 1234' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

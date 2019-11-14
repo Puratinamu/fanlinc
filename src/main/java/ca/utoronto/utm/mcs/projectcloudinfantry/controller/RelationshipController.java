@@ -1,6 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.service.RelationshipService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserToFandomService;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.http.HttpHeaders;
 import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
@@ -19,11 +19,11 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 @RestController
 public class RelationshipController {
 
-    private RelationshipService relationshipService;
+    private UserToFandomService userToFandomService;
     private TokenService tokenService;
 
-    public RelationshipController (RelationshipService relationshipService, TokenService tokenService) {
-        this.relationshipService = relationshipService;
+    public RelationshipController (UserToFandomService userToFandomService, TokenService tokenService) {
+        this.userToFandomService = userToFandomService;
         this.tokenService = tokenService;
     }
 
@@ -34,7 +34,7 @@ public class RelationshipController {
             Long oidFandom = MapperUtils.toLong(body.get("oidFandom"));
             String relationship = (String) body.get("relationship");
             tokenService.authenticate(headers.getFirst("jwt"), oidUser);
-            relationshipService.addUserToFandom(oidUser, oidFandom, relationship);
+            userToFandomService.addUserToFandom(oidUser, oidFandom, relationship);
             return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
