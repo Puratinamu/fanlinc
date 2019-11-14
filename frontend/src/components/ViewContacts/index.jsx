@@ -40,7 +40,7 @@ class ViewContacts extends React.Component {
 
         // Initialize the state
         this.state = {
-            contactsList: null,
+            contactsList: [],
             loading: true,
         };
 
