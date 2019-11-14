@@ -7,8 +7,8 @@ import java.util.List;
 
 @Service
 public interface MessengerService {
-    List<Message> getChatsInFandom(String fandomId, String fandomInterestLevel);
-    List<Message> getChatsInDm(String fromUserId, String toUserId);
-    void postChatToFandom(String fandomId, String fandomInterestLevel, String fromUserId, String messageContent);
-    void postChatToDm(String fromUserId, String toUserId, String meesageContent);
+    List<Message> getChatsInFandom(Long fandomId, String fandomInterestLevel);
+    List<Message> getChatsInDm(Long fromUserId, Long toUserId);
+    void postChatToFandom(Long fandomId, String fandomInterestLevel, Long fromUserId, String messageContent);
+    void postChatToDm(Long fromUserId, Long toUserId, String meesageContent);
 }

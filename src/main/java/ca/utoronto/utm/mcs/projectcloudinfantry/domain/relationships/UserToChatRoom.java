@@ -23,12 +23,6 @@ public class UserToChatRoom {
     @Property
     @EndNode
     private ChatRoom chatRoom;
-    //type -> dm, fandom interests level
-    public UserToChatRoom(User user, ChatRoom chatRoom, String type){
-        this.setRelationship(type);
-        this.setChatRoom(chatRoom);
-        this.setUser(user);
-    }
 
     public Long getOidUserToChatRoom() {
         return oidUserToChatRoom;

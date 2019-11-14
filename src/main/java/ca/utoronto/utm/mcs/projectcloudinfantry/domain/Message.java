@@ -13,7 +13,7 @@ public class Message {
     @Id
     @GeneratedValue
     private Long oidMessage;
-    private String fromId;
+    private Long fromId;
     private String fromUsername;
 
     @Relationship(type = "FROM_CHAT")
@@ -40,11 +40,11 @@ public class Message {
         this.content = content;
     }
 
-    public String getFromId() {
+    public Long getFromId() {
         return fromId;
     }
 
-    public void setFromId(String fromId) {
+    public void setFromId(Long fromId) {
         this.fromId = fromId;
     }
 

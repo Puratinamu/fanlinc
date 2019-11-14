@@ -23,11 +23,6 @@ public class FandomToChatRoom {
     @EndNode
     private ChatRoom chatRoom;
 
-    public FandomToChatRoom(Fandom fandom, ChatRoom chatRoom, String type){
-        this.setRelationship(type);
-        this.setChatRoom(chatRoom);
-        this.setFandom(fandom);
-    }
 
     public Long getOidHasChatRoom() {
         return oidHasChatRoom;
