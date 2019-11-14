@@ -11,4 +11,7 @@ public class TextContent extends Content {
     public void setText(String text) {
         this.text = text;
     }
+
+    public Long getOidUser() { return super.getOidUser(); }
+    public Long getOidFandom() { return super.getOidFandom(); }
 }
