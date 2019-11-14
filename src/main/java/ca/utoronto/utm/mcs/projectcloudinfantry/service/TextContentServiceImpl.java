@@ -7,7 +7,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundExceptio
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.TextPostNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextPostRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextContentRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,32 +15,31 @@ import java.util.Optional;
 import java.util.Date;
 
 @Service
-public class TextPostServiceImpl implements TextPostService {
+public class TextContentServiceImpl implements TextContentService {
 
-    private TextPostRepository textPostRepository;
+    private TextContentRepository textContentRepository;
     private UserRepository userRepository;
     private FandomRepository fandomRepository;
 
-    public TextPostServiceImpl(TextPostRepository textPostRepository, UserRepository userRepository,
-                               FandomRepository fandomRepository) {
-        this.textPostRepository = textPostRepository;
+    public TextContentServiceImpl(TextContentRepository textContentRepository, UserRepository userRepository,
+                                  FandomRepository fandomRepository) {
+        this.textContentRepository = textContentRepository;
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
     }
 
-    public TextContent getTextPost(Long oidTextPost){
-        Optional<TextContent> result = this.textPostRepository.findById(oidTextPost);
+    public TextContent getTextContent(Long oidTextContent){
+        Optional<TextContent> result = this.textContentRepository.findById(oidTextContent);
         if (!result.isPresent()){
             throw new TextPostNotFoundException();
         }
         return result.get();
     }
 
-
-    public TextContent addTextPost(TextContent textPost) {
+    public TextContent addTextContent(TextContent textContent) {
         // check if the provided user and fandom ids are correct
-        Optional<User> user = this.userRepository.findById(textPost.getOidUser());
-        Optional<Fandom> fandom = this.fandomRepository.findById(textPost.getOidFandom());
+        Optional<User> user = this.userRepository.findById(textContent.getOidUser());
+        Optional<Fandom> fandom = this.fandomRepository.findById(textContent.getOidFandom());
         if (!user.isPresent()) {
             throw new UserNotFoundException();
         }
@@ -48,9 +47,9 @@ public class TextPostServiceImpl implements TextPostService {
             throw new FandomNotFoundException();
         }
         else {
-            textPost.setCreationTimestamp(new Date());
-            textPost.setLastUpdateTimestamp(new Date());
-            return this.textPostRepository.save(textPost);
+            textContent.setCreationTimestamp(new Date());
+            textContent.setLastUpdateTimestamp(new Date());
+            return this.textContentRepository.save(textContent);
         }
 
     }

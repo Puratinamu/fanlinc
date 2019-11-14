@@ -8,7 +8,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserAlreadyExistsExcep
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.RelationshipRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.UserMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomInfoResult;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.queryresult.FandomInfoResult;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.LoginRequest;
@@ -33,15 +33,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
     private final RelationshipRequestMapper relationshipRequestMapper;
-    private final RelationshipService relationshipService;
+    private final UserToFandomService userToFandomService;
     private final TokenService tokenService;
 
-    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, RelationshipService relationshipService, TokenService tokenService) {
+    public UserServiceImpl(UserRepository userRepository, FandomRepository fandomRepository, UserMapper userMapper, RelationshipRequestMapper relationshipRequestMapper, UserToFandomService userToFandomService, TokenService tokenService) {
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.userMapper = userMapper;
         this.relationshipRequestMapper = relationshipRequestMapper;
-        this.relationshipService = relationshipService;
+        this.userToFandomService = userToFandomService;
         this.tokenService = tokenService;
     }
 
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
         for (RelationshipRequest r : relRequests) {
             // Add relationship between fandom and user with level of interest
-            relationshipService.addUserToFandom(
+            userToFandomService.addUserToFandom(
                     newUser.getOidUser(), r.getOidFandom(), r.getLevel());
         }
         return newUser;

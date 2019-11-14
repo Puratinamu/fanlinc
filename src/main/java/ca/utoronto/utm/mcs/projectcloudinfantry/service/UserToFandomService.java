@@ -6,7 +6,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFando
 import org.springframework.stereotype.Service;
 
 @Service
-public interface RelationshipService {
+public interface UserToFandomService {
 
     void addUserToFandom(Long oidUser, Long oidFandom, String type);
 

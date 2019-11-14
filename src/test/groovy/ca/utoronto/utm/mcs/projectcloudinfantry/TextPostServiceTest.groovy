@@ -3,10 +3,9 @@ package ca.utoronto.utm.mcs.projectcloudinfantry
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextPostRepository
+
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService
-import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.PropertySource
 import org.springframework.http.MediaType
