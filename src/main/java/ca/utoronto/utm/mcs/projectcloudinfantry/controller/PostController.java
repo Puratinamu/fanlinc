@@ -46,6 +46,7 @@ public class PostController {
             TextPostResponse textPostResponse = textPostResponseMapper.toTextPostResponse(post);
             return new ResponseEntity<>(textPostResponse, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

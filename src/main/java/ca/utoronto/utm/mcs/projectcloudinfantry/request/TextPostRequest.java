@@ -11,16 +11,16 @@ public class TextPostRequest {
         return oidCreator;
     }
 
-    public void setOidCreator(Long oidCreator) {
-        this.oidCreator = oidCreator;
+    public void setOidCreator(int oidCreator) {
+        this.oidCreator = Long.valueOf(oidCreator);
     }
 
     public Long getOidFandom() {
         return oidFandom;
     }
 
-    public void setOidFandom(Long oidFandom) {
-        this.oidFandom = oidFandom;
+    public void setOidFandom(int oidFandom) {
+        this.oidFandom = Long.valueOf(oidFandom);
     }
 
     public String getText() {

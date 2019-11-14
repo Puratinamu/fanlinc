@@ -10,9 +10,11 @@ public class TextPostRequestMapper {
 
     public TextPostRequest toTextPostRequest(Map<String, Object> body) {
         TextPostRequest textPostRequest = new TextPostRequest();
-        textPostRequest.setOidCreator((Long) body.get("oidCreator"));
-        textPostRequest.setOidFandom((Long) body.get("oidFandom"));
+        textPostRequest.setOidCreator((int) body.get("oidCreator"));
+        textPostRequest.setOidFandom((int)body.get("oidFandom"));
         textPostRequest.setText(String.valueOf(body.get("text")));
+        textPostRequest.setTitle(String.valueOf(body.get("title")));
+
         return textPostRequest;
     }
 
