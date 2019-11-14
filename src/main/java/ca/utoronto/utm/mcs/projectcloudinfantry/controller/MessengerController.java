@@ -54,7 +54,9 @@ public class MessengerController {
 
             msgResponse.setFromUsername(msg.getFromUsername());
             msgResponse.setFromId(msg.getFromId());
-            msgResponse.setCreatedTimeStamp(msg.getCreationTimestamp().toString());
+            if(msg.getCreationTimestamp() != null) {
+                msgResponse.setCreatedTimeStamp(msg.getCreationTimestamp().toString());
+            }
             msgResponse.setContent(msg.getContent());
 
             return new ResponseEntity<MessageResponse>(msgResponse, HttpStatus.OK);
@@ -73,7 +75,7 @@ public class MessengerController {
     public ResponseEntity<String> getMessagesDm(@RequestParam Long from, @RequestParam Long to) {
         try {
 
-            return new ResponseEntity<String>("posted message", HttpStatus.OK);
+            return new ResponseEntity<>("posted message", HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
@@ -91,7 +93,7 @@ public class MessengerController {
             List<Message> messages = this.messengerService.getChatsInFandom(fandomId, fandomInterestLevel);
             GetMessagesResponse response = new GetMessagesResponse(messages);
 
-            return new ResponseEntity<GetMessagesResponse>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException | UserNotFoundException e) {

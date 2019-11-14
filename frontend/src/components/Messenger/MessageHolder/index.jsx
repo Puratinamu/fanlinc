@@ -8,22 +8,23 @@ require('./styles.scss')
 class MessageHolder extends React.Component {
     constructor(props) {
         super(props)
+
         this.store = props.store;
         this.state = {
-            messages : this.props.messages
+            messages: this.props.messages
         }
     }
-  
+    
     render() {
         return (
 
-            <ScrollToBottom  className="container">
-                {!this.props.loading && this.props.messages.map((message, index) => 
+            <ScrollToBottom className="container">
+                {!this.props.loading && this.props.messages.map((message, index) =>
                     <MessageBubble
-                        key = {index}
+                        key={index}
                         value={message.content}
                         sender={message.fromId == this.store.get("authenticatedOidUser") ? "me" : message.fromUsername}
-                     />)
+                    />)
                 }
                 {this.props.loading &&
                     <Loading />

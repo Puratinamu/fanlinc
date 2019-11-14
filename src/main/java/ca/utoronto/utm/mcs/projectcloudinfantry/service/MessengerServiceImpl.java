@@ -9,16 +9,14 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToChatR
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.MessageResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MessengerServiceImpl implements MessengerService{
+public class MessengerServiceImpl implements MessengerService {
 
     private ChatRoomRepository chatRoomRepository;
     private MessageRepository messageRepository;
@@ -37,17 +35,17 @@ public class MessengerServiceImpl implements MessengerService{
         this.fandomRepository = fandomRepository;
     }
 
-    public List<Message> getChatsInDm(Long fromUserId, Long toUserId){
+    public List<Message> getChatsInDm(Long fromUserId, Long toUserId) {
         List<Message> dmChats = new ArrayList<>();
         return dmChats;
     };
 
-    public List<Message> getChatsInFandom(Long fandomId, String fandomInterestLevel){
+    public List<Message> getChatsInFandom(Long fandomId, String fandomInterestLevel) {
         List<Message> fandomMessages = this.messageRepository.getMessagesFromAFandomChatRoom(fandomId, fandomInterestLevel);
         return fandomMessages;
     };
 
-    private void createUserToFandomRelationship(User user, ChatRoom room, String fandomInterestLevel){
+    private void createUserToFandomRelationship(User user, ChatRoom room, String fandomInterestLevel) {
         UserToChatRoom userToChatRoomRelationship = new UserToChatRoom();
         userToChatRoomRelationship.setChatRoom(room);
         userToChatRoomRelationship.setRelationship(fandomInterestLevel);
@@ -55,7 +53,7 @@ public class MessengerServiceImpl implements MessengerService{
         this.userToChatRoomRepository.save(userToChatRoomRelationship);
     }
 
-    private void createFandomToChatRoomRelationship(ChatRoom room, Fandom fandom, String fandomInterestLevel){
+    private void createFandomToChatRoomRelationship(ChatRoom room, Fandom fandom, String fandomInterestLevel) {
 
         FandomToChatRoom fandomToChatRoom = new FandomToChatRoom();
         fandomToChatRoom.setChatRoom(room);
@@ -65,25 +63,25 @@ public class MessengerServiceImpl implements MessengerService{
         this.chatRoomRepository.save(room);
     }
 
-    public Message postChatToFandom(Long fandomId, String fandomInterestLevel, Long fromUserId, String messageContent){
+    public Message postChatToFandom(Long fandomId, String fandomInterestLevel, Long fromUserId, String messageContent) {
         // Upfront Validation check if fandom exists, fromUser exists.
         Optional<Fandom> fandom = this.fandomRepository.findById(fandomId);
-        if (!fandom.isPresent()){
+        if (!fandom.isPresent()) {
             throw new FandomNotFoundException();
         }
         Optional<User> user = this.userRepository.findById(fromUserId);
-        if (!user.isPresent()){
+        if (!user.isPresent()) {
             throw new UserNotFoundException();
         }
 
         // See if a chatroom for this fandom exists at this level, if it doesn't create it.
         ChatRoom room = this.chatRoomRepository.getChatRoomForFandomByInterestLevel(fandomId, fandomInterestLevel);
-        if(room == null){
+        if (room == null) {
             room = new ChatRoom();
             createFandomToChatRoomRelationship(room, fandom.get(), fandomInterestLevel);
             createUserToFandomRelationship(user.get(), room, fandomInterestLevel);
 
-        } else if(userRepository.findUserByFandomChatRoom(fromUserId, fandomInterestLevel, fandomId) == null){
+        } else if (userRepository.findUserByFandomChatRoom(fromUserId, fandomInterestLevel, fandomId) == null) {
             // If the user who posted the message doesn't have a "IN_CHAT" relationship to the chatroom, create the relationship
             createUserToFandomRelationship(user.get(), room, fandomInterestLevel);
         }
@@ -94,15 +92,17 @@ public class MessengerServiceImpl implements MessengerService{
         msg.setContent(messageContent);
         msg.setFromId(fromUserId);
         msg.setFromUsername(user.get().getUsername());
-        Date date = new Date();
-        msg.setCreationTimestamp(date);
 
         this.messageRepository.save(msg);
         return msg;
 
-    };
+    }
 
-    public void postChatToDm(Long fromUserId, Long toUserId, String meesageContent){
+    ;
 
-    };
+    public void postChatToDm(Long fromUserId, Long toUserId, String meesageContent) {
+
+    }
+
+    ;
 }

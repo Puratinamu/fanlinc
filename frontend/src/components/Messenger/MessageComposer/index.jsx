@@ -22,7 +22,6 @@ class MessageComposer extends React.Component {
     }
     handleEmoji(e, data) {
         let newValue = this.state.value + data.emoji
-        console.log(e, data)
         this.setState({ value: newValue })
     }
     handleInput(e) {
@@ -30,10 +29,12 @@ class MessageComposer extends React.Component {
     }
     handlePost() {
         if (this.state.value !== "") {
+            
             chatRequests.postMessageToFandom(this.props.fandomId, this.props.fandomInterestLevel, this.props.store.get("authenticatedOidUser"), this.state.value)
                 .then((response) => {
                     if (response.status === 200) {
                         this.props.madePostCallBack(response.data);
+                        this.setState({value:""})
                     } else {
                         alert("failed to make post");
                     }

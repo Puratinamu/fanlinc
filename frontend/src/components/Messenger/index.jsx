@@ -10,20 +10,22 @@ class Messenger extends React.Component {
         this.handleNewSelectedChat = this.handleNewSelectedChat.bind(this);
         this.state = {
             fandomId: -1,
-            fandomInterestLevel: ""
+            fandomInterestLevel: "",
+            chattingWith:""
         }
     }
-    handleNewSelectedChat(fandomId, fandomInterestLevel) {
+    handleNewSelectedChat(fandomId, fandomInterestLevel, chattingWith) {
         this.setState({
             fandomId: fandomId,
-            fandomInterestLevel: fandomInterestLevel
+            fandomInterestLevel: fandomInterestLevel,
+            chattingWith: chattingWith
         })
     }
     render() {
         return (
             <Box display="flex">
                 <MessengerChats callback={this.handleNewSelectedChat} store={this.props.store} />
-                <MessengerMain fandomId={this.state.fandomId} fandomInterestLevel={this.state.fandomInterestLevel} store={this.props.store} />
+                <MessengerMain chattingWith={this.state.chattingWith} fandomId={this.state.fandomId} fandomInterestLevel={this.state.fandomInterestLevel} store={this.props.store} />
             </Box>
         )
     }

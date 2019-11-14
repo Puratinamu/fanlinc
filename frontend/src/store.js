@@ -2,6 +2,7 @@
 
 import React from 'react'
 import cookieManager from './cookieManager'
+
 const StoreContext = React.createContext()
 const createStore = WrappedComponent => {
   return class extends React.Component {
@@ -19,11 +20,12 @@ const createStore = WrappedComponent => {
         delete state[key]
         this.setState(state)
       },
-      'authenticatedUserEmail':cookieManager.getCookie("authenticatedUserEmail"),
-      'sessionToken':cookieManager.getCookie("sessionToken"),
-      'authenticatedOidUser':cookieManager.getCookie("authenticatedOidUser"),
-      'isLoggedIn':cookieManager.getCookie("authenticatedUserEmail") !== ""
+      'authenticatedUserEmail': cookieManager.getCookie("authenticatedUserEmail"),
+      'sessionToken': cookieManager.getCookie("sessionToken"),
+      'authenticatedOidUser': cookieManager.getCookie("authenticatedOidUser"),
+      'isLoggedIn': cookieManager.getCookie("authenticatedUserEmail") !== ""
     }
+  
     render() {
       return (
         <StoreContext.Provider value={this.state}>

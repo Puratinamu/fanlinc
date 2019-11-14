@@ -9,7 +9,6 @@ import Login from "./routes/Login/Login";
 import MessengerPage from "./routes/MessengerPage";
 import NewFandom from './routes/NewFandom'
 
-
 require("./styles.scss");
 
 class App extends React.Component {
@@ -17,7 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <Router>
- 
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <Switch>
           <Route path="/viewprofile">

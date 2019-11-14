@@ -4,7 +4,7 @@ public class MessageResponse{
     private String content;
     private Long fromId;
     private String fromUsername;
-
+    private Long msgId;
     private String CreatedTimeStamp;
 
     public String getContent() {
@@ -37,5 +37,13 @@ public class MessageResponse{
 
     public void setFromUsername(String fromUsername) {
         this.fromUsername = fromUsername;
+    }
+
+    public Long getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(Long msgId) {
+        this.msgId = msgId;
     }
 }
