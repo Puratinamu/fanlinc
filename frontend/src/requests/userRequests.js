@@ -27,6 +27,20 @@ let userRequests = {
         catch (error) {
             return error.response
         }
+    },
+    getUser: async function (oidUser) {
+        try {
+            const response = await axios.get('/api/v1/getProfile', {
+                params: {
+                    oidUser: oidUser
+                }
+            });
+
+            return response
+        } catch (error) {
+            return error.response;
+        }
     }
 }
-export default userRequests
+
+export default userRequests;

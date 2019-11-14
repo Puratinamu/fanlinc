@@ -1,9 +1,10 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import ViewProfile from '../../components/ViewProfile/';
+import mockUser from './__mocks__/mockUser.json';
+import { withStore } from '../../store';
 
 import './styles.scss';
-import mockUser from './__mocks__/mockUser.json';
 
 class ViewProfilePage extends React.Component {
 
@@ -11,7 +12,7 @@ class ViewProfilePage extends React.Component {
         return (
           <Grid className="cldi-view-user-profile-page" container justify='center'>
             <Grid item xs={12} sm={8} md={6}>
-                <ViewProfile  {... mockUser}/>
+                <ViewProfile store={this.props.store} {... mockUser}/>
             </Grid>
           </Grid>
         );
@@ -19,5 +20,4 @@ class ViewProfilePage extends React.Component {
 
 }
 
-export default ViewProfilePage;
-
+export default withStore(ViewProfilePage);
