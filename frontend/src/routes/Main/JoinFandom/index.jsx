@@ -1,12 +1,12 @@
 import React from 'react';
-import AddFandomToUserForm from '../../components/AddFandomToUserForm/';
-import {withStore} from '../../store'
+import AddFandomToUserForm from '../../../components/AddFandomToUserForm/';
+import {withStore} from '../../../store'
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide'
-import fandomRequest from '../../requests/fandomRequests';
+import fandomRequest from '../../../requests/fandomRequests';
 import './styles.scss';
 
 

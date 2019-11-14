@@ -2,13 +2,9 @@ import React from 'react';
 import {withStore} from '../store';
 import { Switch, Route } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import Home from './Home/';
-import NewFandom from './NewFandom/';
+import Main from './Main/';
 import Signup from './Signup/Signup'
 import Login from "./Login/Login";
-import JoinFandom from './JoinFandom/';
-import ViewProfilePage from './ViewProfilePage/';
-
 
 class Root extends React.Component {
 
@@ -23,23 +19,21 @@ class Root extends React.Component {
     }
 
     componentDidMount() {
+        // Determine routes based on whether the user is logged in or not
         let isLoggedIn = this.props.store.get("isLoggedIn");
         this.setState({
             isLoggedIn: isLoggedIn,
-            routes: (isLoggedIn ? loggedInRoutes() : nonLoggedInRoutes())
+            routes: (isLoggedIn ? loggedInRoutes(this.props) : nonLoggedInRoutes())
         });
 
         if (isLoggedIn) {
-            this.props.history.push(this.props.history.location.pathname);
+            // Default to main if no sub route is provided
+            this.props.history.push(this.props.history.location.pathname === '/' ? '/main' : this.props.history.location.pathname);
         } else if (this.props.history.location.pathname === "/signup") {
             this.props.history.push('/signup');
         } else {
             this.props.history.push('/login');
         }
-    }
-
-    componentDidUpdate() {
-        console.log(this.state.isLoggedIn);
     }
 
     render() {
@@ -52,15 +46,14 @@ class Root extends React.Component {
 
 }
 
-const loggedInRoutes = () => {
+const loggedInRoutes = (props) => {
     return (
       <Switch>
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/viewprofile" component={ViewProfilePage} />
-        <Route path="/joinfandom" component={JoinFandom} />
-        <Route path="/makefandom" component={NewFandom} />
-        <Route path="/main" component={Home} />
+        <Route path="/main">
+          <Main store={props.store} />
+        </Route>
         <Route path="*">
             INVALID ROUTE
         </Route>
