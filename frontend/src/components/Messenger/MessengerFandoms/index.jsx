@@ -11,11 +11,10 @@ require('./styles.scss')
 function MessengerFandom(props) {
     return (
         <Grid item xs={12} className="fandom-contacts-box">
-            <Card className={`fandom-contacts-box-content ${props.isSelected ? "fandom-contacts-box-selected" : ""}`}>
+            <Card onClick={props.onClick} className={`fandom-contacts-box-content ${props.isSelected ? "fandom-contacts-box-selected" : ""}`}>
                 <CardContent>
                     <Typography variant="h6" color="primary"> {props.fandomName}</Typography>
                     <Typography variant="overline"> {props.fandomInterestLevel}</Typography> <br />
-                    <Typography variant="overline"> {props.fandomMessageCount} Past Message{props.fandomMessageCount === "1" ? "" : "s"}</Typography>
                 </CardContent>
             </Card>
         </Grid >
@@ -26,12 +25,12 @@ class MessengerFandoms extends React.Component {
     constructor(props) {
         super(props)
         this.store = props.store;
-        
+
         this.state = {
             loading: true
         }
     }
-    componentDidMount(){
+    componentDidMount() {
         userRequests.getUser(this.store.get('authenticatedOidUser')).then(response => {
             let user;
 
@@ -43,8 +42,9 @@ class MessengerFandoms extends React.Component {
                 user: user,
                 loading: false
             });
+            this.props.callback(user.fandoms[0].oidFandom, user.fandoms[0].relationship);
         });
-
+        
     }
     render() {
         return (
@@ -56,11 +56,16 @@ class MessengerFandoms extends React.Component {
                 </Box>
                 {!this.state.loading &&
                     <Grid spacing={1} className="fandom-box-container-grid" container alignItems="center" >
-                        {this.state.user.fandoms.length > 0 && this.state.user.fandoms.map( (fandom) => <MessengerFandom key={fandom.oidFandom} fandomName={fandom.name}fandomMessageCount="1" fandomInterestLevel={fandom.relationship.toLowerCase()}/>)}
-                        {this.state.user.fandoms.length === 0 && 
-                        <Box p={1}>
-                            <Typography color="primary" variant="body2"> You're not in any fandoms!</Typography> 
-                        </Box>}
+                        {this.state.user.fandoms.length > 0 && this.state.user.fandoms.map((fandom, index) =>
+                            <MessengerFandom key={fandom.oidFandom}
+                                fandomName={fandom.name}
+                                isSelected={this.props.hasSelected && (this.props.selected === index)}
+                                fandomInterestLevel={fandom.relationship.toLowerCase()}
+                                onClick={() => {this.props.callback(fandom.oidFandom, fandom.relationship); this.props.selectedCallback("fandoms", index) }} />)}
+                        {this.state.user.fandoms.length === 0 &&
+                            <Box p={1}>
+                                <Typography color="primary" variant="body2"> You're not in any fandoms!</Typography>
+                            </Box>}
                     </Grid>
                 }
                 {this.state.loading &&

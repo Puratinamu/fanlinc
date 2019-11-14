@@ -5,6 +5,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.MessageRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.MessageRequest;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.GetMessagesResponse;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.MessageResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.MessengerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,12 +45,19 @@ public class MessengerController {
 
     @RequestMapping(value = "/api/v1/messenger/fandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> postMessageFandom(@RequestParam Long from, @RequestParam Long fandomId, @RequestParam String fandomInterestLevel, @Valid @RequestBody Map<String, Object> body) {
+    public ResponseEntity<MessageResponse> postMessageFandom(@RequestParam Long from, @RequestParam Long fandomId, @RequestParam String fandomInterestLevel, @Valid @RequestBody Map<String, Object> body) {
         try {
             MessageRequest message = this.messageRequestMapper.toMessageRequest(body);
 
-            messengerService.postChatToFandom(fandomId, fandomInterestLevel, from, message.getMessage());
-            return new ResponseEntity<String>("posted message", HttpStatus.OK);
+            Message msg = messengerService.postChatToFandom(fandomId, fandomInterestLevel, from, message.getMessage());
+            MessageResponse msgResponse = new MessageResponse();
+
+            msgResponse.setFromUsername(msg.getFromUsername());
+            msgResponse.setFromId(msg.getFromId());
+            msgResponse.setCreatedTimeStamp(msg.getCreationTimestamp().toString());
+            msgResponse.setContent(msg.getContent());
+
+            return new ResponseEntity<MessageResponse>(msgResponse, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {

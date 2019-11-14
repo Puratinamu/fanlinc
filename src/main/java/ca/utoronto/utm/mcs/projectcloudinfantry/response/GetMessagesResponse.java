@@ -15,6 +15,7 @@ public class GetMessagesResponse {
             msgResponse.setContent(inputMessage.getContent());
             msgResponse.setCreatedTimeStamp(inputMessage.getCreationTimestamp().toString());
             msgResponse.setFromId(inputMessage.getFromId());
+            msgResponse.setFromUsername(inputMessage.getFromUsername());
             messages.add(msgResponse);
         }
     }
@@ -27,32 +28,3 @@ public class GetMessagesResponse {
     }
 }
 
-class MessageResponse{
-    private String content;
-    private Long fromId;
-    private String CreatedTimeStamp;
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Long getFromId() {
-        return fromId;
-    }
-
-    public void setFromId(Long fromId) {
-        this.fromId = fromId;
-    }
-
-    public String getCreatedTimeStamp() {
-        return CreatedTimeStamp;
-    }
-
-    public void setCreatedTimeStamp(String createdTimeStamp) {
-        CreatedTimeStamp = createdTimeStamp;
-    }
-}

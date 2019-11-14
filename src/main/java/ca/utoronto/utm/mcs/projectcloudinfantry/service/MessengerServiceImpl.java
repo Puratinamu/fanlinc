@@ -9,6 +9,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToChatR
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.MessageResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class MessengerServiceImpl implements MessengerService{
         this.chatRoomRepository.save(room);
     }
 
-    public void postChatToFandom(Long fandomId, String fandomInterestLevel, Long fromUserId, String messageContent){
+    public Message postChatToFandom(Long fandomId, String fandomInterestLevel, Long fromUserId, String messageContent){
         // Upfront Validation check if fandom exists, fromUser exists.
         Optional<Fandom> fandom = this.fandomRepository.findById(fandomId);
         if (!fandom.isPresent()){
@@ -92,10 +93,12 @@ public class MessengerServiceImpl implements MessengerService{
         msg.setChatRoom(room);
         msg.setContent(messageContent);
         msg.setFromId(fromUserId);
+        msg.setFromUsername(user.get().getUsername());
         Date date = new Date();
         msg.setCreationTimestamp(date);
 
         this.messageRepository.save(msg);
+        return msg;
 
     };
 

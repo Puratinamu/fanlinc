@@ -13,17 +13,17 @@ class MessageBubble extends React.Component {
     render() {
         return (
             <div>
-                <div  className={`${'name-container'} ${this.state.sender === "me" ? 'me' : 'other'}`}>
+                <div className={`${'name-container'} ${this.props.sender === "me" ? 'me' : 'other'}`}>
                 {this.props.sender !== "me" &&
                     (
                         <div className="chat-bubble-sender">{this.props.sender}</div>
                     )
                 }
                 </div>
-                <div className={`${'chat-bubble-container'} ${this.state.sender === "me" ? 'me' : 'other'}`} >
+                <div className={`${'chat-bubble-container'} ${this.props.sender === "me" ? 'me' : 'other'}`} >
 
-                    <div className={`${'chat-bubble'}  ${this.state.sender === "me" ? 'chat-bubble-me' : 'chat-bubble-other'}`}>
-                        {this.state.value}
+                    <div className={`${'chat-bubble'}  ${this.props.sender === "me" ? 'chat-bubble-me' : 'chat-bubble-other'}`}>
+                        {this.props.value}
                     </div>
                 </div>
             </div>

@@ -9,10 +9,9 @@ require('./styles.scss')
 function MessengerContact(props) {
     return (
             <Grid item xs={12} className="messenger-contacts-box">
-                <Card className={`message-contacts-box-content ${props.isSelected ? "message-contacts-box-selected" : ""}`}>
+                <Card onClick={props.onClick} className={`message-contacts-box-content ${props.isSelected ? "message-contacts-box-selected" : ""}`}>
                     <CardContent>
                         <Typography variant="h6" color="primary"> {props.contactName}</Typography>
-                        <Typography variant="overline"> {props.contactMessageCount} Past Message{props.contactMessageCount === "1" ? "" : "s"}</Typography>
                     </CardContent>
                 </Card>
             </Grid >
@@ -31,21 +30,10 @@ class MessengerContacts extends React.Component {
                 </Box>
 
                 <Grid spacing={1} className="message-box-container-grid" container alignItems="center" >
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" isSelected="true" />
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
+                    <MessengerContact contactName="Michael Cottow" onClick={() => {this.props.selectedCallback("contacts", 0)}} isSelected={this.props.hasSelected && (this.props.selected === 0)} />
+                    <MessengerContact contactName="Michael Cottow" onClick={() => {this.props.selectedCallback("contacts", 1)}} isSelected={this.props.hasSelected && (this.props.selected === 1)} />
+                    <MessengerContact contactName="Michael Cottow" onClick={() => {this.props.selectedCallback("contacts", 2)}} isSelected={this.props.hasSelected && (this.props.selected === 2)}/>
 
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
-
-                    <MessengerContact contactName="Michael Cottow" contactMessageCount="1" />
 
                 </Grid>
             </Box>

@@ -24,7 +24,6 @@
     display: inline-block;
     max-width:40%;
 
-
 }
 .chat-bubble-sender{
     font-family: 'Roboto';
@@ -36,12 +35,13 @@
 .chat-bubble-me{
     background-color:#1976d2;
     color:white
-
 }
 
 .chat-bubble-other{
     background-color:#fafafa;
-    border:1px solid #999999
+    border:1px solid #999999;
+    color:black
+    
 }
 
 
