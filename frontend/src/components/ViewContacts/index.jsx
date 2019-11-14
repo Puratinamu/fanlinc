@@ -49,12 +49,9 @@ class ViewContacts extends React.Component {
     componentDidMount() {
         userRequests.getContacts(this.store.get('authenticatedOidUser')).then(response => {
             let contactsList;
-            console.log('I was triggered during componentDidMount')
-            console.log(response.data)
             if (response.status === 200) {
                 contactsList = response.data;
             }
-            console.log(contactsList)
             this.setState({
                 contactsList: contactsList,
                 loading: false
