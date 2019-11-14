@@ -3,7 +3,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { Typography, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
-
+import Loading from '../../core/Loading'
+import fandomRequests from '../../../requests/fandomRequests'
 require('./styles.scss')
 
 function MessengerFandom(props) {
@@ -21,7 +22,14 @@ function MessengerFandom(props) {
 }
 
 class MessengerFandoms extends React.Component {
-
+    constructor() {
+        super()
+        this.state = {
+            loading: true
+        }
+    }
+    componentDidMount(){
+    }
     render() {
         return (
             <Box px={3} pt={1} pb={8} >
@@ -30,14 +38,18 @@ class MessengerFandoms extends React.Component {
                         Fandoms
                     </Typography>
                 </Box>
+                {!this.state.loading &&
+                    <Grid spacing={1} className="fandom-box-container-grid" container alignItems="center" >
+                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
+                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
+                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
+                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
+                    </Grid>
+                }
+                {this.state.loading &&
+                    <Loading />
+                }
 
-                <Grid spacing={1} className="fandom-box-container-grid" container alignItems="center" >
-                    <MessengerFandom fandomName="Minecraft" fandomMessageCount="1"  fandomInterestLevel="Expert" />
-                    <MessengerFandom fandomName="Minecraft" fandomMessageCount="1"  fandomInterestLevel="Expert" />
-                    <MessengerFandom fandomName="Minecraft" fandomMessageCount="1"  fandomInterestLevel="Expert" />
-                    <MessengerFandom fandomName="Minecraft" fandomMessageCount="1"  fandomInterestLevel="Expert" />
-
-                </Grid>
             </Box>
         )
     }
