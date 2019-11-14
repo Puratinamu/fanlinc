@@ -1,10 +1,11 @@
 import React from 'react';
-import Contacts from '../../components/ViewContacts/index.jsx'
+import ContactList from '../../components/ViewContacts/index.jsx'
+import {withStore} from '../../store'
 
 class ViewContacts extends React.Component{
 
     render(){
-        return <Contacts />
+        return <ContactList store={this.props.store} />
     }
 }
-export default ViewContacts;
+export default withStore(ViewContacts);
