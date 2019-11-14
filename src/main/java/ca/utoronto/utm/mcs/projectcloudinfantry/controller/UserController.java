@@ -54,7 +54,6 @@ public class UserController {
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -89,7 +88,6 @@ public class UserController {
         } catch (BelongsToRelationshipAlreadyExists e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -114,7 +112,7 @@ public class UserController {
 
     @RequestMapping(value = "/api/v1/getContacts", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity getContacts(@RequestParam String oidUser) {
+    public ResponseEntity getContacts(@RequestParam Long oidUser) {
         try {
             UserContactsResponse userContacts = userService.getContacts(oidUser);
             return new ResponseEntity<>(userContacts, HttpStatus.OK);

@@ -40,21 +40,14 @@ class RelationshipServiceTest extends BaseSpecification {
     @Autowired
     private TokenService tokenService
 
-    @Shared
-    User testUser
-
-    @Shared
-    Fandom testFandom
 
     def 'Add fresh relationship from existing user to fandom'() {
-        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
-        testFandom = FandomFactory.CreateFandom("Minecraft")
+        User testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        Fandom testFandom = FandomFactory.CreateFandom("Minecraft")
         testUser = userRepository.save(testUser);
         testFandom = fandomRepository.save(testFandom);
         //UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")
         //rel = userToFandomRepository.save(rel)
-        System.out.println(testUser.getOidUser())
-        System.out.println(testFandom.getOidFandom())
 
         expect:
         // make a PUT request to updateFandomRelationship and get back expected json
@@ -71,14 +64,14 @@ class RelationshipServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        // UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID (testUser.getOidUser(), testFandom.getOidFandom())
-        // relationship != null
+         UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID (testUser.getOidUser(), testFandom.getOidFandom())
+         relationship != null
 
     }
 
     def 'Update existing relationship'() {
-        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
-        testFandom = FandomFactory.CreateFandom("Minecraft")
+        User testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        Fandom testFandom = FandomFactory.CreateFandom("Minecraft")
         testUser = userRepository.save(testUser);
         testFandom = fandomRepository.save(testFandom);
         UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")

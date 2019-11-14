@@ -216,14 +216,10 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'Add Contact'() {
-        User user = new User()
-        user.setEmail("user1@gmail.com")
-        user.setPassword(BcryptUtils.encodePassword("password"))
+        User user = UserFactory.CreateUser("user1","user1@gmail.com")
         User savedUser = userRepository.save(user)
 
-        User contactUser = new User()
-        contactUser.setEmail("contact1@gmail.com")
-        contactUser.setPassword(BcryptUtils.encodePassword("password"))
+        User contactUser = UserFactory.CreateUser("contact1","contact1@gmail.com")
         User savedContactUser = userRepository.save(contactUser)
 
         expect:
@@ -247,16 +243,10 @@ class UserServiceTest extends BaseSpecification {
     }
 
     def 'View Contacts'() {
-        User user = new User()
-        user.setEmail("currentUser@gmail.com")
-        user.setUsername("currentUser")
-        user.setPassword(BcryptUtils.encodePassword("password"))
+        User user = UserFactory.CreateUser("currentUser","currentUser@gmail.com")
         User savedUser = userRepository.save(user)
 
-        User contactUser = new User()
-        contactUser.setEmail("viewcontact1@gmail.com")
-        contactUser.setUsername("viewContact1")
-        contactUser.setPassword(BcryptUtils.encodePassword("password"))
+        User contactUser = UserFactory.CreateUser("viewcontact1","viewcontact1@gmail.com")
         User savedContactUser = userRepository.save(contactUser)
 
         // Add contactUser to user's contact list

@@ -14,7 +14,7 @@ public interface UserToContactRepository extends Neo4jRepository<UserToContact, 
     @Query("MATCH (u:User)-[r:CONTACT_WITH]->(c:User) WHERE ID(u)={oidUser} RETURN c as contact")
     List<UserContactInfoResult> getUserContactsByOidUser(Long oidUser);
 
-    @Query("MATCH (u:User)-[r:CONTACT_WITH]->(c:User) WHERE ID(u)={oidUser} and ID(c)={contactOidUser} " +
+    @Query("MATCH (u:User)-[r:CONTACT_WITH]->(c:User) WHERE ID(u)={oidUser} and ID(c)={oidContact} " +
             "RETURN u as user, c as contact")
-    UserContactInfoResult findByUserIdAndUserContactId(Long oidUser, Long contactOidUser);
+    UserContactInfoResult findByUserIdAndUserContactId(Long oidUser, Long oidContact);
 }
