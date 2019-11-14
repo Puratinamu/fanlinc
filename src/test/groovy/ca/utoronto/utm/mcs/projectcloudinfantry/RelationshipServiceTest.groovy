@@ -1,5 +1,8 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
+import ca.utoronto.utm.mcs.projectcloudinfantry.FandomFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -15,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
+import spock.lang.Shared
 
 @PropertySource(value = "classpath:application-test.yml")
 class RelationshipServiceTest extends BaseSpecification {
@@ -36,21 +40,21 @@ class RelationshipServiceTest extends BaseSpecification {
     @Autowired
     private TokenService tokenService
 
+    @Shared
+    User testUser
+
+    @Shared
+    Fandom testFandom
+
     def 'Add fresh relationship from existing user to fandom'() {
-        given:
-        // Create new User and new fandom and add them to repo
-        User testUser = new User()
-        testUser.setUsername("tberg")
-        testUser.setEmail("tanner@email.com")
-        testUser.setDescription("I like books")
-
-        Fandom testFandom = new Fandom()
-        testFandom.setName("Book Fandom")
-        testFandom.setDescription("Fandom for people who like books")
-
-        // Add to db
-        testUser = userRepository.save(testUser)
-        testFandom = fandomRepository.save(testFandom)
+        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        testFandom = FandomFactory.CreateFandom("Minecraft")
+        testUser = userRepository.save(testUser);
+        testFandom = fandomRepository.save(testFandom);
+        //UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")
+        //rel = userToFandomRepository.save(rel)
+        System.out.println(testUser.getOidUser())
+        System.out.println(testFandom.getOidFandom())
 
         expect:
         // make a PUT request to updateFandomRelationship and get back expected json
@@ -67,27 +71,18 @@ class RelationshipServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
-
-        relationship != null
+        // UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID (testUser.getOidUser(), testFandom.getOidFandom())
+        // relationship != null
 
     }
 
     def 'Update existing relationship'() {
-        given:
-        // Create new User and new fandom and add them to repo
-        User testUser = new User()
-        testUser.setUsername("tberg")
-        testUser.setEmail("tanner@email.com")
-        testUser.setDescription("I like books")
-
-        Fandom testFandom = new Fandom()
-        testFandom.setName("Book Fandom")
-        testFandom.setDescription("Fandom for people who like books")
-
-        // Add to db
-        testUser = userRepository.save(testUser)
-        testFandom = fandomRepository.save(testFandom)
+        testUser = UserFactory.CreateUser("tannerbeez", "tanner@email.com")
+        testFandom = FandomFactory.CreateFandom("Minecraft")
+        testUser = userRepository.save(testUser);
+        testFandom = fandomRepository.save(testFandom);
+        UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL")
+        rel = userToFandomRepository.save(rel)
 
         expect:
         // make a PUT request to updateFandomRelationship and get back expected json
@@ -104,11 +99,11 @@ class RelationshipServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
-        assert relationship != null
+        Optional<UserToFandom> relationship = userToFandomRepository.findById(rel.getOidUserToFandom())
+        relationship.isPresent()
 
-        relationship.getRelationship() == "EXPERT"
-
+        // Check for the changed property
+        relationship.get().getRelationship().equals("EXPERT")
     }
 
 }
