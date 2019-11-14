@@ -26,10 +26,9 @@ public class MessengerController {
        this.messengerService = messengerService;
     }
 
-    //?from={fromOidUser}&to={toOidUser}
     @RequestMapping(value = "/api/v1/messenger/dm", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> postMessageDm(@RequestParam String from, @RequestParam String to, @Valid @RequestBody Map<String, Object> body) {
+    public ResponseEntity<String> postMessageDm(@RequestParam Long from, @RequestParam Long to, @Valid @RequestBody Map<String, Object> body) {
         try {
            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -43,7 +42,6 @@ public class MessengerController {
         }
     }
 
-    //?from={fromOidUser}&fandomId={idOfTargetFandom}
     @RequestMapping(value = "/api/v1/messenger/fandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<String> postMessageFandom(@RequestParam Long from, @RequestParam Long fandomId, @RequestParam String fandomInterestLevel, @Valid @RequestBody Map<String, Object> body) {
@@ -62,10 +60,9 @@ public class MessengerController {
         }
     }
 
-    //?from={fromOidUser}&fandomId={idOfTargetFandom}
     @RequestMapping(value = "/api/v1/messenger/dm", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getMessagesDm(@RequestParam String from, @RequestParam String to) {
+    public ResponseEntity<String> getMessagesDm(@RequestParam Long from, @RequestParam Long to) {
         try {
 
             return new ResponseEntity<String>("posted message", HttpStatus.OK);
@@ -79,7 +76,6 @@ public class MessengerController {
         }
     }
 
-    //?from={fromOidUser}&fandomId={idOfTargetFandom}
     @RequestMapping(value = "/api/v1/messenger/fandom", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<GetMessagesResponse> getMessagesFandom(@RequestParam Long fandomId, @RequestParam String fandomInterestLevel) {
