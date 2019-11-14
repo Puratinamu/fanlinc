@@ -48,7 +48,7 @@ class ViewProfile extends React.Component {
         this.setState({ message: "Your post has been successfully added!", notificationOpen: true })
       } else if (response.status === 500) {
         this.setState({ message: "Internal server error: Please contact support", notificationOpen: true })
-      } else if (response.status === 1) {
+      } else if (response.status === 409) {
         this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
       } else if (response.status === 400) {
         this.setState({ message: "Bad request error: Please contact support", notificationOpen: true })
