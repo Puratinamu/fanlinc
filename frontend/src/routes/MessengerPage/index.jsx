@@ -1,10 +1,11 @@
 import React from 'react';
 import Messenger from '../../components/Messenger'
+import { withStore } from '../../store';
 
 class MessengerPage extends React.Component {
 
     render() {
-        return <Messenger />
+        return <Messenger store={this.props.store}/>
     }
 }
-export default MessengerPage;
+export default withStore(MessengerPage);

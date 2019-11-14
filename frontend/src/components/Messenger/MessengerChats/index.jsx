@@ -21,9 +21,9 @@ class MessengerChats extends React.Component {
                 <Box  pt={2} pl={2}>
                     <Paper >
                         <Box className="messenger-chat" >
-                            <MessengerChatSearch />
-                            <MessengerContacts />
-                            <MessengerFandoms />
+                            <MessengerChatSearch store={this.props.store}/>
+                            <MessengerContacts store={this.props.store}/>
+                            <MessengerFandoms store={this.props.store}/>
                         </Box>
                     </Paper>
                 </Box>

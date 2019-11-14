@@ -22,8 +22,8 @@ class MessengerMain extends React.Component {
                 <Box pt={2} pr={2} pb={2}>
                     <Paper >
                         <Box p={2} className="messenger-chat-holder">
-                            <MessageHolder />
-                            <MessageComposer className="message-composer"/>
+                            <MessageHolder store={this.props.store}/>
+                            <MessageComposer store={this.props.store} className="message-composer"/>
                         </Box>
                     </Paper>
                 </Box>

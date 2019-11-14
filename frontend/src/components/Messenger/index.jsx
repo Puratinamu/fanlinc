@@ -9,8 +9,8 @@ class Messenger extends React.Component {
     render() {
         return (
             <Box display="flex">
-                <MessengerChats />
-                <MessengerMain />
+                <MessengerChats store={this.props.store}/>
+                <MessengerMain store={this.props.store}/>
             </Box>
         )
     }

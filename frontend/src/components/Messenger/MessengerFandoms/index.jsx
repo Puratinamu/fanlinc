@@ -4,7 +4,8 @@ import CardContent from '@material-ui/core/CardContent';
 import { Typography, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Loading from '../../core/Loading'
-import fandomRequests from '../../../requests/fandomRequests'
+import userRequests from '../../../requests/userRequests';
+
 require('./styles.scss')
 
 function MessengerFandom(props) {
@@ -22,13 +23,28 @@ function MessengerFandom(props) {
 }
 
 class MessengerFandoms extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
+        this.store = props.store;
+        
         this.state = {
             loading: true
         }
     }
     componentDidMount(){
+        userRequests.getUser(this.store.get('authenticatedOidUser')).then(response => {
+            let user;
+
+            if (response.status === 200) {
+                user = response.data;
+            }
+
+            this.setState({
+                user: user,
+                loading: false
+            });
+        });
+
     }
     render() {
         return (
@@ -40,10 +56,11 @@ class MessengerFandoms extends React.Component {
                 </Box>
                 {!this.state.loading &&
                     <Grid spacing={1} className="fandom-box-container-grid" container alignItems="center" >
-                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
-                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
-                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
-                        <MessengerFandom fandomName="Minecraft" fandomMessageCount="1" fandomInterestLevel="Expert" />
+                        {this.state.user.fandoms.length > 0 && this.state.user.fandoms.map( (fandom) => <MessengerFandom key={fandom.oidFandom} fandomName={fandom.name}fandomMessageCount="1" fandomInterestLevel={fandom.relationship.toLowerCase()}/>)}
+                        {this.state.user.fandoms.length === 0 && 
+                        <Box p={1}>
+                            <Typography color="primary" variant="body2"> You're not in any fandoms!</Typography> 
+                        </Box>}
                     </Grid>
                 }
                 {this.state.loading &&
