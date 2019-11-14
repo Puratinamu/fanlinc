@@ -8,7 +8,7 @@ import org.neo4j.ogm.annotation.Relationship;
 import java.util.List;
 
 @NodeEntity
-public class ChatRoom {
+public class ChatRoom{
     @Id
     @GeneratedValue
     private Long oidChatRoom;
