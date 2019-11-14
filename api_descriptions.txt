@@ -55,9 +55,10 @@ ________________________________________________________________________________
 _____________________________________________________________________________________________________
 GET/api/v1/getContacts
 
-Query Params:
-
-"oidUser" : 123
+Request Body:
+{
+	"oidUser" : 123
+}
 
 Response Body:
 {
@@ -79,25 +80,6 @@ Expected Headers:
 	404 NOT FOUND if user with such id does not exist
 	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
 
-_____________________________________________________________________________________________________
-# Add Contact: add a contact to the current user's contact list
-_____________________________________________________________________________________________________
-PUT/api/v1/addContact
-
-Request Params:
-{
-	"oidUser" : 123
-	"contactOidUser" : 456
-}
-
-Response Body: None
-
-Expected Headers:
-	200 OK if user exists
-	400 BAD REQUEST if request body is improperly formatted or missing required information
-	404 NOT FOUND if user with such id does not exist
-	409 CONFLICT if relationship already exists (ie. oidUser already has contactOidUser as a contact)
-	500 INTERNAL SERVER ERROR if GET was unsuccessful (Java Exception is thrown)
 
 _____________________________________________________________________________________________________
 # Post User(create profile)

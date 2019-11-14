@@ -29,7 +29,6 @@ let userRequests = {
             return error.response
         }
     },
-
     getUser: async function (oidUser) {
         try {
             const response = await axios.get('/api/v1/getProfile', {
@@ -42,33 +41,7 @@ let userRequests = {
         } catch (error) {
             return error.response;
         }
-    },
-
-
-    getContacts: async function (oidUser) {
-        try {
-            return await axios.get("/api/v1/getContacts", {
-                params: {
-                    oidUser: oidUser
-                }
-            });
-        } catch (error) {
-            console.error(error);
-            return error.response;
-        }
-    },
-
-    putContact: async function (requestBody) {
-        try {
-            const response = await axios.post('/api/v1/addContact', requestBody)
-            return response
-        }
-        catch (error) {
-            console.error(error);
-            return error
-        }
     }
-
-};
+}
 
 export default userRequests;

@@ -7,65 +7,30 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button';
 import userRequests from '../../requests/userRequests';
-import redirectManager from '../../redirectManager';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import Slide from '@material-ui/core/Slide'
+import redirectManager from '../../redirectManager'
 import './styles.scss';
 
 const USER_INFORMATION_LABEL = "User Information",
   USER_NAME_LABEL = "User Name",
   USER_EMAIL_LABEL = "Email",
   USER_BIO_LABEL = "Biography",
-  USER_FANDOMS_LABEL = "Fandoms",
-  SNACKBAR_TIMEOUT = 4000;
+  USER_FANDOMS_LABEL = "Fandoms";
 
 
 class ViewProfile extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleAddingContact = this.handleAddingContact.bind(this);
 
     this.store = props.store;
 
     this.state = {
       user: null,
-      loading: true,
-      contactAdded: false,
-      notificationOpen: false,
-      message: "Unknown Error: Please contact support"
+      loading: true
     };
   }
 
-  handleAddingContact() {
-    userRequests.putContact({
-      "oidUser": this.props.store.get('authenticatedOidUser'),
-      "contactOidUser": this.state.user.oidUser
-    }).then(response => {
-      if (response.status === 200) {
-        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
-      } else if (response.status === 500) {
-        this.setState({ message: "Internal server error: Please contact support", notificationOpen: true })
-      } else if (response.status === 409) {
-        this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
-      } else if (response.status === 400) {
-        this.setState({ message: "Bad request error: Please contact support", notificationOpen: true })
-      }
-      else {
-        this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
-      }
-    })
-  }
-
-  handleClose() {
-    this.setState({
-      notificationOpen: false,
-      contactAdded: false
-    });
-  }
 
   componentDidMount() {
     let id;
@@ -124,7 +89,6 @@ class ViewProfile extends React.Component {
               <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
             </Grid>
             <ProfileHeading label={USER_INFORMATION_LABEL} />
-            <AddContactButton onClick={this.handleAddingContact} contact={this.state.user.oidUser} curUser={this.props.store.get('authenticatedOidUser')} />
             {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
             {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
             {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
@@ -132,7 +96,6 @@ class ViewProfile extends React.Component {
             {fandomList}
           </Grid>
         </Box>
-        <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} contactAdded={this.state.contactAdded}/>
       </Paper>
     );
   }
@@ -173,43 +136,6 @@ const ProfileHeading = (input) => {
     </Grid>
   );
 
-}
-
-function AddContactButton(props) {
-
-  if (props.curUser === props.contact) {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        className="contact-button"
-        onClick={props.onClick}
-      >
-        Add Contact
-        </Button>
-    )
-  } else {
-    return null
-  }
-
-}
-
-function ShowMessages(props) {
-  return (
-    <Snackbar
-      autoHideDuration={SNACKBAR_TIMEOUT}
-      open={props.open}
-      onClose={props.handleClose}
-      TransitionComponent={Slide}
-
-    >
-      <SnackbarContent style={{
-        backgroundColor: `${!props.contactAdded ? 'red' : 'green'}`
-      }}
-        message={props.message}
-      />
-    </Snackbar>
-  )
 }
 
 export default ViewProfile;

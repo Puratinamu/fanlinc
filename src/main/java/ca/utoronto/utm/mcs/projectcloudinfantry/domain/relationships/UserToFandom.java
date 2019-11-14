@@ -10,14 +10,18 @@ import java.util.UUID;
 @RelationshipEntity(type = "BELONGS_TO")
 public class UserToFandom {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long oidUserToFandom;
 
+    @Property
     private String relationship;
 
+    @Property
     @StartNode
     private User user;
 
+    @Property
     @EndNode
     private Fandom fandom;
 

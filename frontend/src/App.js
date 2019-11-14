@@ -5,7 +5,6 @@ import Home from "./routes/Home/Home"
 import Signup from './routes/Signup/Signup'
 import ViewProfilePage from "./routes/ViewProfilePage/";
 import JoinFandom from "./routes/JoinFandom/";
-import ViewContacts from "./routes/ViewContacts/ViewContacts";
 import Login from "./routes/Login/Login";
 import NewPost from "./routes/NewPost/NewPost";
 import NewFandom from './routes/NewFandom'
@@ -28,9 +27,6 @@ class App extends React.Component {
           </Route>
           <Route path="/joinfandom">
             <JoinFandom />
-          </Route>
-          <Route path="/viewcontacts">
-            <ViewContacts />
           </Route>
           <Route path="/makefandom">
             <NewFandom />
