@@ -34,6 +34,7 @@ class ViewProfile extends React.Component {
     this.state = {
       user: null,
       loading: true,
+      contactAdded: false,
       notificationOpen: false,
       message: "Unknown Error: Please contact support"
     };
@@ -45,7 +46,7 @@ class ViewProfile extends React.Component {
       "contactOidUser": this.state.user.oidUser
     }).then(response => {
       if (response.status === 200) {
-        this.setState({ message: "Your post has been successfully added!", notificationOpen: true })
+        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
       } else if (response.status === 500) {
         this.setState({ message: "Internal server error: Please contact support", notificationOpen: true })
       } else if (response.status === 409) {
@@ -61,7 +62,8 @@ class ViewProfile extends React.Component {
 
   handleClose() {
     this.setState({
-      notificationOpen: false
+      notificationOpen: false,
+      contactAdded: false
     });
   }
 
@@ -130,7 +132,7 @@ class ViewProfile extends React.Component {
             {fandomList}
           </Grid>
         </Box>
-        <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} />
+        <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} contactAdded={this.state.contactAdded}/>
       </Paper>
     );
   }
@@ -202,7 +204,7 @@ function ShowMessages(props) {
 
     >
       <SnackbarContent style={{
-        backgroundColor: "red",
+        backgroundColor: `${!props.contactAdded ? 'red' : 'green'}`
       }}
         message={props.message}
       />
