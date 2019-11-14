@@ -7,6 +7,7 @@ import ViewProfilePage from "./routes/ViewProfilePage/";
 import JoinFandom from "./routes/JoinFandom/";
 import ViewContacts from "./routes/ViewContacts/ViewContacts";
 import Login from "./routes/Login/Login";
+import NewPost from "./routes/NewPost/NewPost";
 import NewFandom from './routes/NewFandom'
 
 
@@ -19,6 +20,9 @@ class App extends React.Component {
       <Router>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <Switch>
+          <Route path="/newpost">
+            <NewPost />
+          </Route>
           <Route path="/viewprofile">
             <ViewProfilePage />
           </Route>

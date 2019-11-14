@@ -3,6 +3,7 @@ import cookieManager from '../cookieManager'
 const axios = require('axios')
 
 let userRequests = {
+
     putUser: async function (requestBody) {
         try {
             const response = await axios.post('/api/v1/addUser', requestBody)
