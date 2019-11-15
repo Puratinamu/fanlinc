@@ -40,7 +40,7 @@ class ViewContacts extends React.Component {
 
         // Initialize the state
         this.state = {
-            contactsList: null,
+            contactsList: [],
             loading: true,
         };
 
@@ -48,7 +48,7 @@ class ViewContacts extends React.Component {
 
     componentDidMount() {
         userRequests.getContacts(this.store.get('authenticatedOidUser')).then(response => {
-            let contactsList;
+            let contactsList = [];
             if (response.status === 200) {
                 contactsList = response.data;
             }
