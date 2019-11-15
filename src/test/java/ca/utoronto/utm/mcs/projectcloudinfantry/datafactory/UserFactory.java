@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.projectcloudinfantry;
+package ca.utoronto.utm.mcs.projectcloudinfantry.datafactory;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 

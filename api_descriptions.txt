@@ -285,7 +285,6 @@ Response Body:
 {
     "oidPost" : 12345,
     "oidCreator" : 1234,
-    "text" : "Testing second post!",
     "oidFandom" : 12346
 }
 

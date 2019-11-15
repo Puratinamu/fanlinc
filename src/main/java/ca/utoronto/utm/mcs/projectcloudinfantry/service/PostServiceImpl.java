@@ -16,6 +16,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.TextPostRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -55,6 +56,10 @@ public class PostServiceImpl implements  PostService {
         post.setContent(textContent);
         post.setCreator(user);
         post.setFandom(fandom);
+
+        Date date = new Date();
+        post.setCreationTimestamp(date);
+        post.setLastUpdateTimestamp(date);
 
         return postRepository.save(post);
     }
