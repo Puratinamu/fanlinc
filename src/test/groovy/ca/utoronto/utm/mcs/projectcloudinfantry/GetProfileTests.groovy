@@ -52,8 +52,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 404 Not Found
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : -1 }')
+                .get('/api/v1/getProfile?oidUser=-1')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn()
@@ -63,8 +62,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"wrongField" : 3 }')
+                .get('/api/v1/getProfile?wrongField=3')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn()
@@ -81,8 +79,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
+                .get('/api/v1/getProfile?oidUser=' + testUser.getOidUser())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
@@ -114,8 +111,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
+                .get('/api/v1/getProfile?oidUser=' + testUser.getOidUser())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
