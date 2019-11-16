@@ -80,8 +80,7 @@ class TextPostServiceTest extends BaseSpecification {
     }
 
     def 'Test get text post'() {
-        expect:
-
+        given:
         User user = UserFactory.CreateUser("yos", "yos@yos.com")
         user = userRepository.save(user)
 
@@ -94,6 +93,7 @@ class TextPostServiceTest extends BaseSpecification {
         Post post = PostFactory.createPost("testTitle", user, fandom, textContent)
         post = postRepository.save(post)
 
+        expect:
         MvcResult getResult = mvc.perform(MockMvcRequestBuilders
                 .get('/api/v1/getTextPost')
                 .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
