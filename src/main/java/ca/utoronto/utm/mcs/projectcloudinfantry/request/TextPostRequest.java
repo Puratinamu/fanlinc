@@ -1,11 +1,14 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.request;
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.RelationshipLevel;
+
 public class TextPostRequest {
 
     private Long oidCreator;
     private Long oidFandom;
     private String text;
     private String title;
+    private RelationshipLevel relationshipLevel;
 
     public Long getOidCreator() {
         return oidCreator;
@@ -37,5 +40,13 @@ public class TextPostRequest {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public RelationshipLevel getRelationshipLevel() {
+        return relationshipLevel;
+    }
+
+    public void setRelationshipLevel(RelationshipLevel relationshipLevel) {
+        this.relationshipLevel = relationshipLevel;
     }
 }

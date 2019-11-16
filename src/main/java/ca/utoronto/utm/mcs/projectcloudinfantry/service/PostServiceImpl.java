@@ -4,15 +4,13 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Post;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.PostToFandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.PostNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.PostMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.TextContentMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.PostRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextContentRepository;
-import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.TextPostRequest;
 import org.springframework.stereotype.Service;
 
@@ -28,31 +26,35 @@ public class PostServiceImpl implements  PostService {
     private final FandomRepository fandomRepository;
     private final PostMapper postMapper;
     private final TextContentMapper textContentMapper;
+    private final PostToFandomRepository postToFandomRepository;
 
     public PostServiceImpl(PostRepository postRepository,
                            TextContentRepository textContentRepository,
                            UserRepository userRepository,
                            FandomRepository fandomRepository,
                            PostMapper postMapper,
-                           TextContentMapper textContentMapper) {
+                           TextContentMapper textContentMapper,
+                           PostToFandomRepository postToFandomRepository) {
         this.postRepository = postRepository;
         this.textContentRepository = textContentRepository;
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
         this.postMapper = postMapper;
         this.textContentMapper = textContentMapper;
+        this.postToFandomRepository = postToFandomRepository;
     }
 
     @Override
     public Post addTextPost(TextPostRequest textPostRequest) {
-        TextContent textContent = textContentMapper.toTextContent(textPostRequest);
-        textContent = textContentRepository.save(textContent);
 
-        Post post = postMapper.toPost(textPostRequest);
 
         User user = userRepository.findById(textPostRequest.getOidCreator()).orElseThrow(UserNotFoundException::new);
         Fandom fandom = fandomRepository.findById(textPostRequest.getOidFandom()).orElseThrow(FandomNotFoundException::new);
 
+        TextContent textContent = textContentMapper.toTextContent(textPostRequest);
+        textContent = textContentRepository.save(textContent);
+
+        Post post = postMapper.toPost(textPostRequest);
         post.setContent(textContent);
         post.setCreator(user);
         post.setFandom(fandom);
@@ -61,7 +63,13 @@ public class PostServiceImpl implements  PostService {
         post.setCreationTimestamp(date);
         post.setLastUpdateTimestamp(date);
 
-        return postRepository.save(post);
+        post = postRepository.save(post);
+
+        PostToFandom postToFandom = postToFandomRepository.findByOidPostAndOidFandom(post.getOidPost(), fandom.getOidFandom());
+        postToFandom.setRelationshipLevel(textPostRequest.getRelationshipLevel());
+        postToFandomRepository.save(postToFandom);
+
+        return post;
     }
 
     @Override
@@ -71,7 +79,8 @@ public class PostServiceImpl implements  PostService {
 
     @Override
     public List<Post> getPostFeed(Long oidUser) {
-        return postRepository.getPostFeed(oidUser);
+        User user = userRepository.findById(oidUser).orElseThrow(UserNotFoundException::new);
+        return postRepository.getPostFeedByOidUser(user.getOidUser());
     }
 
 }

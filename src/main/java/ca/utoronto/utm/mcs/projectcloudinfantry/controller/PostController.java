@@ -1,11 +1,8 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Post;
-import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.PostMapper;
-import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.TextContentMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.TextPostRequestMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.TextPostResponseMapper;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.TextPostRequest;
@@ -45,6 +42,10 @@ public class PostController {
             Post post = postService.addTextPost(textPostRequest);
             TextPostResponse textPostResponse = textPostResponseMapper.toTextPostResponse(post);
             return new ResponseEntity<>(textPostResponse, HttpStatus.OK);
+        } catch (FandomNotFoundException | UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,6 +57,10 @@ public class PostController {
         try {
             List<Post> posts = postService.getPostFeed(Long.valueOf(oidUser));
             return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

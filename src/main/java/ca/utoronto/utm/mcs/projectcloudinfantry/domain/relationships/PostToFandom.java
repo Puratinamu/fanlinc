@@ -9,7 +9,7 @@ public class PostToFandom {
 
     @Id
     @GeneratedValue
-    private String oidPostToFandom;
+    private Long oidPostToFandom;
 
     @StartNode
     private Post post;
@@ -19,4 +19,35 @@ public class PostToFandom {
 
     private RelationshipLevel relationshipLevel;
 
+    public Long getOidPostToFandom() {
+        return oidPostToFandom;
+    }
+
+    public void setOidPostToFandom(Long oidPostToFandom) {
+        this.oidPostToFandom = oidPostToFandom;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public Fandom getFandom() {
+        return fandom;
+    }
+
+    public void setFandom(Fandom fandom) {
+        this.fandom = fandom;
+    }
+
+    public RelationshipLevel getRelationshipLevel() {
+        return relationshipLevel;
+    }
+
+    public void setRelationshipLevel(RelationshipLevel relationshipLevel) {
+        this.relationshipLevel = relationshipLevel;
+    }
 }
