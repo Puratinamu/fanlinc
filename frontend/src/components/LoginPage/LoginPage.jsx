@@ -5,10 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Link from '@material-ui/core/Link';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { withStore } from '../../store';
-import redirectManager from '../../redirectManager';
-import userRequests from '../../requests/userRequests'
+import redirectManager from '../../redirectManager'; import userRequests from '../../requests/userRequests'
 
 require('./LoginPage.scss')
 
@@ -37,25 +36,21 @@ class LoginPage extends React.Component {
     }
     render() {
         return (
-            <Container maxWidth="sm" >
+            <Container className="login-page" maxWidth="sm">
                 <Card className="login-card">
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" align="center" gutterBottom>
                         Sign In
                     </Typography>
-                    <Box>
-                        <Box>
-                            <EmailField onInput={this.handleEmailChange} error={this.state.emailError} />
-                        </Box>
-                        <Box>
-                            <PasswordField onInput={this.handlePasswordChange} error={this.state.passwordError} />
-                        </Box>
-
+                    <Box className="login-form-textfields-container">
+                        <EmailField onInput={this.handleEmailChange} error={this.state.emailError} />
+                        <PasswordField onInput={this.handlePasswordChange} error={this.state.passwordError} />
                         {this.renderLoginFailErrorText()}
-                        <Box display="flex">
-                            <LoginButton onClick={this.handleLoginAttempt} />
-                            {this.renderLoginLoading()}
-                        </Box>
-                        
+                        <LoginButton onClick={this.handleLoginAttempt} />
+                        <Typography className="login-page-sign-up-link">
+                            Don't have an account?&nbsp; 
+                            <Link href="/signup">Click here to sign up.</Link>
+                        </Typography>
+                        {this.renderLoginLoading()}
                     </Box>
                 </Card>
             </Container>
@@ -173,7 +168,6 @@ function LoginButton(props) {
 function EmailField(props) {
 
     return (<TextField
-        id="email"
         required
         error={props.error}
         label="Email"
@@ -183,14 +177,12 @@ function EmailField(props) {
         variant="outlined"
         onInput={props.onInput}
 
-
     />)
 }
 
 function PasswordField(props) {
 
     return (<TextField
-        id="password"
         required
         onInput={props.onInput}
         error={props.error}
@@ -224,4 +216,5 @@ function CircularLoading() {
         </Box>
     );
 }
-export default withStore(LoginPage)
+
+export default LoginPage;

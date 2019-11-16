@@ -27,8 +27,15 @@ class Root extends React.Component {
         });
 
         if (isLoggedIn) {
-            // Default to main if no sub route is provided
-            this.props.history.push(this.props.history.location.pathname === '/' ? '/main' : this.props.history.location.pathname);
+            let nextRoute = '/main',
+                requestedRoute = this.props.history.location.pathname;
+            // Go to the requested path iff the path is none of the following conditions
+            if (requestedRoute !== '/' && requestedRoute !== '/signup' && requestedRoute !== '/login') {
+                nextRoute = requestedRoute;
+            }
+
+            // Go to the next route
+            this.props.history.push(nextRoute);
         } else if (this.props.history.location.pathname === "/signup") {
             this.props.history.push('/signup');
         } else {
@@ -49,8 +56,6 @@ class Root extends React.Component {
 const loggedInRoutes = (props) => {
     return (
       <Switch>
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
         <Route path="/main">
           <Main store={props.store} />
         </Route>
