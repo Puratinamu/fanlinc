@@ -92,6 +92,7 @@ class ViewProfile extends React.Component {
                     {fandomList.length > 0 && (
                         <ProfileHeading label={USER_FANDOMS_LABEL}>
                             <IconButton
+                                href="/main/joinfandom"
                                 className="cldi-profile-fandom-add-button"
                                 disableRipple
                                 disableFocusRipple

@@ -94,6 +94,14 @@ class AddFandomToUserForm extends React.Component {
             selectedFandom: selection.data,
             fandomSelected: true
         });
+
+        // Execute callback if it exists and interest level is already selected
+        if (this.state.selectedInterestLevel && this.callback && this.callback instanceof Function) {
+            this.callback({
+                fandom: selection.data,
+                interestLevel: this.state.selectedInterestLevel
+            });
+        }
     }
 
     setInterestLevel(selection) {

@@ -1,7 +1,6 @@
 import React from 'react';
 import {withStore} from '../store';
 import { Switch, Route } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
 import Main from './Main/';
 import Signup from './Signup/Signup'
 import Login from "./Login/Login";
@@ -27,7 +26,7 @@ class Root extends React.Component {
         });
 
         if (isLoggedIn) {
-            let nextRoute = '/main',
+            let nextRoute = '/main/viewprofile',
                 requestedRoute = this.props.history.location.pathname;
             // Go to the requested path iff the path is none of the following conditions
             if (requestedRoute !== '/' && requestedRoute !== '/signup' && requestedRoute !== '/login') {
@@ -44,11 +43,7 @@ class Root extends React.Component {
     }
 
     render() {
-        return (
-            <Box height="100%" width="100%">
-              {this.state.routes}
-            </Box>
-        );
+        return this.state.routes;
     }
 
 }

@@ -24,7 +24,7 @@ class Main extends React.Component {
               <Switch>
                 <Route path="/main/viewprofile" component={ViewProfilePage} />
                 <Route path="/main/joinfandom" component={JoinFandom} />
-                <Route path="/main/makefandom" component={NewFandom} />
+                <Route path="/main/addfandom" component={NewFandom} />
               </Switch>
               <Navbar callback={this.routeTo.bind(this)} />
           </Box>
