@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button'
+import Zoom from '@material-ui/core/Zoom'
 import Container from '@material-ui/core/Container'
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -47,7 +48,6 @@ class NewFandomPage extends React.Component {
         let fandomDescription = this.state.fandomDescription;
         let response = await fandomRequests.createFandom(fandomName, fandomDescription, this.props.store.get("authenticatedOidUser"), this.props.store.get("sessionToken"))
         if (response.status === 200) {
-            console.log("Success Creating Fandom")
             this.setState({
                 notificationOpen: true,
                 message: "Created Fandom! What fun!",
@@ -55,7 +55,6 @@ class NewFandomPage extends React.Component {
             });
 
         } else if (response.status === 422) {
-            console.log("Already Exists")
             this.setState({
                 notificationOpen: true,
                 error: true,
@@ -73,7 +72,8 @@ class NewFandomPage extends React.Component {
     }
     render() {
         return (
-            <Container maxWidth="md">
+            <Zoom in={true}>
+              <Container maxWidth="md">
                 <Paper className="cldi-make-fandom-main" >
                     <Typography variant="h6">
                         Make a Fandom
@@ -147,6 +147,7 @@ class NewFandomPage extends React.Component {
                     />
                 </Snackbar>
             </Container>
+          </Zoom>
 
         )
     }

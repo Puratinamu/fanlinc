@@ -4,6 +4,11 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import SearchField from '../core/searchfield/';
 import Grid from '@material-ui/core/Grid';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Zoom from '@material-ui/core/Zoom';
 import Divider from '@material-ui/core/Divider';
 import fandomRequest from '../../requests/fandomRequests';
 import './styles.scss';
@@ -25,6 +30,8 @@ class AddFandomToUserForm extends React.Component {
         this.state = {
             loading: true,
             fandomsList: [],
+            menuOpen: false,
+            menuAnchorEl: null,
             fandomSelected: false,
             selectedFandom: null,
             selectedInterestLevel: ""
@@ -33,6 +40,8 @@ class AddFandomToUserForm extends React.Component {
         // Needed to change the scope of 'this' in the function
         this.setSelectedFandom = this.setSelectedFandom.bind(this);
         this.setInterestLevel = this.setInterestLevel.bind(this);
+        this.renderOptionsMenu = this.renderOptionsMenu.bind(this);
+        this.closeOptionsMenu = this.closeOptionsMenu.bind(this);
 
         this.callback = input.callback;
         this.children = input.children;
@@ -49,7 +58,7 @@ class AddFandomToUserForm extends React.Component {
                 fandomsList: fandomsList,
                 loading: false
             });
-        })
+        });
     }
 
     /*
@@ -82,8 +91,7 @@ class AddFandomToUserForm extends React.Component {
                     value: `${fandoms[i].oidFandom}`,
                     label: `${fandoms[i].name}`,
                     data: fandoms[i]
-                });
-            }
+                }); }
         }
 
         return options;
@@ -94,6 +102,14 @@ class AddFandomToUserForm extends React.Component {
             selectedFandom: selection.data,
             fandomSelected: true
         });
+
+        // Execute callback if it exists and interest level is already selected
+        if (this.state.selectedInterestLevel && this.callback && this.callback instanceof Function) {
+            this.callback({
+                fandom: selection.data,
+                interestLevel: this.state.selectedInterestLevel
+            });
+        }
     }
 
     setInterestLevel(selection) {
@@ -110,8 +126,56 @@ class AddFandomToUserForm extends React.Component {
         }
     }
 
-    render() {
+    handleOptionsMenuClick(event) {
+        this.setState({
+            menuOpen: !this.state.menuOpen,
+            menuAnchorEl: (this.state.menuAnchorEl ? null : event.currentTarget)
+        });
+    }
 
+    handleOptionMenuItemClick(selectedValue) {
+        this.setState({
+            menuOpen: false,
+            menuAnchorEl: null
+        });
+
+        // Emit out the clicked value
+        if (this.props.onOptionSelect && this.props.onOptionSelect instanceof Function) {
+            this.props.onOptionSelect(selectedValue);
+        }
+    }
+
+    closeOptionsMenu() {
+        this.setState({
+            menuOpen: false,
+            menuAnchorEl: null
+        });
+    }
+
+    renderOptionsMenu() {
+        // Create menu items for each option
+        let items = [];
+        for (let i = 0, len=this.props.options.length; i < len; i++) {
+            let currentOption = this.props.options[i];
+            // On click of the menu item emit out the value that was clicked
+            items.push(
+                <MenuItem key="menu-item" onClick={this.handleOptionMenuItemClick.bind(this, currentOption.value)}>{currentOption.label}</MenuItem>
+            );
+        }
+
+        return (
+          <div className="cldi-options-menu">
+            <IconButton className="cldi-options-menu-icon" onClick={this.handleOptionsMenuClick.bind(this)}>
+                <MoreVertIcon />
+            </IconButton>
+            <Menu open={this.state.menuOpen} anchorEl={this.state.menuAnchorEl} onClose={this.closeOptionsMenu}>
+              {items}
+            </Menu>
+          </div>
+        );
+    }
+
+    render() {
         // If there are no fandoms to select from, show a message
         if (!this.state.loading && this.state.fandomsList.length === 0) {
             return (
@@ -122,40 +186,45 @@ class AddFandomToUserForm extends React.Component {
         }
 
         return (
-            <Box className="cldi-add-fandom-to-user-form-container">
-              <Paper>
-                <Box px={4} pb={4} pt={3}>
-                  <Grid container spacing={4} direction="column">
-                    {!this.state.loading &&
-                      (
-                        <Grid item xs={12}>
-                          <Typography variant="h6">{SearchAFandom}</Typography>
-                          <Divider/>
-                          <SearchField
-                            callback={this.setSelectedFandom}
-                            placeHolder={SearchAFandom}
-                            searchList={this.state.fandomsList}/>
-                        </Grid>
-                      )
-                    }
-                    {this.state.fandomSelected &&
-                      (
-                        <Grid item xs={12}>
-                          <Typography variant="h6">{SelectInterestLevel}</Typography>
-                          <Divider/>
-                          <SearchField
-                            callback={this.setInterestLevel}
-                            isSearchable={false}
-                            placeHolder={SelectInterestLevel}
-                            searchList={this.interestLevels}/>
-                        </Grid>
-                      )
-                    }
-                    {this.children}
-                  </Grid>
+            <Zoom in={!this.state.loading}>
+                <Box className="cldi-add-fandom-to-user-form-container">
+                  <Paper>
+                    <Box px={4} pb={4} pt={3}>
+                      <Grid container spacing={4} direction="column">
+                        {!this.state.loading &&
+                          (
+                            <Grid item xs={12}>
+                              <div className="cldi-select-fandom-heading-container">
+                                <Typography variant="h6">{SearchAFandom}</Typography>
+                                {this.props.options && this.renderOptionsMenu()}
+                              </div>
+                              <Divider/>
+                              <SearchField
+                                callback={this.setSelectedFandom}
+                                placeHolder={SearchAFandom}
+                                searchList={this.state.fandomsList}/>
+                            </Grid>
+                          )
+                        }
+                        {this.state.fandomSelected &&
+                          (
+                            <Grid item xs={12}>
+                              <Typography variant="h6">{SelectInterestLevel}</Typography>
+                              <Divider/>
+                              <SearchField
+                                callback={this.setInterestLevel}
+                                isSearchable={false}
+                                placeHolder={SelectInterestLevel}
+                                searchList={this.interestLevels}/>
+                            </Grid>
+                          )
+                        }
+                        {this.children}
+                      </Grid>
+                    </Box>
+                  </Paper>
                 </Box>
-              </Paper>
-            </Box>
+            </Zoom>
         );
     }
 }
