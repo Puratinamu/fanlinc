@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import SearchField from '../core/searchfield/';
 import Grid from '@material-ui/core/Grid';
+import Zoom from '@material-ui/core/Zoom';
 import Divider from '@material-ui/core/Divider';
 import fandomRequest from '../../requests/fandomRequests';
 import './styles.scss';
@@ -130,40 +131,42 @@ class AddFandomToUserForm extends React.Component {
         }
 
         return (
-            <Box className="cldi-add-fandom-to-user-form-container">
-              <Paper>
-                <Box px={4} pb={4} pt={3}>
-                  <Grid container spacing={4} direction="column">
-                    {!this.state.loading &&
-                      (
-                        <Grid item xs={12}>
-                          <Typography variant="h6">{SearchAFandom}</Typography>
-                          <Divider/>
-                          <SearchField
-                            callback={this.setSelectedFandom}
-                            placeHolder={SearchAFandom}
-                            searchList={this.state.fandomsList}/>
-                        </Grid>
-                      )
-                    }
-                    {this.state.fandomSelected &&
-                      (
-                        <Grid item xs={12}>
-                          <Typography variant="h6">{SelectInterestLevel}</Typography>
-                          <Divider/>
-                          <SearchField
-                            callback={this.setInterestLevel}
-                            isSearchable={false}
-                            placeHolder={SelectInterestLevel}
-                            searchList={this.interestLevels}/>
-                        </Grid>
-                      )
-                    }
-                    {this.children}
-                  </Grid>
+            <Zoom in={!this.state.loading}>
+                <Box className="cldi-add-fandom-to-user-form-container">
+                  <Paper>
+                    <Box px={4} pb={4} pt={3}>
+                      <Grid container spacing={4} direction="column">
+                        {!this.state.loading &&
+                          (
+                            <Grid item xs={12}>
+                              <Typography variant="h6">{SearchAFandom}</Typography>
+                              <Divider/>
+                              <SearchField
+                                callback={this.setSelectedFandom}
+                                placeHolder={SearchAFandom}
+                                searchList={this.state.fandomsList}/>
+                            </Grid>
+                          )
+                        }
+                        {this.state.fandomSelected &&
+                          (
+                            <Grid item xs={12}>
+                              <Typography variant="h6">{SelectInterestLevel}</Typography>
+                              <Divider/>
+                              <SearchField
+                                callback={this.setInterestLevel}
+                                isSearchable={false}
+                                placeHolder={SelectInterestLevel}
+                                searchList={this.interestLevels}/>
+                            </Grid>
+                          )
+                        }
+                        {this.children}
+                      </Grid>
+                    </Box>
+                  </Paper>
                 </Box>
-              </Paper>
-            </Box>
+            </Zoom>
         );
     }
 }

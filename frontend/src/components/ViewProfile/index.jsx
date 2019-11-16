@@ -49,6 +49,10 @@ class ViewProfile extends React.Component {
         });
     }
 
+    routeToJoinFandom() {
+        this.props.history.push('/main/joinfandom');
+    }
+
     render() {
         // Render loader if it is loading
         if (this.state.loading && !this.state.user) {
@@ -92,7 +96,7 @@ class ViewProfile extends React.Component {
                     {fandomList.length > 0 && (
                         <ProfileHeading label={USER_FANDOMS_LABEL}>
                             <IconButton
-                                href="/main/joinfandom"
+                                onClick={this.routeToJoinFandom.bind(this)}
                                 className="cldi-profile-fandom-add-button"
                                 disableRipple
                                 disableFocusRipple
