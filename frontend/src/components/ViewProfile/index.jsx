@@ -81,6 +81,7 @@ class ViewProfile extends React.Component {
                   helperText={fandom.relationship && `Interest Level: ${fandom.relationship}`} />
             )
         }
+        // TODO: Must not render add fandom bunton when not the current user
         return (
           <Zoom in={!this.state.loading}>
               <Paper>
