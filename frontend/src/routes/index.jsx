@@ -26,7 +26,7 @@ class Root extends React.Component {
         });
 
         if (isLoggedIn) {
-            let nextRoute = '/main/viewprofile',
+            let nextRoute = '/main',
                 requestedRoute = this.props.history.location.pathname;
             // Go to the requested path iff the path is none of the following conditions
             if (requestedRoute !== '/' && requestedRoute !== '/signup' && requestedRoute !== '/login') {

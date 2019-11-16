@@ -12,6 +12,19 @@ import "./styles.scss";
 
 class Main extends React.Component {
 
+    componentDidMount() {
+        // Here we assume the user is logged in
+        let nextRoute = '/main/viewprofile',
+            requestedRoute = this.props.history.location.pathname;
+
+        if (!requestedRoute.match(/^\/main\/*$/)) {
+            nextRoute = requestedRoute;
+        }
+
+        // Go to the next route
+        this.props.history.push(nextRoute);
+    }
+
     routeTo(newRoute) {
         // Here we assume the paths are valid since it comes from the
         // navigation bar
@@ -25,7 +38,7 @@ class Main extends React.Component {
               <Switch>
                 <Route path="/main/viewprofile" component={ViewProfilePage} />
                 <Route path="/main/joinfandom" component={JoinFandom} />
-                <Route path="/main/addfandom" component={NewFandom} />
+                <Route path="/main/newfandom" component={NewFandom} />
                 <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
               </Switch>
               <Navbar callback={this.routeTo.bind(this)} />
