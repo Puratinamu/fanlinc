@@ -72,7 +72,7 @@ public class PostServiceImpl implements  PostService {
         post = postRepository.save(post);
 
         PostToFandom postToFandom = postToFandomRepository.findByOidPostAndOidFandom(post.getOidPost(), fandom.getOidFandom());
-        UserToFandom userToFandom = userToFandomRepository.findByUserIdAndFandomID(user.getOidUser(), fandom.getOidFandom());
+        UserToFandom userToFandom = userToFandomRepository.findByUserIDAndFandomID(user.getOidUser(), fandom.getOidFandom());
         postToFandom.setRelationshipLevel(RelationshipLevel.valueOf(userToFandom.getRelationship()));
         postToFandomRepository.save(postToFandom);
 

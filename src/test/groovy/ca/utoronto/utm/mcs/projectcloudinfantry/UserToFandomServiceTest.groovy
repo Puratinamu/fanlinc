@@ -67,7 +67,7 @@ class UserToFandomServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
+        UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID(testUser.getOidUser(), testFandom.getOidFandom())
 
         relationship != null
 
@@ -104,7 +104,7 @@ class UserToFandomServiceTest extends BaseSpecification {
                 .andReturn()
 
         // This request doesn't have a return body so we need to query the db ourselves
-        UserToFandom relationship = userToFandomRepository.findByUserAndFandomNames(testUser.getUsername(), testFandom.getName())
+        UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID(testUser.getOidUser(), testFandom.getOidFandom())
         assert relationship != null
 
         relationship.getRelationship() == "EXPERT"
