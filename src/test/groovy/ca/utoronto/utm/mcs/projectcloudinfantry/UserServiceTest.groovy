@@ -1,5 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -9,6 +10,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserContactInfoResult
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToContactRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
 import io.jsonwebtoken.Claims
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,6 +41,8 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private UserToContactRepository userToContactRepository
+
+    @Autowired TokenService tokenService
 
     @Autowired
     private TokenExtractor tokenExtractor
@@ -193,7 +197,9 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
-        String jwt = result.getResponse().getHeader("jwt")
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
+        String jwt = resultMap.get("jwt")
+        resultMap.get("oidUser") == savedUser.getOidUser()
         Claims claims = tokenExtractor.extractToken(jwt)
         claims.getSubject() as Long == savedUser.getOidUser()
         claims.getExpiration().after(now)
@@ -216,16 +222,17 @@ class UserServiceTest extends BaseSpecification {
 
 
     def 'Add Contact'() {
-        User user = UserFactory.CreateUser("user1","user1@gmail.com")
+        User user = UserFactory.createUser("user1","user1@gmail.com")
         User savedUser = userRepository.save(user)
 
-        User contactUser = UserFactory.CreateUser("contact1","contact1@gmail.com")
+        User contactUser = UserFactory.createUser("contact1","contact1@gmail.com")
         User savedContactUser = userRepository.save(contactUser)
 
         expect:
         // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .put('/api/v1/addContact')
+                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"oidUser" : ' + savedUser.getOidUser() +',\n' +
                         '\t"contactOidUser": ' + savedContactUser.getOidUser() + '\n' +
@@ -243,10 +250,10 @@ class UserServiceTest extends BaseSpecification {
     }
 
     def 'View Contacts'() {
-        User user = UserFactory.CreateUser("currentUser","currentUser@gmail.com")
+        User user = UserFactory.createUser("currentUser","currentUser@gmail.com")
         User savedUser = userRepository.save(user)
 
-        User contactUser = UserFactory.CreateUser("viewcontact1","viewcontact1@gmail.com")
+        User contactUser = UserFactory.createUser("viewContact1","viewcontact1@gmail.com")
         User savedContactUser = userRepository.save(contactUser)
 
         // Add contactUser to user's contact list
@@ -257,6 +264,7 @@ class UserServiceTest extends BaseSpecification {
         // make a POST request to addUser and get back expected json
         MvcResult result = mvc.perform(MockMvcRequestBuilders
                 .get('/api/v1/getContacts')
+                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
                 .param("oidUser", savedUser.getOidUser() as String))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()

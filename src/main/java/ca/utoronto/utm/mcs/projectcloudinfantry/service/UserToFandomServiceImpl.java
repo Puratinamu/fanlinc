@@ -16,14 +16,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class RelationshipServiceImpl implements RelationshipService {
+public class UserToFandomServiceImpl implements UserToFandomService {
     private final UserToFandomRepository userToFandomRepository;
     private final UserRepository userRepository;
     private final FandomRepository fandomRepository;
 
-    public RelationshipServiceImpl (UserToFandomRepository userToFandomRepository,
-                                    UserRepository userRepository,
-                                    FandomRepository fandomRepository) {
+    public UserToFandomServiceImpl(UserToFandomRepository userToFandomRepository,
+                                   UserRepository userRepository,
+                                   FandomRepository fandomRepository) {
         this.userToFandomRepository = userToFandomRepository;
         this.userRepository = userRepository;
         this.fandomRepository = fandomRepository;
@@ -38,7 +38,7 @@ public class RelationshipServiceImpl implements RelationshipService {
 
         Optional<Fandom> fandom = fandomRepository.findById(oidFandom);
         if (!fandom.isPresent()) throw new FandomNotFoundException();
-        Fandom foundFandom = fandom.get();
+        Fandom savedFandom = fandom.get();
 
         if (foundUser.getFandoms() == null) {
             foundUser.setFandoms(new ArrayList<>());
@@ -50,7 +50,7 @@ public class RelationshipServiceImpl implements RelationshipService {
         // If not exists, create it
         if (relationship == null) {
             // Create the relationship
-            relationship = new UserToFandom(foundUser, foundFandom, type);
+            relationship = new UserToFandom(foundUser, savedFandom, type);
         }
 
         // Update the relationship strength type if its different

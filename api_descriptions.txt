@@ -213,22 +213,26 @@ Request Body:
 Response Body:
 {
 	"posts" : [
-			{
-             	"oidContent" : 1234,
-             	"title" : "First image post",
-             	"description": "the first image post",
-             	"url": "s3/path/to/first/image",
-             	"oidUser": 1,
-             	"oidFandom": 123
-             },
-			...,
-			{
-            	"oidContent" : 1235,
-            	"text" : "Testing first post!",
-            	"oidUser": 1,
-            	"oidFandom": 123
-            }
-			]
+        {
+            "oidContent" : 1234,
+            "title" : "First image post",
+            "description": "the first image post",
+            "url": "s3/path/to/first/image",
+            "oidCreator": 1,
+            "username": "A username",
+            "oidFandom": 123,
+            "fandomName": "A fandom"
+         },
+        ...,
+        {
+            "oidContent" : 1235,
+            "text" : "Testing first post!",
+            "oidCreator": 1,
+            "username": "A username",
+            "oidFandom": 123,
+            "fandomName": "A fandom"
+        }
+	]
 }
 
 Expected Headers:
@@ -250,7 +254,7 @@ Response Body:
 	"title" : "First image post",
 	"description": "the first image post",
 	"url": "s3/path/to/first/image",
-	"oidUser": 1,
+	"oidCreator": 1,
 	"oidFandom": 123
 }
 
@@ -276,7 +280,7 @@ Response Body:
 {
 	"oidContent" : 1234,
 	"text" : "Testing first post!",
-	"oidUser": 1,
+	"oidCreator": 1,
 	"oidFandom": 123
 }
 
@@ -297,13 +301,13 @@ Request Body:
 	"oidCreator" : 1234,
 	"text" : "Testing second post!",
 	"oidFandom" : 12346
+	"relationshipLevel" : "CASUAL"
 }
 
 Response Body:
 {
     "oidPost" : 12345,
     "oidCreator" : 1234,
-    "text" : "Testing second post!",
     "oidFandom" : 12346
 }
 
@@ -420,7 +424,7 @@ GET/api/v1/getFeed
 
 Request Body:
 {
-	"oidUser": 1234
+	"oidCreator": 1234
 }
 
 Response Body:
