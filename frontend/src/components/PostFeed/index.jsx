@@ -12,7 +12,8 @@ class PostFeed extends React.Component {
         super(props)
         this.state = {
             posts: [],
-            loading: true
+            loading: true, 
+            error: false
         }
     }
     componentDidMount() {
@@ -20,7 +21,9 @@ class PostFeed extends React.Component {
             console.log(response)
 
             if (response.status === 200) {
-                this.setState({ loading: false, posts: response.data.posts })
+                this.setState({ loading: false, posts: response.data.posts, error: false })
+            } else {
+                this.setState({ loading: false, error: true})
             }
         })
     }
@@ -29,7 +32,8 @@ class PostFeed extends React.Component {
             <Container>
                 <Grid className="post-feed-container">
                     {this.state.loading === true && <Loading />}
-                    {this.state.loading !== true && this.state.posts.length === 0 &&
+                    {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
+                    {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
                         <Box display="flex" justifyContent="center" p={1} >
                             <Typography color="primary" variant="h3"> There are no posts in your feed</Typography>
                         </Box>
@@ -37,6 +41,7 @@ class PostFeed extends React.Component {
                     {
                         this.state.loading !== true &&
                         this.state.posts.length > 0 &&
+                        !this.state.error &&
                         this.state.posts.map((postData, index) => {
                             let date = new Date(postData.creationTimeStamp)
 
