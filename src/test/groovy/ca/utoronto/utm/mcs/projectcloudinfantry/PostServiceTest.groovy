@@ -188,7 +188,8 @@ class PostServiceTest extends BaseSpecification {
         responsePost1.get('oidFandom') == fandom1.getOidFandom()
         responsePost1.get('fandomName') == fandom1.getName()
         responsePost1.get('text') == (post1.getContent() as TextContent).getText()
-
+        responsePost1.get('title') == post1.getTitle()
+        responsePost1.get('creationTimestamp') == String.valueOf(post1.getCreationTimestamp())
 
         responsePost2.get("oidPost") == post2.getOidPost()
         responsePost2.get('oidCreator') == user2.getOidUser()
@@ -196,5 +197,7 @@ class PostServiceTest extends BaseSpecification {
         responsePost2.get('oidFandom') == fandom2.getOidFandom()
         responsePost2.get('fandomName') == fandom2.getName()
         responsePost2.get('text') == (post2.getContent() as TextContent).getText()
+        responsePost2.get('title') == post2.getTitle()
+        responsePost2.get('creationTimestamp') == String.valueOf(post2.getCreationTimestamp())
     }
 }

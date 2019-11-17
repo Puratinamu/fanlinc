@@ -16,7 +16,7 @@ public class TextPostResponseMapper {
         textPostResponse.setOidFandom(post.getFandom().getOidFandom());
         textPostResponse.setFandomName(post.getFandom().getName());
         textPostResponse.setTitle(post.getTitle());
-        textPostResponse.setCreationTimeStamp(post.getCreationTimestamp().toString());
+        textPostResponse.setCreationTimestamp(String.valueOf(post.getCreationTimestamp()));
 
         TextContent textContent = (TextContent) post.getContent();
         textPostResponse.setText(textContent.getText());
