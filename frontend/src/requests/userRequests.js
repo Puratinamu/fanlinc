@@ -20,7 +20,7 @@ let userRequests = {
 
             let jwt = response.data.jwt;
             let oidUser = response.data.oidUser;
-            cookieManager.setCookie("sessionToken",jwt, 1)
+            cookieManager.setCookie("sessionToken", jwt, 1)
             cookieManager.setCookie("authenticatedUserEmail", email, 1)
             cookieManager.setCookie("authenticatedOidUser", oidUser, 1)
             return response
@@ -29,7 +29,6 @@ let userRequests = {
             return error.response
         }
     },
-
     getUser: async function (oidUser) {
         try {
             const response = await axios.get('/api/v1/getProfile', {
@@ -43,21 +42,16 @@ let userRequests = {
             return error.response;
         }
     },
-
-
-    getContacts: async function (oidUser) {
+    putContact: async function (requestBody) {
         try {
-            return await axios.get("/api/v1/getContacts", {
-                params: {
-                    oidUser: oidUser
-                }
-            });
-        } catch (error) {
+            const response = await axios.post('/api/v1/addContact', requestBody)
+            return response
+        }
+        catch (error) {
             console.error(error);
-            return error.response;
+            return error
         }
     }
-
-};
+}
 
 export default userRequests;

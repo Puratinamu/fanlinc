@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
         response.setOidUser(user.getOidUser());
         return response;
     }
-  
+
     @Override
     public User getUserByUsername(User user) {
         return userRepository.findByUsername(user.getUsername());
