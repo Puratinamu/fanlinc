@@ -119,7 +119,7 @@ class ViewProfile extends React.Component {
                     {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
                     {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
                     {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
-                    {fandomList.length > 0 && (
+                    {fandomList.length >= 0 && (
                         <ProfileHeading label={USER_FANDOMS_LABEL}>
                             <IconButton
                                 onClick={this.routeToJoinFandom.bind(this)}

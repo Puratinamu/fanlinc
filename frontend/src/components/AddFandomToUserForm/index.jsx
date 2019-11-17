@@ -91,7 +91,8 @@ class AddFandomToUserForm extends React.Component {
                     value: `${fandoms[i].oidFandom}`,
                     label: `${fandoms[i].name}`,
                     data: fandoms[i]
-                }); }
+                });
+            }
         }
 
         return options;
@@ -155,7 +156,7 @@ class AddFandomToUserForm extends React.Component {
     renderOptionsMenu() {
         // Create menu items for each option
         let items = [];
-        for (let i = 0, len=this.props.options.length; i < len; i++) {
+        for (let i = 0, len = this.props.options.length; i < len; i++) {
             let currentOption = this.props.options[i];
             // On click of the menu item emit out the value that was clicked
             items.push(
@@ -164,14 +165,14 @@ class AddFandomToUserForm extends React.Component {
         }
 
         return (
-          <div className="cldi-options-menu">
-            <IconButton className="cldi-options-menu-icon" onClick={this.handleOptionsMenuClick.bind(this)}>
-                <MoreVertIcon />
-            </IconButton>
-            <Menu open={this.state.menuOpen} anchorEl={this.state.menuAnchorEl} onClose={this.closeOptionsMenu}>
-              {items}
-            </Menu>
-          </div>
+            <div className="cldi-options-menu">
+                <IconButton className="cldi-options-menu-icon" onClick={this.handleOptionsMenuClick.bind(this)}>
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu open={this.state.menuOpen} anchorEl={this.state.menuAnchorEl} onClose={this.closeOptionsMenu}>
+                    {items}
+                </Menu>
+            </div>
         );
     }
 
@@ -179,50 +180,53 @@ class AddFandomToUserForm extends React.Component {
         // If there are no fandoms to select from, show a message
         if (!this.state.loading && this.state.fandomsList.length === 0) {
             return (
-                <Typography component='h4' variant='h4' color='textSecondary' align='center'>
-                    Sorry, No Fandoms Currently Exist.
+                <Box >
+                    {this.props.options && this.renderOptionsMenu()}
+                    <Typography component='h4' variant='h4' color='textSecondary' align='center'>
+                        Sorry, No Fandoms Currently Exist.
                 </Typography>
+                </Box>
             );
         }
 
         return (
             <Zoom in={!this.state.loading}>
                 <Box className="cldi-add-fandom-to-user-form-container">
-                  <Paper>
-                    <Box px={4} pb={4} pt={3}>
-                      <Grid container spacing={4} direction="column">
-                        {!this.state.loading &&
-                          (
-                            <Grid item xs={12}>
-                              <div className="cldi-select-fandom-heading-container">
-                                <Typography variant="h6">{SearchAFandom}</Typography>
-                                {this.props.options && this.renderOptionsMenu()}
-                              </div>
-                              <Divider/>
-                              <SearchField
-                                callback={this.setSelectedFandom}
-                                placeHolder={SearchAFandom}
-                                searchList={this.state.fandomsList}/>
+                    <Paper>
+                        <Box px={4} pb={4} pt={3}>
+                            <Grid container spacing={4} direction="column">
+                                {!this.state.loading &&
+                                    (
+                                        <Grid item xs={12}>
+                                            <div className="cldi-select-fandom-heading-container">
+                                                <Typography variant="h6">{SearchAFandom}</Typography>
+                                                {this.props.options && this.renderOptionsMenu()}
+                                            </div>
+                                            <Divider />
+                                            <SearchField
+                                                callback={this.setSelectedFandom}
+                                                placeHolder={SearchAFandom}
+                                                searchList={this.state.fandomsList} />
+                                        </Grid>
+                                    )
+                                }
+                                {this.state.fandomSelected &&
+                                    (
+                                        <Grid item xs={12}>
+                                            <Typography variant="h6">{SelectInterestLevel}</Typography>
+                                            <Divider />
+                                            <SearchField
+                                                callback={this.setInterestLevel}
+                                                isSearchable={false}
+                                                placeHolder={SelectInterestLevel}
+                                                searchList={this.interestLevels} />
+                                        </Grid>
+                                    )
+                                }
+                                {this.children}
                             </Grid>
-                          )
-                        }
-                        {this.state.fandomSelected &&
-                          (
-                            <Grid item xs={12}>
-                              <Typography variant="h6">{SelectInterestLevel}</Typography>
-                              <Divider/>
-                              <SearchField
-                                callback={this.setInterestLevel}
-                                isSearchable={false}
-                                placeHolder={SelectInterestLevel}
-                                searchList={this.interestLevels}/>
-                            </Grid>
-                          )
-                        }
-                        {this.children}
-                      </Grid>
-                    </Box>
-                  </Paper>
+                        </Box>
+                    </Paper>
                 </Box>
             </Zoom>
         );

@@ -48,7 +48,7 @@ class FandomServiceTest extends BaseSpecification {
                 .post('/api/v1/addFandom')
                 .header("jwt", tokenService.generateToken(1234, new HashMap<String, Object>()))
                 .content('{\n' +
-                        '\t"name": "testFandom",\n' +
+                        '\t"name": "testAddFandom",\n' +
                         '\t"description": "testDescription",\n' +
                         '\t"creator": 1234\n' +
                         '}')
@@ -59,7 +59,7 @@ class FandomServiceTest extends BaseSpecification {
         Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
         Long oidFandom = resultMap.get("oidFandom")
         Fandom fandom = fandomRepository.findById(oidFandom).get()
-        fandom.getName() == 'testFandom'
+        fandom.getName() == 'testAddFandom'
         fandom.getDescription() == 'testDescription'
     }
 

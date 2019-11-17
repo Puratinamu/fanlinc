@@ -29,19 +29,25 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 public class UserController {
-    private UserService userService;
-    private RegistrationRequestMapper registrationRequestMapper;
-    private RegistrationResponseMapper registrationResponseMapper;
-    private LoginRequestMapper loginRequestMapper;
-    private AddContactRequestMapper addContactRequestMapper;
-    private TokenService tokenService;
+    private final UserService userService;
+    private final RegistrationRequestMapper registrationRequestMapper;
+    private final RegistrationResponseMapper registrationResponseMapper;
+    private final LoginRequestMapper loginRequestMapper;
+    private final AddContactRequestMapper addContactRequestMapper;
+    private final TokenService tokenService;
 
-    public UserController(UserService userService, RegistrationRequestMapper registrationRequestMapper, RegistrationResponseMapper registrationResponseMapper, LoginRequestMapper loginRequestMapper, AddContactRequestMapper addContactRequestMapper) {
+    public UserController(UserService userService,
+                          RegistrationRequestMapper registrationRequestMapper,
+                          RegistrationResponseMapper registrationResponseMapper,
+                          LoginRequestMapper loginRequestMapper,
+                          AddContactRequestMapper addContactRequestMapper,
+                          TokenService tokenService) {
         this.userService = userService;
         this.registrationRequestMapper = registrationRequestMapper;
         this.registrationResponseMapper = registrationResponseMapper;
         this.loginRequestMapper = loginRequestMapper;
         this.addContactRequestMapper = addContactRequestMapper;
+        this.tokenService = tokenService;
     }
 
     @RequestMapping(value = "/api/v1/addUser", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -56,8 +62,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -72,8 +76,6 @@ public class UserController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         } catch (NotAuthorizedException e) {
             return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-        } catch (Exception e){
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -83,7 +85,7 @@ public class UserController {
         try {
             tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf((Integer) body.get("oidUser")));
             AddContactRequest addContactRequest = addContactRequestMapper.toAddContactRequest(body);
-            this.userService.addContact(addContactRequest);
+            userService.addContact(addContactRequest);
             return new ResponseEntity(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -91,8 +93,6 @@ public class UserController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } catch (BelongsToRelationshipAlreadyExists e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -106,8 +106,6 @@ public class UserController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         // Return the request
@@ -125,9 +123,6 @@ public class UserController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

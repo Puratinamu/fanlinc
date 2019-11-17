@@ -1,6 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.request;
 
-public class RelationshipRequest {
+public class UserToFandomRequest {
 
     private Long oidFandom;
     private String level;

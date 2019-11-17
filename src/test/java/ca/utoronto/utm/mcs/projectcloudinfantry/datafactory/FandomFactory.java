@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.projectcloudinfantry;
+package ca.utoronto.utm.mcs.projectcloudinfantry.datafactory;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class FandomFactory {
 
-    public static Fandom CreateFandom(String name) {
+    public static Fandom createFandom(String name) {
         Fandom fandom = new Fandom();
         fandom.setName(name);
         fandom.setDescription("General fandom description");

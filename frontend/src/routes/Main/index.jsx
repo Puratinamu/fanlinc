@@ -7,6 +7,7 @@ import LoginManager from '../../components/core/LoginManager/';
 import JoinFandom from './JoinFandom/';
 import ViewProfilePage from './ViewProfilePage/';
 import NewFandom from './NewFandom/';
+import Home from './Home';
 
 import "./styles.scss";
 
@@ -14,7 +15,7 @@ class Main extends React.Component {
 
     componentDidMount() {
         // Here we assume the user is logged in
-        let nextRoute = '/main/viewprofile',
+        let nextRoute = '/main',
             requestedRoute = this.props.history.location.pathname;
 
         if (!requestedRoute.match(/^\/main\/*$/)) {
@@ -39,6 +40,7 @@ class Main extends React.Component {
                 <Route path="/main/viewprofile" component={ViewProfilePage} />
                 <Route path="/main/joinfandom" component={JoinFandom} />
                 <Route path="/main/newfandom" component={NewFandom} />
+                <Route exact path="/main" component={Home} />
                 <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
               </Switch>
               <Navbar callback={this.routeTo.bind(this)} />

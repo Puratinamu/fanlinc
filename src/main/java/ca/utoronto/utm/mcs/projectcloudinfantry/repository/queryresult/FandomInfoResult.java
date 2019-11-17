@@ -1,4 +1,4 @@
-package ca.utoronto.utm.mcs.projectcloudinfantry.repository;
+package ca.utoronto.utm.mcs.projectcloudinfantry.repository.queryresult;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import org.springframework.data.neo4j.annotation.QueryResult;

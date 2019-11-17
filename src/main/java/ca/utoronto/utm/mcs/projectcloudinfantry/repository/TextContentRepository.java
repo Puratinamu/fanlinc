@@ -5,5 +5,5 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TextPostRepository extends Neo4jRepository<TextContent, Long> {
+public interface TextContentRepository extends Neo4jRepository<TextContent, Long> {
 }
