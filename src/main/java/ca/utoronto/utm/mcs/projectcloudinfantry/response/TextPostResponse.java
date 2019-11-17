@@ -4,7 +4,7 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 public class TextPostResponse {
 
     private Long oidPost;
-    private Long oidUser;
+    private Long oidCreator;
     private String username;
     private Long oidFandom;
     private String fandomName;
@@ -19,12 +19,12 @@ public class TextPostResponse {
         this.oidPost = oidPost;
     }
 
-    public Long getOidUser() {
-        return oidUser;
+    public Long getOidCreator() {
+        return oidCreator;
     }
 
-    public void setOidUser(Long oidUser) {
-        this.oidUser = oidUser;
+    public void setOidCreator(Long oidCreator) {
+        this.oidCreator = oidCreator;
     }
 
     public String getUsername() {

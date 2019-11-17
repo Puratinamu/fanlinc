@@ -11,7 +11,7 @@ public class TextPostResponseMapper {
     public TextPostResponse toTextPostResponse(Post post) {
         TextPostResponse textPostResponse = new TextPostResponse();
         textPostResponse.setOidPost(post.getOidPost());
-        textPostResponse.setOidUser(post.getCreator().getOidUser());
+        textPostResponse.setOidCreator(post.getCreator().getOidUser());
         textPostResponse.setUsername(post.getCreator().getUsername());
         textPostResponse.setOidFandom(post.getFandom().getOidFandom());
         textPostResponse.setFandomName(post.getFandom().getName());

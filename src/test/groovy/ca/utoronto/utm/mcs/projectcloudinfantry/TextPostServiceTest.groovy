@@ -67,47 +67,46 @@ class TextPostServiceTest extends BaseSpecification {
                 .andReturn()
 
         Map textMap = objectMapper.readValue(textPost.getResponse().getContentAsString(), HashMap)
-        textMap.get("oidPost") != null
-        textMap.get("oidCreator") == user.getOidUser().toString()
-        textMap.get("oidFandom") == fandom.getOidFandom().toString()
-
-        Post post = postRepository.findById(textMap.get("oidPost") as Long).get()
-        post.getCreator().getOidUser() == textMap.get("oidCreator")
-        post.getFandom().getOidFandom() == textMap.get("oidFandom")
+        Post post = postRepository.findById(textMap.get('oidPost') as Long).get()
 
         TextContent text = textContentRepository.findById(post.getContent().getOidContent()).get()
         text.getText() == 'Hello World!'
+
+        textMap.get('oidCreator') == user.getOidUser().toString()
+        textMap.get('username') == user.getUsername()
+        textMap.get('oidFandom') == fandom.getOidFandom().toString()
+        textMap.get('fandomName') == fandom.getName()
+        textMap.get('text') == (post.getContent() as TextContent).getText()
     }
 
-    def 'Test get text post'() {
-        given:
-        User user = UserFactory.createUser("yos", "yos@yos.com")
-        user = userRepository.save(user)
-
-        Fandom fandom = FandomFactory.createFandom("testFandom")
-        fandom = fandomRepository.save(fandom)
-
-        TextContent textContent = ContentFactory.createTextContent("testText")
-        textContent = textContentRepository.save(textContent)
-
-        Post post = PostFactory.createPost("testTitle", user, fandom, textContent)
-        post = postRepository.save(post)
-
-        expect:
-        MvcResult getResult = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getTextPost')
-                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
-                .content('{\n' +
-                        '\t"oidPost":' + post.getOidPost().toString() +
-                        '}')
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andReturn()
-
-        Map getTextMap = objectMapper.readValue(getResult.getResponse().getContentAsString(), HashMap)
-        getTextMap.get("text") == 'testText'
-    }
-
+//    def 'Test get text post'() {
+//        given:
+//        User user = UserFactory.createUser("yos", "yos@yos.com")
+//        user = userRepository.save(user)
+//
+//        Fandom fandom = FandomFactory.createFandom("testFandom")
+//        fandom = fandomRepository.save(fandom)
+//
+//        TextContent textContent = ContentFactory.createTextContent("testText")
+//        textContent = textContentRepository.save(textContent)
+//
+//        Post post = PostFactory.createPost("testTitle", user, fandom, textContent)
+//        post = postRepository.save(post)
+//
+//        expect:
+//        MvcResult getResult = mvc.perform(MockMvcRequestBuilders
+//                .get('/api/v1/getTextPost')
+//                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
+//                .content('{\n' +
+//                        '\t"oidPost":' + post.getOidPost().toString() +
+//                        '}')
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andReturn()
+//
+//        Map getTextMap = objectMapper.readValue(getResult.getResponse().getContentAsString(), HashMap)
+//        getTextMap.get("text") == 'testText'
+//    }
 
     def 'Test get post feed'() {
         given:
@@ -142,7 +141,7 @@ class TextPostServiceTest extends BaseSpecification {
         expect:
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getPostFeed?oidUser=' + user3.getOidUser())
+                .get('/api/v1/getPostFeed?oidCreator=' + user3.getOidUser())
                 .header("jwt", tokenService.generateToken(user3.getOidUser(), new HashMap<String, Object>()))
                 .content('{}')
                 .contentType(MediaType.APPLICATION_JSON))
@@ -151,24 +150,21 @@ class TextPostServiceTest extends BaseSpecification {
 
         Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
         List<Object> posts = resultMap.get("posts") as List<Object>
-        Map<String, Object> returnedPost1 = posts.get(0) as Map<String, Object>
-        verifyTextPostResponse(returnedPost1, post1, textContent1)
-    }
+        Map<String, Object> responsePost1 = posts.get(0) as Map<String, Object>
 
-    boolean verifyTextPostResponse(Map<String, Object> map, Post post, TextContent textContent) {
-        map.get("oidPost") == post.getOidPost()
+        responsePost1.get("oidPost") == post1.getOidPost()
+        responsePost1.get('oidCreator') == user1.getOidUser().toString()
+        responsePost1.get('username') == user1.getUsername()
+        responsePost1.get('oidFandom') == fandom1.getOidFandom().toString()
+        responsePost1.get('fandomName') == fandom1.getName()
+        responsePost1.get('text') == (post1.getContent() as TextContent).getText()
 
-        Map<String, Object> fandom = map.get("fandom") as Map<String, Object>
-        fandom.get("oidFandom") == post.getFandom().getOidFandom()
-        fandom.get("name") == post.getFandom().getName()
-
-        Map<String, Object> creator = map.get("creator") as Map<String, Object>
-        creator.get("oidUser") == post.getCreator().getOidUser()
-        creator.get("username") == post.getCreator().getUsername()
-
-        Map<String, Object> content = map.get("content") as Map<String, Object>
-        content.get("oidContent") == post.getContent().getOidContent()
-        post.getContent().getOidContent() == textContent.getOidContent()
-        content.get("text") == textContent.getText()
+        Map<String, Object> responsePost2 = posts.get(1) as Map<String, Object>
+        responsePost2.get("oidPost") == post2.getOidPost()
+        responsePost2.get('oidCreator') == user2.getOidUser().toString()
+        responsePost2.get('username') == user2.getUsername()
+        responsePost2.get('oidFandom') == fandom2.getOidFandom().toString()
+        responsePost2.get('fandomName') == fandom2.getName()
+        responsePost2.get('text') == (post2.getContent() as TextContent).getText()
     }
 }
