@@ -74,8 +74,9 @@ class PostServiceTest extends BaseSpecification {
                 .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
                 .content('{\n' +
                         '\t"oidFandom": ' + fandom.getOidFandom() + ',\n' +
-                        '\t"text": "Hello World!",' +
-                        '\t"oidCreator": ' + user.getOidUser() + '\n' +
+                        '\t"text": "Hello World!", \n' +
+                        '\t"oidCreator": ' + user.getOidUser() + ',\n' +
+                        '\t"title": ' + '"yeet"' + '\n' +
                         '}')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

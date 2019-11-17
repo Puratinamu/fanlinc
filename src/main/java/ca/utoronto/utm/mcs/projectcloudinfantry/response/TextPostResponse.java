@@ -9,6 +9,8 @@ public class TextPostResponse {
     private Long oidFandom;
     private String fandomName;
     private String text;
+    private String creationTimeStamp;
+    private String title;
 
 
     public Long getOidPost() {
@@ -57,5 +59,21 @@ public class TextPostResponse {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getCreationTimeStamp() {
+        return creationTimeStamp;
+    }
+
+    public void setCreationTimeStamp(String creationTimeStamp) {
+        this.creationTimeStamp = creationTimeStamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
