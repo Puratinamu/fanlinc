@@ -29,6 +29,8 @@ class ViewProfile extends React.Component {
     super(props);
     this.handleAddingContact = this.handleAddingContact.bind(this);
 
+    this.handleClose = this.handleClose.bind(this);
+
     this.store = props.store;
 
     this.state = {
@@ -177,7 +179,7 @@ const ProfileHeading = (input) => {
 
 function AddContactButton(props) {
 
-  if (props.curUser === props.contact) {
+  if (props.curUser != props.contact) {
     return (
       <Button
         variant="contained"

@@ -20,7 +20,7 @@ let userRequests = {
 
             let jwt = response.data.jwt;
             let oidUser = response.data.oidUser;
-            cookieManager.setCookie("sessionToken",jwt, 1)
+            cookieManager.setCookie("sessionToken", jwt, 1)
             cookieManager.setCookie("authenticatedUserEmail", email, 1)
             cookieManager.setCookie("authenticatedOidUser", oidUser, 1)
             return response
@@ -40,6 +40,16 @@ let userRequests = {
             return response
         } catch (error) {
             return error.response;
+        }
+    },
+    putContact: async function (requestBody) {
+        try {
+            const response = await axios.post('/api/v1/addContact', requestBody)
+            return response
+        }
+        catch (error) {
+            console.error(error);
+            return error
         }
     }
 }
