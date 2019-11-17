@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public interface RelationshipService {
+public interface UserToFandomService {
 
     void addUserToFandom(Long oidUser, Long oidFandom, String type);
 

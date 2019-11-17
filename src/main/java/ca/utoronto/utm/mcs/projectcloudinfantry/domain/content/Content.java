@@ -16,8 +16,6 @@ public abstract class Content {
     @Id
     @GeneratedValue
     private Long oidContent;
-    private Long oidUser;
-    private Long oidFandom;
 
     @Relationship(value = "HAS_CONTENT", direction = Relationship.INCOMING)
     private Post post;
@@ -34,14 +32,6 @@ public abstract class Content {
     public void setOidContent(Long oidContent) {
         this.oidContent = oidContent;
     }
-
-    public Long getOidUser() { return oidUser; }
-
-    public Long getOidFandom() { return oidFandom; }
-
-    public void setOidUser(Long oidUser) { this.oidUser = oidUser; }
-
-    public void setOidFandom(Long oidFandom) { this.oidFandom = oidFandom; }
 
     public Date getCreationTimestamp() {
         return creationTimestamp;

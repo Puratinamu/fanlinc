@@ -4,12 +4,11 @@ import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
-import org.neo4j.ogm.id.UuidStrategy;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @NodeEntity
 public class User {
@@ -26,13 +25,13 @@ public class User {
     private String description;
 
     @Relationship(type = "BELONGS_TO")
-    private List<Fandom> fandoms;
+    private List<Fandom> fandoms = new ArrayList<>();
 
     @Relationship(type = "POSTED")
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     @Relationship(type = "CONTACT_WITH")
-    private List<User> contacts;
+    private List<User> contacts = new ArrayList<>();
 
     @CreatedDate
     private Date creationTimestamp;

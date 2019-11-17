@@ -4,6 +4,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import ChatIcon from '@material-ui/icons/Chat';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PersonIcon from '@material-ui/icons/Person';
+import HomeIcon from '@material-ui/icons/Home';
 
 import './styles.scss';
 
@@ -31,6 +32,7 @@ class Navbar extends React.Component {
     render() {
         return (
           <BottomNavigation showLabels className="cldi-nav-bar" value={this.state.profile} onChange={this.handleChange}>
+            <BottomNavigationAction label="Home" value="/main" icon={<HomeIcon />} />
             <BottomNavigationAction label="Profile" value="/main/viewprofile" icon={<PersonIcon />} />
             <BottomNavigationAction label="Lincs" value="/main/contacts" icon={<PeopleAltIcon />} />
             <BottomNavigationAction label="Chat" value="/main/chat" icon={<ChatIcon />} />

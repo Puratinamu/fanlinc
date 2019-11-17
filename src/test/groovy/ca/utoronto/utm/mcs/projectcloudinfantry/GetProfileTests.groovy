@@ -1,6 +1,6 @@
 import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
-import ca.utoronto.utm.mcs.projectcloudinfantry.FandomFactory
-import ca.utoronto.utm.mcs.projectcloudinfantry.UserFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.FandomFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -43,8 +43,8 @@ class GetProfileTests extends BaseSpecification {
 
     def setupSpec() {
         // Create new User and new fandom and add them to repo
-        testUser = UserFactory.CreateUser("Tanner", "tanner@email.com");
-        testFandom = FandomFactory.CreateFandom("Minecraft");
+        testUser = UserFactory.createUser("Tanner", "tanner@email.com");
+        testFandom = FandomFactory.createFandom("Minecraft");
 
     }
 
@@ -103,7 +103,7 @@ class GetProfileTests extends BaseSpecification {
         UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL");
         userToFandomRepository.save(rel);
 
-        testFandom = FandomFactory.CreateFandom("LOL");
+        testFandom = FandomFactory.createFandom("LOL");
         testFandom = fandomRepository.save(testFandom)
         rel = new UserToFandom(testUser, testFandom, "EXPERT");
         userToFandomRepository.save(rel);

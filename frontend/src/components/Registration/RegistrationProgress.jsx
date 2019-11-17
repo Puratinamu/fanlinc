@@ -76,7 +76,6 @@ export default function RegistrationProgress(props) {
   };
 
   const handleStep = step => () => {
-    console.log(completed)
     if ((step <= activeStep || completed[step]) && activeStep !== 4) {
       setActiveStep(step);
       props.callback(step);
