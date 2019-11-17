@@ -8,9 +8,12 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Post
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.PostToFandom
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.RelationshipLevel
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.PostRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.PostToFandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.TextContentRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository
@@ -25,7 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper
 
 @PropertySource(value = "classpath:application-test.yml")
-class TextPostServiceTest extends BaseSpecification {
+class PostServiceTest extends BaseSpecification {
 
     @Autowired
     private MockMvc mvc
@@ -46,6 +49,9 @@ class TextPostServiceTest extends BaseSpecification {
 
     @Autowired
     private UserToFandomRepository userToFandomRepository
+
+    @Autowired
+    private PostToFandomRepository postToFandomRepository
 
     @Autowired
     private TokenService tokenService
@@ -87,6 +93,9 @@ class TextPostServiceTest extends BaseSpecification {
         textMap.get('oidFandom') == fandom.getOidFandom()
         textMap.get('fandomName') == fandom.getName()
         textMap.get('text') == (post.getContent() as TextContent).getText()
+
+        PostToFandom postToFandom = postToFandomRepository.findAll().asList().get(0)
+        postToFandom.getRelationshipLevel() == RelationshipLevel.CASUAL
     }
 
 //    def 'Test get text post'() {
@@ -179,7 +188,8 @@ class TextPostServiceTest extends BaseSpecification {
         responsePost1.get('oidFandom') == fandom1.getOidFandom()
         responsePost1.get('fandomName') == fandom1.getName()
         responsePost1.get('text') == (post1.getContent() as TextContent).getText()
-
+        responsePost1.get('title') == post1.getTitle()
+        responsePost1.get('creationTimestamp') == String.valueOf(post1.getCreationTimestamp())
 
         responsePost2.get("oidPost") == post2.getOidPost()
         responsePost2.get('oidCreator') == user2.getOidUser()
@@ -187,5 +197,7 @@ class TextPostServiceTest extends BaseSpecification {
         responsePost2.get('oidFandom') == fandom2.getOidFandom()
         responsePost2.get('fandomName') == fandom2.getName()
         responsePost2.get('text') == (post2.getContent() as TextContent).getText()
+        responsePost2.get('title') == post2.getTitle()
+        responsePost2.get('creationTimestamp') == String.valueOf(post2.getCreationTimestamp())
     }
 }

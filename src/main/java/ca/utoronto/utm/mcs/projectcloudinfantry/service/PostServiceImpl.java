@@ -53,7 +53,6 @@ public class PostServiceImpl implements  PostService {
     @Override
     public Post addTextPost(TextPostRequest textPostRequest) {
 
-
         User user = userRepository.findById(textPostRequest.getOidCreator()).orElseThrow(UserNotFoundException::new);
         Fandom fandom = fandomRepository.findById(textPostRequest.getOidFandom()).orElseThrow(FandomNotFoundException::new);
 
@@ -62,25 +61,28 @@ public class PostServiceImpl implements  PostService {
 
         Post post = postMapper.toPost(textPostRequest);
         post.setContent(textContent);
-        post.setCreator(user);
         post.setFandom(fandom);
+        post.setCreator(user);
 
         Date date = new Date();
         post.setCreationTimestamp(date);
         post.setLastUpdateTimestamp(date);
 
         post = postRepository.save(post);
-        fandom.getPosts().add(post);
 
+        fandom.getPosts().add(post);
         fandomRepository.save(fandom);
 
         PostToFandom postToFandom = postToFandomRepository.findByOidPostAndOidFandom(post.getOidPost(), fandom.getOidFandom());
+        postToFandom.setPost(post);
+        postToFandom.setFandom(fandom);
+
         UserToFandom userToFandom = userToFandomRepository.findByUserIDAndFandomID(user.getOidUser(), fandom.getOidFandom());
         postToFandom.setRelationshipLevel(RelationshipLevel.valueOf(userToFandom.getRelationship()));
-        postToFandom.setFandom(fandom);
-        postToFandom.setPost(post);
 
         postToFandomRepository.save(postToFandom);
+
+        post.setFandom(fandom);
 
         return post;
     }

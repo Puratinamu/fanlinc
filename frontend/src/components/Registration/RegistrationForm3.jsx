@@ -39,15 +39,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function RegistrationForm3() {
   const classes = useStyles();
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fandomSearch = async function () {
-    let fandom = await fandomRequests.listFandoms(searchTerm)
+    let fandom = await fandomRequests.listFandoms(searchTerm);
     console.log(fandom)
-  }
+  };
   const handleSearchBarUpdate = (e) => {
     setSearchTerm(e.target.value)
-  }
+  };
 
   return (
     <Box>

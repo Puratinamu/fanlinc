@@ -22,7 +22,7 @@ public class Fandom {
     private String description;
 
     @Relationship(type = "BELONGS_TO", direction = Relationship.INCOMING)
-    private List<User> members;
+    private List<User> members = new ArrayList<>();
 
     @Relationship(type = "POSTED_TO", direction = Relationship.INCOMING)
     private List<Post> posts = new ArrayList<>();

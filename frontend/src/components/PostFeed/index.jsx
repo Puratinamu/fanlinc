@@ -18,7 +18,6 @@ class PostFeed extends React.Component {
     }
     componentDidMount() {
         postRequests.getPostFeed(this.props.store.get("authenticatedOidUser"), this.props.store.get("sessionToken")).then((response) => {
-
             if (response.status === 200) {
                 this.setState({ loading: false, posts: response.data.posts, error: false })
             } else {
@@ -42,7 +41,7 @@ class PostFeed extends React.Component {
                         this.state.posts.length > 0 &&
                         !this.state.error &&
                         this.state.posts.map((postData, index) => {
-                            let date = new Date(postData.creationTimeStamp)
+                            let date = new Date(postData.creationTimestamp);
 
                             return <Grid item xs={12} key={index} >
                                 <Post key={index} title={postData.title} date={date.toLocaleTimeString('en-US') + ", " + date.toLocaleDateString()} text={postData.text} author={postData.username} fandom={postData.fandomName} />

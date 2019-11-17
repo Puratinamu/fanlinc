@@ -48,7 +48,7 @@ public class PostController {
     @ResponseBody
     public ResponseEntity<TextPostResponse> addTextPost(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
         try {
-            tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf((Integer) body.get("oidCreator")));
+            tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf(String.valueOf(body.get("oidCreator"))));
             TextPostRequest textPostRequest = textPostRequestMapper.toTextPostRequest(body);
             Post post = postService.addTextPost(textPostRequest);
             TextPostResponse textPostResponse = textPostResponseMapper.toTextPostResponse(post);
