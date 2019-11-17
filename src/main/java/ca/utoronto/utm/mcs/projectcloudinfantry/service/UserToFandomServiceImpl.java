@@ -8,9 +8,11 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository;
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToFandomRepository;
+import ca.utoronto.utm.mcs.projectcloudinfantry.utils.MapperUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -43,7 +45,7 @@ public class UserToFandomServiceImpl implements UserToFandomService {
         }
 
         // Try to get the relationship if it already exists
-        UserToFandom relationship = userToFandomRepository.findByUserIdAndFandomID(oidUser, oidFandom);
+        UserToFandom relationship = userToFandomRepository.findByUserIDAndFandomID(oidUser, oidFandom);
 
         // If not exists, create it
         if (relationship == null) {
@@ -56,4 +58,5 @@ public class UserToFandomServiceImpl implements UserToFandomService {
 
         userToFandomRepository.save(relationship);
     }
+
 }
