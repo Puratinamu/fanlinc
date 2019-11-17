@@ -18,8 +18,6 @@ class PostFeed extends React.Component {
     }
     componentDidMount() {
         postRequests.getPostFeed(this.props.store.get("authenticatedOidUser"), this.props.store.get("sessionToken")).then((response) => {
-            console.log(response)
-
             if (response.status === 200) {
                 this.setState({ loading: false, posts: response.data.posts, error: false })
             } else {
