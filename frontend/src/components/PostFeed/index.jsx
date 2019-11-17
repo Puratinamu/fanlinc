@@ -18,7 +18,6 @@ class PostFeed extends React.Component {
     }
     componentDidMount() {
         postRequests.getPostFeed(this.props.store.get("authenticatedOidUser"), this.props.store.get("sessionToken")).then((response) => {
-            console.log(response)
 
             if (response.status === 200) {
                 this.setState({ loading: false, posts: response.data.posts, error: false })
@@ -35,7 +34,7 @@ class PostFeed extends React.Component {
                     {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
                     {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
                         <Box display="flex" justifyContent="center" p={1} >
-                            <Typography color="primary" variant="h3"> There are no posts in your feed</Typography>
+                            <Typography color="textSecondary" variant="h4"> There are no posts in your feed</Typography>
                         </Box>
                     }
                     {

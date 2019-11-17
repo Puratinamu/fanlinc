@@ -7,18 +7,18 @@ class Post extends React.Component {
         return (
             <Box className="post-item" p={1}>
                 <Card>
-                    <Box pt={2} pb={2} pl={1} pr={1}>
-                        <Box display="flex">
+                    <Box py={2} px={2} >
+                        <Box display="flex" justifyContent="space-between">
                             <Box>
                                 <Typography variant="overline" >
                                     {this.props.fandom}
                                 </Typography>
                             </Box>
-                            <Box display="flex " className="post-data" >
-                            <Typography variant="overline" > Post by </Typography>
-                            <Typography className="post-data-info" variant="overline" color="primary">{this.props.author}</Typography>
-                            <Typography variant="overline" > At </Typography>
-                            <Typography className="post-data-info" variant="overline"  color="primary"> {this.props.date}</Typography>
+                            <Box display="flex"  className="post-data" >
+                            <Typography variant="overline" > Post by &nbsp;</Typography>
+                            <Typography variant="overline" color="primary">{this.props.author}</Typography>
+                            <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
+                            <Typography variant="overline"  color="primary"> {this.props.date}</Typography>
                             </Box>
                         </Box>
                         <Divider />
