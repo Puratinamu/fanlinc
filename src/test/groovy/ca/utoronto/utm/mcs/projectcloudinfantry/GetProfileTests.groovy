@@ -43,7 +43,7 @@ class GetProfileTests extends BaseSpecification {
 
     def setupSpec() {
         // Create new User and new fandom and add them to repo
-        testUser = UserFactory.CreateUser("Tanner", "tanner@email.com");
+        testUser = UserFactory.createUser("Tanner", "tanner@email.com");
         testFandom = FandomFactory.createFandom("Minecraft");
 
     }

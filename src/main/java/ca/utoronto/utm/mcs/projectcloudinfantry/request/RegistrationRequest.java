@@ -1,5 +1,6 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.request;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class RegistrationRequest {
     private String username;
     private String password;
     private String description;
-    private List<Map<String, Object>> fandoms;
+    private List<Map<String, Object>> fandoms = new ArrayList<>();
 
     public String getEmail() {
         return email;

@@ -29,15 +29,11 @@ public class RelationshipController {
 
     @RequestMapping(value="api/v1/updateFandomRelationship", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity updateFandomRelationship(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
-        try {
-            Long oidUser = MapperUtils.toLong(body.get("oidUser"));
-            Long oidFandom = MapperUtils.toLong(body.get("oidFandom"));
-            String relationship = (String) body.get("relationship");
-            tokenService.authenticate(headers.getFirst("jwt"), oidUser);
-            userToFandomService.addUserToFandom(oidUser, oidFandom, relationship);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Long oidUser = MapperUtils.toLong(body.get("oidUser"));
+        Long oidFandom = MapperUtils.toLong(body.get("oidFandom"));
+        String relationship = (String) body.get("relationship");
+//        tokenService.authenticate(headers.getFirst("jwt"), oidUser);
+        userToFandomService.addUserToFandom(oidUser, oidFandom, relationship);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -5,7 +5,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import java.util.ArrayList;
 
 public class UserFactory {
-    public static User CreateUser(String username, String email) {
+    public static User createUser(String username, String email) {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);

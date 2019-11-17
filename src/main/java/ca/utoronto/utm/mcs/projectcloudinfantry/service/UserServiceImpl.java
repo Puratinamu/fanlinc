@@ -64,11 +64,15 @@ public class UserServiceImpl implements UserService {
         // Bcrypt password to store in db
         String password = newUser.getPassword();
         password = BcryptUtils.encodePassword(password);
+
         // Map the list of request objects {"id":1, "level": CASUAL} to list of Fandom Objects
         List<RelationshipRequest> relRequests = new ArrayList<>();
-        for (Map<String, Object> m : request.getFandoms()) {
-            relRequests.add(relationshipRequestMapper.toRelationshipRequest(m));
+        if (request.getFandoms() != null) {
+            for (Map<String, Object> m : request.getFandoms()) {
+                relRequests.add(relationshipRequestMapper.toRelationshipRequest(m));
+            }
         }
+
         // Find fandoms by id and save to user
         List<Fandom> fandoms = new ArrayList<>();
         for (RelationshipRequest r : relRequests) {

@@ -5,6 +5,8 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Post;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.content.TextContent;
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.PostToFandom;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.RelationshipLevel;
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.FandomNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.PostNotFoundException;
 import ca.utoronto.utm.mcs.projectcloudinfantry.exception.UserNotFoundException;
@@ -14,6 +16,7 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.repository.*;
 import ca.utoronto.utm.mcs.projectcloudinfantry.request.TextPostRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class PostServiceImpl implements  PostService {
     private final PostMapper postMapper;
     private final TextContentMapper textContentMapper;
     private final PostToFandomRepository postToFandomRepository;
+    private final UserToFandomRepository userToFandomRepository;
 
     public PostServiceImpl(PostRepository postRepository,
                            TextContentRepository textContentRepository,
@@ -34,7 +38,8 @@ public class PostServiceImpl implements  PostService {
                            FandomRepository fandomRepository,
                            PostMapper postMapper,
                            TextContentMapper textContentMapper,
-                           PostToFandomRepository postToFandomRepository) {
+                           PostToFandomRepository postToFandomRepository,
+                           UserToFandomRepository userToFandomRepository) {
         this.postRepository = postRepository;
         this.textContentRepository = textContentRepository;
         this.userRepository = userRepository;
@@ -42,6 +47,7 @@ public class PostServiceImpl implements  PostService {
         this.postMapper = postMapper;
         this.textContentMapper = textContentMapper;
         this.postToFandomRepository = postToFandomRepository;
+        this.userToFandomRepository = userToFandomRepository;
     }
 
     @Override
@@ -66,8 +72,12 @@ public class PostServiceImpl implements  PostService {
         post = postRepository.save(post);
 
         PostToFandom postToFandom = postToFandomRepository.findByOidPostAndOidFandom(post.getOidPost(), fandom.getOidFandom());
-        postToFandom.setRelationshipLevel(textPostRequest.getRelationshipLevel());
+        UserToFandom userToFandom = userToFandomRepository.findByUserIdAndFandomID(user.getOidUser(), fandom.getOidFandom());
+        postToFandom.setRelationshipLevel(RelationshipLevel.valueOf(userToFandom.getRelationship()));
         postToFandomRepository.save(postToFandom);
+
+        fandom.getPosts().add(post);
+        fandomRepository.save(fandom);
 
         return post;
     }
@@ -80,7 +90,14 @@ public class PostServiceImpl implements  PostService {
     @Override
     public List<Post> getPostFeed(Long oidUser) {
         User user = userRepository.findById(oidUser).orElseThrow(UserNotFoundException::new);
-        return postRepository.getPostFeedByOidUser(user.getOidUser());
+        List<Long> oidPosts = postRepository.getOidPostFeedByOidUser(user.getOidUser());
+        List<Post> posts = new ArrayList<>();
+        for (Post post : postRepository.findAllById(oidPosts)) {
+            Long oidFandom = postToFandomRepository.findOidFandomByOidPost(post.getOidPost());
+            post.setFandom(fandomRepository.findById(oidFandom).orElseThrow(FandomNotFoundException::new));
+            posts.add(post);
+        }
+        return posts;
     }
 
 }

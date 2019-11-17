@@ -4,8 +4,36 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 public class TextPostResponse {
 
     private Long oidPost;
-    private Long oidCreator;
+    private Long oidUser;
+    private String username;
     private Long oidFandom;
+    private String fandomName;
+    private String text;
+
+
+    public Long getOidPost() {
+        return oidPost;
+    }
+
+    public void setOidPost(Long oidPost) {
+        this.oidPost = oidPost;
+    }
+
+    public Long getOidUser() {
+        return oidUser;
+    }
+
+    public void setOidUser(Long oidUser) {
+        this.oidUser = oidUser;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public Long getOidFandom() {
         return oidFandom;
@@ -15,19 +43,19 @@ public class TextPostResponse {
         this.oidFandom = oidFandom;
     }
 
-    public Long getOidCreator() {
-        return oidCreator;
+    public String getFandomName() {
+        return fandomName;
     }
 
-    public void setOidCreator(Long oidCreator) {
-        this.oidCreator = oidCreator;
+    public void setFandomName(String fandomName) {
+        this.fandomName = fandomName;
     }
 
-    public Long getOidPost() {
-        return oidPost;
+    public String getText() {
+        return text;
     }
 
-    public void setOidPost(Long oidPost) {
-        this.oidPost = oidPost;
+    public void setText(String text) {
+        this.text = text;
     }
 }

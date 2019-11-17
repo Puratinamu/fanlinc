@@ -47,7 +47,7 @@ class TextPostServiceTest extends BaseSpecification {
 
     def 'Test add text post'() {
         given:
-        User user = UserFactory.CreateUser("yos", "yos@yos.com")
+        User user = UserFactory.createUser("yos", "yos@yos.com")
         user = userRepository.save(user)
 
         Fandom fandom = FandomFactory.createFandom("testFandom")
@@ -81,7 +81,7 @@ class TextPostServiceTest extends BaseSpecification {
 
     def 'Test get text post'() {
         given:
-        User user = UserFactory.CreateUser("yos", "yos@yos.com")
+        User user = UserFactory.createUser("yos", "yos@yos.com")
         user = userRepository.save(user)
 
         Fandom fandom = FandomFactory.createFandom("testFandom")
@@ -112,13 +112,13 @@ class TextPostServiceTest extends BaseSpecification {
     def 'Test get post feed'() {
         given:
 
-        User user1 = UserFactory.CreateUser("testUser1", "test1@user.com")
+        User user1 = UserFactory.createUser("testUser1", "test1@user.com")
         user1 = userRepository.save(user1)
 
-        User user2 = UserFactory.CreateUser("testUser2", "test2@user.com")
+        User user2 = UserFactory.createUser("testUser2", "test2@user.com")
         user2 = userRepository.save(user2)
 
-        User user3 = UserFactory.CreateUser("testUser3", "test1@user.com")
+        User user3 = UserFactory.createUser("testUser3", "test1@user.com")
         user3 = userRepository.save(user3)
 
         Fandom fandom1 = FandomFactory.createFandom("testFandom1")
