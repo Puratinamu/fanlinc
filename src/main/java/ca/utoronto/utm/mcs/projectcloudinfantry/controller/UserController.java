@@ -15,6 +15,8 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.response.ProfileResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.RegistrationResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.response.UserContactsResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.UserService;
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +34,7 @@ public class UserController {
     private RegistrationResponseMapper registrationResponseMapper;
     private LoginRequestMapper loginRequestMapper;
     private AddContactRequestMapper addContactRequestMapper;
+    private TokenService tokenService;
 
     public UserController(UserService userService, RegistrationRequestMapper registrationRequestMapper, RegistrationResponseMapper registrationResponseMapper, LoginRequestMapper loginRequestMapper, AddContactRequestMapper addContactRequestMapper) {
         this.userService = userService;
@@ -54,7 +57,6 @@ public class UserController {
         } catch (FandomNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -77,8 +79,9 @@ public class UserController {
 
     @RequestMapping(value = "/api/v1/addContact", method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity addContact(@Valid @RequestBody Map<String, Object> body) {
+    public ResponseEntity addContact(@RequestHeader HttpHeaders headers, @Valid @RequestBody Map<String, Object> body) {
         try {
+            tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf((Integer) body.get("oidUser")));
             AddContactRequest addContactRequest = addContactRequestMapper.toAddContactRequest(body);
             this.userService.addContact(addContactRequest);
             return new ResponseEntity(HttpStatus.OK);
@@ -89,7 +92,6 @@ public class UserController {
         } catch (BelongsToRelationshipAlreadyExists e) {
             return new ResponseEntity(HttpStatus.CONFLICT);
         } catch (Exception e){
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -114,8 +116,9 @@ public class UserController {
 
     @RequestMapping(value = "/api/v1/getContacts", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity getContacts(@RequestParam String oidUser) {
+    public ResponseEntity getContacts(@RequestHeader HttpHeaders headers, @RequestParam Long oidUser) {
         try {
+            tokenService.authenticate(headers.getFirst("jwt"), oidUser);
             UserContactsResponse userContacts = userService.getContacts(oidUser);
             return new ResponseEntity<>(userContacts, HttpStatus.OK);
         } catch (UserNotFoundException e) {

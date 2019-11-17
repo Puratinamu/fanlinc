@@ -179,11 +179,10 @@ public class UserServiceImpl implements UserService {
         UserContactInfoResult dbRelationship = userToContactRepository.findByUserIdAndUserContactId(
                 request.getOidUser(), request.getContactOidUser());
 
-        UserToContact relationship = null;
         // If not exists, create it
         if (dbRelationship == null) {
             // Create the relationship
-            relationship = new UserToContact(foundUser, foundContactUser);
+            UserToContact relationship = new UserToContact(foundUser, foundContactUser);
             userToContactRepository.save(relationship);
         } else {
             // If it already exists, throw 409 CONFLICT error
@@ -194,7 +193,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserContactsResponse getContacts(String oidUser) {
+    public UserContactsResponse getContacts(Long oidUser) {
         // Check request body args
         Optional<User> user = userRepository.findById(MapperUtils.toLong(oidUser));
         if (!user.isPresent()) throw new UserNotFoundException();
@@ -203,13 +202,8 @@ public class UserServiceImpl implements UserService {
         // Get the list of fandoms a user belongs to and it's corresponding level of interest
         List<UserContactInfoResult> results = userToContactRepository.getUserContactsByOidUser(foundUser.getOidUser());
 
-        List<UserContactInfo> infoList = new ArrayList<>();
-        for (UserContactInfoResult result: results) {
-            if (result.getContact() != null) {
-                UserContactInfo info = userContactInfoMapper.toUserContactInfo(result);
-                infoList.add(info);
-            }
-        }
+        // Map all the results to a list of UserContactInfo
+        List<UserContactInfo> infoList = userContactInfoMapper.toAllUserContactInfo(results);
 
         // The constructor handles setting the appropriate fields.
         return new UserContactsResponse(infoList);

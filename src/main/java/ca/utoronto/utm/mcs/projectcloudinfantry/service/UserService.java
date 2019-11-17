@@ -15,5 +15,5 @@ public interface UserService {
     User getUserByUsername(User user);
     ProfileResponse getProfile(String oidUser);
     void addContact(AddContactRequest request);
-    UserContactsResponse getContacts(String oidUser);
+    UserContactsResponse getContacts(Long oidUser);
 }

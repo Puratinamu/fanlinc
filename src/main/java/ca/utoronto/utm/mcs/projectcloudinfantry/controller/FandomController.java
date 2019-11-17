@@ -2,15 +2,17 @@ package ca.utoronto.utm.mcs.projectcloudinfantry.controller;
 
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom;
 import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.mapper.FandomResponseMapper;
+import ca.utoronto.utm.mcs.projectcloudinfantry.response.FandomResponse;
 import ca.utoronto.utm.mcs.projectcloudinfantry.service.FandomService;
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
 
@@ -24,16 +26,21 @@ public class FandomController {
     private FandomService fandomService;
     private FandomMapper fandomMapper;
     private TokenService tokenService;
+    private FandomResponseMapper fandomResponseMapper;
 
-    public FandomController(FandomService fandomService, FandomMapper fandomMapper, TokenService tokenService) {
+    public FandomController(FandomService fandomService, FandomMapper fandomMapper, TokenService tokenService, FandomResponseMapper fandomResponseMapper) {
         this.fandomService = fandomService;
         this.fandomMapper = fandomMapper;
         this.tokenService = tokenService;
+        this.fandomResponseMapper = fandomResponseMapper;
     }
 
     @RequestMapping(value = "/api/v1/getFandom", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandom(@RequestBody Map<String, String> body, HttpServletResponse res) {
-        return fandomService.getFandom(Long.parseLong(body.get("oidFandom")));
+    @ResponseBody
+    public ResponseEntity<FandomResponse> getFandom(@Valid @RequestBody Map<String, String> body, HttpServletResponse res) {
+        Fandom fandom = fandomService.getFandom(Long.parseLong(body.get("oidFandom")));
+        FandomResponse response = fandomResponseMapper.toFandomResponse(fandom);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/v1/getFandoms", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -42,14 +49,21 @@ public class FandomController {
     }
 
     @RequestMapping(value = "/api/v1/getFandomByName", method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom getFandomByName(@RequestBody Fandom fandom) {
-        return fandomService.getFandomByName(fandom);
+    @ResponseBody
+    public ResponseEntity<FandomResponse> getFandomByName(@Valid @RequestBody Map<String, Object> body, HttpServletResponse res) {
+        Fandom request = fandomMapper.toFandom(body);
+        Fandom fandom = fandomService.getFandomByName(request);
+        FandomResponse response = fandomResponseMapper.toFandomResponse(fandom);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/v1/addFandom", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public Fandom addFandom(@RequestHeader HttpHeaders headers, @RequestBody Map<String, Object> body) {
+    @ResponseBody
+    public ResponseEntity<FandomResponse> addFandom(@RequestHeader HttpHeaders headers, @Valid @RequestBody Map<String, Object> body) {
         tokenService.authenticate(headers.getFirst("jwt"), Long.valueOf((Integer) body.get("creator")));
         Fandom fandom = fandomMapper.toFandom(body);
-        return fandomService.addFandom(fandom);
+        Fandom addedFandom = fandomService.addFandom(fandom);
+        FandomResponse response = fandomResponseMapper.toFandomResponse(addedFandom);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
