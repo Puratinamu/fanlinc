@@ -12,6 +12,8 @@ public class TextPostRequestMapper {
         TextPostRequest textPostRequest = new TextPostRequest();
         textPostRequest.setOidCreator(Long.valueOf(body.get("oidCreator").toString()));
         textPostRequest.setOidFandom(Long.valueOf(body.get("oidFandom").toString()));
+        textPostRequest.setTitle(body.get("title").toString());
+
         textPostRequest.setText(String.valueOf(body.get("text")));
         return textPostRequest;
     }

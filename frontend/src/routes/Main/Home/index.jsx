@@ -1,13 +1,14 @@
 import React from 'react';
 import PostFeed from '../../../components/PostFeed';
+import {withStore} from '../../../store'
 
 class Home extends React.Component{
     render(){
         return(
-            <PostFeed />
+            <PostFeed store={this.props.store}/>
         )
     }
 
 }
 
-export default Home
+export default withStore(Home)

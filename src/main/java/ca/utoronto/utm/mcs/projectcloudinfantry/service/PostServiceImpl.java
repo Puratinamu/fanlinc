@@ -70,14 +70,17 @@ public class PostServiceImpl implements  PostService {
         post.setLastUpdateTimestamp(date);
 
         post = postRepository.save(post);
+        fandom.getPosts().add(post);
+
+        fandomRepository.save(fandom);
 
         PostToFandom postToFandom = postToFandomRepository.findByOidPostAndOidFandom(post.getOidPost(), fandom.getOidFandom());
         UserToFandom userToFandom = userToFandomRepository.findByUserIDAndFandomID(user.getOidUser(), fandom.getOidFandom());
         postToFandom.setRelationshipLevel(RelationshipLevel.valueOf(userToFandom.getRelationship()));
-        postToFandomRepository.save(postToFandom);
+        postToFandom.setFandom(fandom);
+        postToFandom.setPost(post);
 
-        fandom.getPosts().add(post);
-        fandomRepository.save(fandom);
+        postToFandomRepository.save(postToFandom);
 
         return post;
     }

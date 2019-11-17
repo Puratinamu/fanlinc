@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Divider, Typography, Box } from '@material-ui/core';
-import './styles.scss';
+require('./styles.scss')
 
 class Post extends React.Component {
     render() {
@@ -14,10 +14,11 @@ class Post extends React.Component {
                                     {this.props.fandom}
                                 </Typography>
                             </Box>
-                            <Box className="post-data" >
-                                <Typography variant="overline" >
-                                    Post by {this.props.author} at {this.props.date}
-                            </Typography>
+                            <Box display="flex " className="post-data" >
+                            <Typography variant="overline" > Post by </Typography>
+                            <Typography className="post-data-info" variant="overline" color="primary">{this.props.author}</Typography>
+                            <Typography variant="overline" > At </Typography>
+                            <Typography className="post-data-info" variant="overline"  color="primary"> {this.props.date}</Typography>
                             </Box>
                         </Box>
                         <Divider />
