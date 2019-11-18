@@ -47,19 +47,11 @@ class ViewProfile extends React.Component {
       "oidUser": this.props.store.get('authenticatedOidUser'),
       "contactOidUser": this.state.user.oidUser
     }).then(response => {
-      console.log(response.status);
       if (response.status === 200) {
         this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
-      } else if (response.status === 500) {
-        this.setState({ message: "Internal server error: Please contact support", notificationOpen: true })
-      } else if (response.status === 409) {
-        this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
-      } else if (response.status === 400) {
-        this.setState({ message: "Bad request error: Please contact support", notificationOpen: true })
       }
       else {
         this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
-        // this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
       }
     })
   }
