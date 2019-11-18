@@ -123,6 +123,14 @@ function ContactsList(props) {
     //         {"id": 10,"username": "coolguy16", "description": "\"Why so serious?\"", "email": "coolguy@gmail.com"},
     // ];
 
+    const handleRowClick = (oidUser) => {
+        return (event) => {
+            props.history.push("/main/viewprofile?id=" + oidUser);
+            console.log(oidUser)
+        }
+    };
+
+
     return (
         <Paper className={classes.root}>
             <div className={classes.tableWrapper}>
@@ -136,7 +144,7 @@ function ContactsList(props) {
                     </TableHead>
                     <TableBody >
                         {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>
-                            <TableRow key={row.username} className="contact" tabIndex={-1}>
+                            <TableRow onClick={handleRowClick(row.oidUser)} key={row.oidUser} className="contact" tabIndex={-1}>
                                     <TableCell>{row.username}</TableCell>
                                     <TableCell colSpan="4">{row.description}</TableCell>
                                     <TableCell >{row.email}</TableCell>

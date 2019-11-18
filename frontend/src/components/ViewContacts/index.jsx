@@ -63,7 +63,7 @@ class ViewContacts extends React.Component {
     render() {
         return (
             <Container maxWidth="md" >
-                <Box className="cldi-view-contacts-form-container" container justify='center'>
+                <Box className="cldi-view-contacts-form-container" justify='center'>
                   <Paper>
                     <Box px={4} pb={4} pt={3}>
                       <Grid container spacing={4} direction="column">
@@ -79,7 +79,7 @@ class ViewContacts extends React.Component {
                                         You Have No Contacts.
                                     </Typography>
                                 ) : (
-                                      <ContactList contactsList={this.state.contactsList} />
+                                      <ContactList contactsList={this.state.contactsList} history={this.props.history}/>
                                   )
                                 }
                             </Grid>
