@@ -12,6 +12,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Button from '@material-ui/core/Button';
 import userRequests from '../../requests/userRequests';
 import redirectManager from '../../redirectManager';
+import Zoom from '@material-ui/core/Zoom';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Slide from '@material-ui/core/Slide'
@@ -46,10 +47,9 @@ class ViewProfile extends React.Component {
 
   handleAddingContact() {
     userRequests.putContact({
-      "oidUser": this.props.store.get('authenticatedOidUser'),
-      "contactOidUser": this.state.user.oidUser
-    }).then(response => {
-    //}, this.props.store.get("sessionToken")).then(response => {
+      "oidUser": parseInt(this.props.store.get('authenticatedOidUser')),
+      "contactOidUser": parseInt(this.state.user.oidUser)
+    }, this.props.store.get("sessionToken")).then(response => {
       if (response.status === 200) {
         this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
       } else if (response.status === 409) {
@@ -236,41 +236,6 @@ function ShowMessages(props) {
   )
 }
 
-function AddContactButton(props) {
 
-  if (props.curUser != props.contact) {
-    return (
-        <Button
-            variant="contained"
-            color="primary"
-            className="contact-button"
-            onClick={props.onClick}
-        >
-          Add Contact
-        </Button>
-    )
-  } else {
-    return null
-  }
-
-}
-
-function ShowMessages(props) {
-  return (
-      <Snackbar
-          autoHideDuration={SNACKBAR_TIMEOUT}
-          open={props.open}
-          onClose={props.handleClose}
-          TransitionComponent={Slide}
-
-      >
-        <SnackbarContent style={{
-          backgroundColor: `${!props.contactAdded ? 'red' : 'green'}`
-        }}
-                         message={props.message}
-        />
-      </Snackbar>
-  )
-}
 
 export default ViewProfile;

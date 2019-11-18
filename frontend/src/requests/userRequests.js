@@ -42,9 +42,13 @@ let userRequests = {
             return error.response;
         }
     },
-    putContact: async function (requestBody) {
+    putContact: async function (requestBody, sessionToken) {
         try {
-            const response = await axios.post('/api/v1/addContact', requestBody)
+            const response = await axios.put('/api/v1/addContact', requestBody, {
+                headers: {
+                    jwt: sessionToken
+                }
+            })
             return response
         }
         catch (error) {
