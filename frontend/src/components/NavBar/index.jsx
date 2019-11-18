@@ -5,6 +5,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
+import NewPostIcon from '@material-ui/icons/Create';
 
 import './styles.scss';
 
@@ -35,6 +36,7 @@ class Navbar extends React.Component {
             <BottomNavigationAction label="Home" value="/main" icon={<HomeIcon />} />
             <BottomNavigationAction label="Profile" value="/main/viewprofile" icon={<PersonIcon />} />
             <BottomNavigationAction label="Lincs" value="/main/contacts" icon={<PeopleAltIcon />} />
+            <BottomNavigationAction label="New Post" value="/main/newpost" icon={<NewPostIcon />} />
             <BottomNavigationAction label="Chat" value="/main/chat" icon={<ChatIcon />} />
           </BottomNavigation>
         )
