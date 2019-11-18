@@ -5,7 +5,6 @@ import Avatar from '@material-ui/core/Avatar'
 import TextField from '@material-ui/core/TextField'
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
-import Zoom from '@material-ui/core/Zoom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -45,36 +44,12 @@ class ViewProfile extends React.Component {
     };
   }
 
-
-  componentDidMount() {
-    let id;
-    console.log("id: " + redirectManager.getUrlParam("id"))
-    if (redirectManager.getUrlParam("id") === undefined) {
-      id = this.props.store.get('authenticatedOidUser')
-    } else {
-      id = redirectManager.getUrlParam("id")
-      console.log("getting URL param")
-    };
-    console.log(id)
-    userRequests.getUser(id).then(response => {
-      let user;
-
-      if (response.status === 200) {
-        user = response.data;
-      }
-
-      this.setState({
-        user: user,
-        loading: false
-      });
-    });
-  }
-
   handleAddingContact() {
     userRequests.putContact({
       "oidUser": this.props.store.get('authenticatedOidUser'),
       "contactOidUser": this.state.user.oidUser
-    }, this.props.store.get("sessionToken")).then(response => {
+    }).then(response => {
+    //}, this.props.store.get("sessionToken")).then(response => {
       if (response.status === 200) {
         this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
       } else if (response.status === 409) {
@@ -94,6 +69,27 @@ class ViewProfile extends React.Component {
 
   routeToJoinFandom() {
     this.props.history.push('/main/joinfandom');
+  }
+    
+  componentDidMount() {
+    let id;
+    if (redirectManager.getUrlParam("id") === undefined) {
+      id = this.props.store.get('authenticatedOidUser')
+    } else {
+      id = redirectManager.getUrlParam("id")
+    };
+    userRequests.getUser(id).then(response => {
+      let user;
+
+      if (response.status === 200) {
+        user = response.data;
+      }
+
+      this.setState({
+        user: user,
+        loading: false
+      });
+    });
   }
 
   render() {
@@ -240,5 +236,41 @@ function ShowMessages(props) {
   )
 }
 
-export default ViewProfile;
+function AddContactButton(props) {
 
+  if (props.curUser != props.contact) {
+    return (
+        <Button
+            variant="contained"
+            color="primary"
+            className="contact-button"
+            onClick={props.onClick}
+        >
+          Add Contact
+        </Button>
+    )
+  } else {
+    return null
+  }
+
+}
+
+function ShowMessages(props) {
+  return (
+      <Snackbar
+          autoHideDuration={SNACKBAR_TIMEOUT}
+          open={props.open}
+          onClose={props.handleClose}
+          TransitionComponent={Slide}
+
+      >
+        <SnackbarContent style={{
+          backgroundColor: `${!props.contactAdded ? 'red' : 'green'}`
+        }}
+                         message={props.message}
+        />
+      </Snackbar>
+  )
+}
+
+export default ViewProfile;

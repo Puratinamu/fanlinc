@@ -3,6 +3,7 @@ import cookieManager from '../cookieManager'
 const axios = require('axios')
 
 let userRequests = {
+
     putUser: async function (requestBody) {
         try {
             const response = await axios.post('/api/v1/addUser', requestBody)
@@ -19,7 +20,7 @@ let userRequests = {
 
             let jwt = response.data.jwt;
             let oidUser = response.data.oidUser;
-            cookieManager.setCookie("sessionToken",jwt, 1)
+            cookieManager.setCookie("sessionToken", jwt, 1)
             cookieManager.setCookie("authenticatedUserEmail", email, 1)
             cookieManager.setCookie("authenticatedOidUser", oidUser, 1)
             return response
@@ -40,7 +41,31 @@ let userRequests = {
         } catch (error) {
             return error.response;
         }
+    },
+    putContact: async function (requestBody) {
+        try {
+            const response = await axios.post('/api/v1/addContact', requestBody)
+            return response
+        }
+        catch (error) {
+            console.error(error);
+            return error
+        }
+    },
+
+    getContacts: async function (oidUser) {
+        try {
+            return await axios.get("/api/v1/getContacts", {
+                params: {
+                    oidUser: oidUser
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            return error.response;
+        }
     }
+
 }
 
 export default userRequests;
