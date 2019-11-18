@@ -1,6 +1,6 @@
 import React from 'react';
-import ContactList from '../../components/ViewContacts/index.jsx'
-import {withStore} from '../../store'
+import ContactList from '../../../components/ViewContacts'
+import {withStore} from '../../../store'
 
 class ViewContacts extends React.Component{
 

@@ -116,7 +116,6 @@ public class UserController {
     @ResponseBody
     public ResponseEntity getContacts(@RequestHeader HttpHeaders headers, @RequestParam Long oidUser) {
         try {
-            tokenService.authenticate(headers.getFirst("jwt"), oidUser);
             UserContactsResponse userContacts = userService.getContacts(oidUser);
             return new ResponseEntity<>(userContacts, HttpStatus.OK);
         } catch (UserNotFoundException e) {

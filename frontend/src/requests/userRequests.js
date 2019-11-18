@@ -51,7 +51,21 @@ let userRequests = {
             console.error(error);
             return error
         }
+    },
+
+    getContacts: async function (oidUser) {
+        try {
+            return await axios.get("/api/v1/getContacts", {
+                params: {
+                    oidUser: oidUser
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            return error.response;
+        }
     }
+
 }
 
 export default userRequests;
