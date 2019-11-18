@@ -17,6 +17,16 @@ let postRequests = {
             return {};
         }
     },
+    putPost: async function (requestBody) {
+        try {
+            const response = await axios.post('/api/v1/addTextPost', requestBody)
+            return response
+        }
+        catch (error) {
+            console.error(error);
+            return error
+        }
+    },
 
 };
 

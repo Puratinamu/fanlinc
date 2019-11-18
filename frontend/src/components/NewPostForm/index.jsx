@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import textPostRequests from '../../requests/textPostRequests';
+import postRequests from '../../requests/postRequests';
 import { Redirect } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
@@ -15,7 +15,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Slide from '@material-ui/core/Slide'
 import { withStore } from '../../store'
 
-require('./NewPostForm.scss')
+require('./styles.scss')
 
 const SNACKBAR_TIMEOUT = 4000;
 
@@ -54,7 +54,7 @@ class NewPostForm extends React.Component {
     }
     async postAttempt() {
 
-        textPostRequests.putTextPost({
+        postRequests.putPost({
             "oidCreator": parseInt(this.props.store.get("authenticatedOidUser")),
             "text": this.state.postText.toString(),
             "oidFandom": this.state.selectedFandom.oidFandom,
@@ -69,6 +69,7 @@ class NewPostForm extends React.Component {
             }
             else {
                 this.setState({ postSuccess: false, unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
+                console.log(this.props.store.get("authenticatedOidUser"))
             }
         })
     }
