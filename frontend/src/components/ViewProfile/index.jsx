@@ -33,7 +33,7 @@ class ViewProfile extends React.Component {
     this.handleAddingContact = this.handleAddingContact.bind(this);
 
     this.handleClose = this.handleClose.bind(this);
-    
+
     this.store = props.store;
 
     this.state = {
@@ -74,7 +74,7 @@ class ViewProfile extends React.Component {
     userRequests.putContact({
       "oidUser": this.props.store.get('authenticatedOidUser'),
       "contactOidUser": this.state.user.oidUser
-    }).then(response => {
+    }, this.props.store.get("sessionToken")).then(response => {
       if (response.status === 200) {
         this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
       } else if (response.status === 409) {
