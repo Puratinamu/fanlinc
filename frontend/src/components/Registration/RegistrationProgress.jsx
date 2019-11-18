@@ -22,7 +22,10 @@ const useStyles = makeStyles(theme => ({
   },
   stepper: {
     'background-color': '#fafafa'
-  }
+  },
+    loginButton: {
+        'margin-right': 32
+    }
 }));
 
 function getSteps() {
@@ -73,7 +76,6 @@ export default function RegistrationProgress(props) {
   };
 
   const handleStep = step => () => {
-    console.log(completed)
     if ((step <= activeStep || completed[step]) && activeStep !== 4) {
       setActiveStep(step);
       props.callback(step);
@@ -83,6 +85,11 @@ export default function RegistrationProgress(props) {
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
+        <Button
+          variant="contained"
+          color="primary" href="/login" className={classes.loginButton}>
+          Back To Login
+        </Button>
         <Button
           variant="contained"
           color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button}>

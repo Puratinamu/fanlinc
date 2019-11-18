@@ -1,16 +1,79 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry.response;
 
 
-import ca.utoronto.utm.mcs.projectcloudinfantry.response.ContentResponse;
-public class TextPostResponse extends ContentResponse {
-    private String text;
+public class TextPostResponse {
 
-    public Long getOidContent() {return super.getOidContent();}
-    public void setOidContent(Long oid) {super.setOidContent(oid);}
-    public String getText() {return text;}
-    public void setText(String text) {this.text = text;}
-    public Long getOidUser() {return super.getOidUser();}
-    public Long getOidFandom() {return super.getOidFandom();}
-    public void setOidUser(Long oid) {super.setOidUser(oid);}
-    public void setOidFandom(Long oid) {super.setOidFandom(oid);}
+    private Long oidPost;
+    private Long oidCreator;
+    private String username;
+    private Long oidFandom;
+    private String fandomName;
+    private String text;
+    private String creationTimestamp;
+    private String title;
+
+
+    public Long getOidPost() {
+        return oidPost;
+    }
+
+    public void setOidPost(Long oidPost) {
+        this.oidPost = oidPost;
+    }
+
+    public Long getOidCreator() {
+        return oidCreator;
+    }
+
+    public void setOidCreator(Long oidCreator) {
+        this.oidCreator = oidCreator;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getOidFandom() {
+        return oidFandom;
+    }
+
+    public void setOidFandom(Long oidFandom) {
+        this.oidFandom = oidFandom;
+    }
+
+    public String getFandomName() {
+        return fandomName;
+    }
+
+    public void setFandomName(String fandomName) {
+        this.fandomName = fandomName;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getCreationTimestamp() {
+        return creationTimestamp;
+    }
+
+    public void setCreationTimestamp(String creationTimestamp) {
+        this.creationTimestamp = creationTimestamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

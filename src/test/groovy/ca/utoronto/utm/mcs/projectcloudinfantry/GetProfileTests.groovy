@@ -1,6 +1,6 @@
 import ca.utoronto.utm.mcs.projectcloudinfantry.BaseSpecification
-import ca.utoronto.utm.mcs.projectcloudinfantry.FandomFactory
-import ca.utoronto.utm.mcs.projectcloudinfantry.UserFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.FandomFactory
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
@@ -43,8 +43,8 @@ class GetProfileTests extends BaseSpecification {
 
     def setupSpec() {
         // Create new User and new fandom and add them to repo
-        testUser = UserFactory.CreateUser("Tanner", "tanner@email.com");
-        testFandom = FandomFactory.CreateFandom("Minecraft");
+        testUser = UserFactory.createUser("Tanner", "tanner@email.com");
+        testFandom = FandomFactory.createFandom("Minecraft");
 
     }
 
@@ -52,8 +52,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 404 Not Found
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : -1 }')
+                .get('/api/v1/getProfile?oidUser=-1')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn()
@@ -63,8 +62,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"wrongField" : 3 }')
+                .get('/api/v1/getProfile?wrongField=3')
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andReturn()
@@ -81,8 +79,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
+                .get('/api/v1/getProfile?oidUser=' + testUser.getOidUser())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
@@ -106,7 +103,7 @@ class GetProfileTests extends BaseSpecification {
         UserToFandom rel = new UserToFandom(testUser, testFandom, "CASUAL");
         userToFandomRepository.save(rel);
 
-        testFandom = FandomFactory.CreateFandom("LOL");
+        testFandom = FandomFactory.createFandom("LOL");
         testFandom = fandomRepository.save(testFandom)
         rel = new UserToFandom(testUser, testFandom, "EXPERT");
         userToFandomRepository.save(rel);
@@ -114,8 +111,7 @@ class GetProfileTests extends BaseSpecification {
         expect:
         // make a GET to get profile and expect a 400 Bad Request
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get('/api/v1/getProfile')
-                .content('{"oidUser" : ' + testUser.getOidUser() + ' }')
+                .get('/api/v1/getProfile?oidUser=' + testUser.getOidUser())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()

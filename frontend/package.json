@@ -1,5 +1,5 @@
 {
-  "name": "fanlink",
+  "name": "fanlinc",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:8080",
@@ -16,11 +16,8 @@
     "react-scripts": "3.1.2",
     "react-scroll-to-bottom": "^1.3.2",
     "react-select": "^3.0.8",
-    "react-window": "^1.8.5",
     "serve": "^11.2.0",
-    "sockjs": "^0.3.19",
-    "sockjs-client": "^1.4.0",
-    "stompjs": "^2.3.3"
+    "react-spring": "^8.0.27"
   },
   "scripts": {
     "clean": "rm -rf node_modules/",

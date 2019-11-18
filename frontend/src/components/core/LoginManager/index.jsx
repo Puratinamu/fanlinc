@@ -68,7 +68,7 @@ class LoginManager extends React.Component {
     }
     render() {
         return (
-            <Box className="login-manager-holder" display='flex'>
+            <Box boxShadow={2} className="login-manager-holder" display='flex'>
                 {this.renderLoggedInUser()}
                 {this.renderLoginOption()}
             </Box>

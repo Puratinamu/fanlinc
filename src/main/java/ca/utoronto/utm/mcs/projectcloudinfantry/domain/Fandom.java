@@ -6,6 +6,7 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class Fandom {
     private String description;
 
     @Relationship(type = "BELONGS_TO", direction = Relationship.INCOMING)
-    private List<User> members;
+    private List<User> members = new ArrayList<>();
 
     @Relationship(type = "POSTED_TO", direction = Relationship.INCOMING)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
 
     @CreatedDate
     private Date creationTimestamp;

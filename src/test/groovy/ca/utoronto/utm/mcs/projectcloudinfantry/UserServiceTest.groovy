@@ -1,10 +1,16 @@
 package ca.utoronto.utm.mcs.projectcloudinfantry
 
+import ca.utoronto.utm.mcs.projectcloudinfantry.datafactory.UserFactory
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Fandom
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToContact
+import ca.utoronto.utm.mcs.projectcloudinfantry.domain.relationships.UserToFandom
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.FandomRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.domain.User
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserContactInfoResult
 import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserRepository
+import ca.utoronto.utm.mcs.projectcloudinfantry.repository.UserToContactRepository
 import ca.utoronto.utm.mcs.projectcloudinfantry.security.BcryptUtils
+import ca.utoronto.utm.mcs.projectcloudinfantry.token.TokenService
 import ca.utoronto.utm.mcs.projectcloudinfantry.token.extractor.TokenExtractor
 import io.jsonwebtoken.Claims
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,6 +38,11 @@ class UserServiceTest extends BaseSpecification {
 
     @Autowired
     private FandomRepository fandomRepository
+
+    @Autowired
+    private UserToContactRepository userToContactRepository
+
+    @Autowired TokenService tokenService
 
     @Autowired
     private TokenExtractor tokenExtractor
@@ -186,7 +197,9 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
-        String jwt = result.getResponse().getHeader("jwt")
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
+        String jwt = resultMap.get("jwt")
+        resultMap.get("oidUser") == savedUser.getOidUser()
         Claims claims = tokenExtractor.extractToken(jwt)
         claims.getSubject() as Long == savedUser.getOidUser()
         claims.getExpiration().after(now)
@@ -205,5 +218,67 @@ class UserServiceTest extends BaseSpecification {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized())
                 .andReturn()
+    }
+
+
+    def 'Add Contact'() {
+        User user = UserFactory.createUser("user1","user1@gmail.com")
+        User savedUser = userRepository.save(user)
+
+        User contactUser = UserFactory.createUser("contact1","contact1@gmail.com")
+        User savedContactUser = userRepository.save(contactUser)
+
+        expect:
+        // make a POST request to addUser and get back expected json
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .put('/api/v1/addContact')
+                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
+                .content('{\n' +
+                        '\t"oidUser" : ' + savedUser.getOidUser() +',\n' +
+                        '\t"contactOidUser": ' + savedContactUser.getOidUser() + '\n' +
+                        '}')
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        UserContactInfoResult dbContact = userToContactRepository.findByUserIdAndUserContactId(
+                savedUser.getOidUser(), savedContactUser.getOidUser())
+
+        // Verify relationship is in database
+        dbContact.getUser().getOidUser() == savedUser.getOidUser()
+        dbContact.getContact().getOidUser() == savedContactUser.getOidUser()
+    }
+
+    def 'View Contacts'() {
+        User user = UserFactory.createUser("currentUser","currentUser@gmail.com")
+        User savedUser = userRepository.save(user)
+
+        User contactUser = UserFactory.createUser("viewContact1","viewcontact1@gmail.com")
+        User savedContactUser = userRepository.save(contactUser)
+
+        // Add contactUser to user's contact list
+        UserToContact addContact = new UserToContact(savedUser, savedContactUser)
+        userToContactRepository.save(addContact)
+
+        expect:
+        // make a POST request to addUser and get back expected json
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .get('/api/v1/getContacts')
+                .header("jwt", tokenService.generateToken(user.getOidUser(), new HashMap<String, Object>()))
+                .param("oidUser", savedUser.getOidUser() as String))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn()
+
+        // to check the JSON response
+        Map resultMap = objectMapper.readValue(result.getResponse().getContentAsString(), HashMap)
+
+        // Make sure all elements in post body are included
+        List<Object> contacts = resultMap.get("contacts") as List<Object>
+        Object contact = contacts.get(0) as Map<String, Object>
+        String email = contact.get("email") as String
+        String username = contact.get("username") as String
+
+        email == "viewcontact1@gmail.com"
+        username == "viewContact1"
     }
 }
