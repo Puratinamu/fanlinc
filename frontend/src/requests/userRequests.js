@@ -44,7 +44,7 @@ let userRequests = {
     },
     putContact: async function (requestBody) {
         try {
-            const response = await axios.post('/api/v1/addContact', requestBody)
+            const response = await axios.put('/api/v1/addContact', requestBody)
             return response
         }
         catch (error) {
