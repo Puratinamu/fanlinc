@@ -24,7 +24,7 @@ class Main extends React.Component {
         }
 
         // Go to the next route
-        this.props.history.push(nextRoute);
+        this.props.history.push(nextRoute + (this.props.history.location.search ? this.props.history.location.search : ""));
     }
 
     routeTo(newRoute) {
