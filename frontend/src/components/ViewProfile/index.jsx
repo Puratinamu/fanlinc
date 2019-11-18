@@ -13,32 +13,42 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Button from '@material-ui/core/Button';
 import userRequests from '../../requests/userRequests';
 import redirectManager from '../../redirectManager';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import Slide from '@material-ui/core/Slide'
 import './styles.scss';
 
 const USER_INFORMATION_LABEL = "User Information",
   USER_NAME_LABEL = "User Name",
   USER_EMAIL_LABEL = "Email",
   USER_BIO_LABEL = "Biography",
-  USER_FANDOMS_LABEL = "Fandoms";
+  USER_FANDOMS_LABEL = "Fandoms",
+  SNACKBAR_TIMEOUT = 4000;
 
 
 class ViewProfile extends React.Component {
 
   constructor(props) {
     super(props);
+    this.handleAddingContact = this.handleAddingContact.bind(this);
 
+    this.handleClose = this.handleClose.bind(this);
+    
     this.store = props.store;
 
     this.state = {
       user: null,
-      loading: true
+      loading: true,
+      contactAdded: false,
+      notificationOpen: false,
+      message: "Unknown Error: Please contact support"
     };
   }
 
 
   componentDidMount() {
     let id;
-    console.log("id: "+redirectManager.getUrlParam("id"))
+    console.log("id: " + redirectManager.getUrlParam("id"))
     if (redirectManager.getUrlParam("id") === undefined) {
       id = this.props.store.get('authenticatedOidUser')
     } else {
@@ -57,6 +67,28 @@ class ViewProfile extends React.Component {
         user: user,
         loading: false
       });
+    });
+  }
+
+  handleAddingContact() {
+    userRequests.putContact({
+      "oidUser": this.props.store.get('authenticatedOidUser'),
+      "contactOidUser": this.state.user.oidUser
+    }).then(response => {
+      if (response.status === 200) {
+        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
+      } else if (response.status === 409) {
+        this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
+      } else {
+        this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
+      }
+    })
+  }
+
+  handleClose() {
+    this.setState({
+      notificationOpen: false,
+      contactAdded: false
     });
   }
 
@@ -107,7 +139,7 @@ class ViewProfile extends React.Component {
               {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
-                <ProfileHeading label={USER_FANDOMS_LABEL}>
+                <ProfileHeading label={USER_FANDOMS_LABEL} display={this.state.user.oidUser == this.props.store.get('authenticatedOidUser')}>
                   <IconButton
                     onClick={this.routeToJoinFandom.bind(this)}
                     className="cldi-profile-fandom-add-button"
@@ -121,6 +153,7 @@ class ViewProfile extends React.Component {
               {fandomList}
             </Grid>
           </Box>
+          <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} contactAdded={this.state.contactAdded} />
         </Paper>
       </Zoom>
     );
@@ -174,14 +207,37 @@ const ProfileField = (input) => {
 
 // Generates a header for each section
 const ProfileHeading = (input) => {
+  if (input.display) {
+    return (
+      <Grid className="cldi-profile-heading" item xs={12}>
+        <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
+        <Divider className="cldi-profile-heading-divider" />
+      </Grid>
+    );
+  }
+  else {
+    return null
+  }
 
+}
+
+// Displays messages to the user
+function ShowMessages(props) {
   return (
-    <Grid className="cldi-profile-heading" item xs={12}>
-      <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
-      <Divider className="cldi-profile-heading-divider" />
-    </Grid>
-  );
+    <Snackbar
+      autoHideDuration={SNACKBAR_TIMEOUT}
+      open={props.open}
+      onClose={props.handleClose}
+      TransitionComponent={Slide}
 
+    >
+      <SnackbarContent style={{
+        backgroundColor: `${!props.contactAdded ? 'red' : 'green'}`
+      }}
+        message={props.message}
+      />
+    </Snackbar>
+  )
 }
 
 export default ViewProfile;
