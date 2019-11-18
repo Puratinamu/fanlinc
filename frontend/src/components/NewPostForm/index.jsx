@@ -59,7 +59,7 @@ class NewPostForm extends React.Component {
             "text": this.state.postText.toString(),
             "oidFandom": this.state.selectedFandom.oidFandom,
             "title": this.state.title,
-        }).then(response => {
+        }, this.props.store.get("sessionToken")).then(response => {
             if (response.status === 200) {
                 this.setState({ postSuccess: true, message: "Your post has been successfully added!", notificationOpen: true })
             } else if (response.status === 500) {
@@ -69,7 +69,6 @@ class NewPostForm extends React.Component {
             }
             else {
                 this.setState({ postSuccess: false, unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
-                console.log(this.props.store.get("authenticatedOidUser"))
             }
         })
     }
