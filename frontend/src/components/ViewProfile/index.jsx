@@ -120,7 +120,7 @@ class ViewProfile extends React.Component {
           helperText={fandom.relationship && `Interest Level: ${fandom.relationship}`} />
       )
     }
-    // TODO: Must not render add fandom bunton when not the current user
+
     return (
       <Zoom in={!this.state.loading}>
         <Paper>
@@ -129,13 +129,15 @@ class ViewProfile extends React.Component {
               <Grid item xs={12}>
                 <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
               </Grid>
-              <AddContactButton onClick={this.handleAddingContact} contact={this.state.user.oidUser} curUser={this.props.store.get('authenticatedOidUser')} />
+              {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
+              <AddContactButton onClick={this.handleAddingContact} />}
               <ProfileHeading label={USER_INFORMATION_LABEL} />
               {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
               {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
-                <ProfileHeading label={USER_FANDOMS_LABEL} display={this.state.user.oidUser == this.props.store.get('authenticatedOidUser')}>
+                <ProfileHeading label={USER_FANDOMS_LABEL}>
+                  {this.state.user.oidUser == this.props.store.get('authenticatedOidUser') &&
                   <IconButton
                     onClick={this.routeToJoinFandom.bind(this)}
                     className="cldi-profile-fandom-add-button"
@@ -143,7 +145,7 @@ class ViewProfile extends React.Component {
                     disableFocusRipple
                     style={{ backgroundColor: 'transparent' }}>
                     <AddCircleOutlineIcon />
-                  </IconButton>
+                  </IconButton>}
                 </ProfileHeading>
               )}
               {fandomList}
@@ -159,8 +161,6 @@ class ViewProfile extends React.Component {
 
 // Generates button to add as a contact
 function AddContactButton(props) {
-
-  if (props.curUser != props.contact) {
     return (
       <Button
         variant="contained"
@@ -171,10 +171,6 @@ function AddContactButton(props) {
         Add Contact
         </Button>
     )
-  } else {
-    return null
-  }
-
 }
 
 // Generates each field which includes the label and the value
@@ -203,18 +199,12 @@ const ProfileField = (input) => {
 
 // Generates a header for each section
 const ProfileHeading = (input) => {
-  if (input.display) {
-    return (
+    return (  
       <Grid className="cldi-profile-heading" item xs={12}>
         <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
         <Divider className="cldi-profile-heading-divider" />
       </Grid>
     );
-  }
-  else {
-    return null
-  }
-
 }
 
 // Displays messages to the user
