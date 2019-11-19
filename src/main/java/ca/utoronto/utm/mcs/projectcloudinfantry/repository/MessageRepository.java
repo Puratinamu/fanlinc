@@ -4,7 +4,6 @@ import ca.utoronto.utm.mcs.projectcloudinfantry.domain.Message;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.stereotype.Repository;
-import sun.applet.resources.MsgAppletViewer;
 
 import java.util.List;
 
