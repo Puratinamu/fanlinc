@@ -1,7 +1,5 @@
 import React from 'react';
 import { Typography, Paper, Box } from '@material-ui/core';
-import MessengerContacts from '../MessengerContacts'
-import MessengerChatSearch from '../MessengerChatSearch';
 import MessengerFandoms from '../MessengerFandoms';
 
 require('./styles.scss')
@@ -41,15 +39,13 @@ class MessengerChats extends React.Component {
                 <Paper className="messenger-header" >
                     <Box p={2}>
                         <Typography variant="h4">
-                            Chats
+                            Fandom Chats
                         </Typography>
                     </Box>
                 </Paper>
                 <Box  pt={2} pl={2}>
                     <Paper >
                         <Box className="messenger-chat" >
-                            <MessengerChatSearch store={this.props.store}/>
-                            <MessengerContacts callback={this.props.callback} selectedCallback={this.handleOptionSelect} hasSelected={this.state.selectedFromContacts} selected={this.state.selectedContact} store={this.props.store}/>
                             <MessengerFandoms callback={this.props.callback} selectedCallback={this.handleOptionSelect} hasSelected={this.state.selectedFromFandoms} selected={this.state.selectedFandom} store={this.props.store}/>
                         </Box>
                     </Paper>

@@ -35,7 +35,7 @@ class Navbar extends React.Component {
             <BottomNavigationAction label="Home" value="/main" icon={<HomeIcon />} />
             <BottomNavigationAction label="Profile" value="/main/viewprofile" icon={<PersonIcon />} />
             <BottomNavigationAction label="Lincs" value="/main/contacts" icon={<PeopleAltIcon />} />
-            <BottomNavigationAction label="Chat" value="/main/chat" icon={<ChatIcon />} />
+            <BottomNavigationAction label="Chat" value="/main/messenger" icon={<ChatIcon />} />
           </BottomNavigation>
         )
     }

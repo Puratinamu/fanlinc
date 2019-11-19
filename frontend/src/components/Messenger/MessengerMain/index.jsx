@@ -68,7 +68,7 @@ class MessengerMain extends React.Component {
                 <Paper className="messenger-header">
                     <Box p={2} >
                         <Typography variant="h6">
-                            Your Chat With {this.state.chattingWith}
+                            {this.state.chattingWith}
                         </Typography>
                     </Box>
                 </Paper>

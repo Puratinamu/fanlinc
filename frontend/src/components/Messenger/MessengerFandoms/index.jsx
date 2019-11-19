@@ -42,9 +42,11 @@ class MessengerFandoms extends React.Component {
                 user: user,
                 loading: false
             });
-            this.props.callback(user.fandoms[0].oidFandom, user.fandoms[0].relationship, user.fandoms[0].name);
+            if (user.fandoms.length !== 0) {
+                this.props.callback(user.fandoms[0].oidFandom, user.fandoms[0].relationship, user.fandoms[0].name);
+            }
         });
-        
+
     }
     render() {
         return (
@@ -61,7 +63,7 @@ class MessengerFandoms extends React.Component {
                                 fandomName={fandom.name}
                                 isSelected={this.props.hasSelected && (this.props.selected === index)}
                                 fandomInterestLevel={fandom.relationship.toLowerCase()}
-                                onClick={() => {this.props.callback(fandom.oidFandom, fandom.relationship, fandom.name); this.props.selectedCallback("fandoms", index) }} />)}
+                                onClick={() => { this.props.callback(fandom.oidFandom, fandom.relationship, fandom.name); this.props.selectedCallback("fandoms", index) }} />)}
                         {this.state.user.fandoms.length === 0 &&
                             <Box p={1}>
                                 <Typography color="primary" variant="body2"> You're not in any fandoms!</Typography>
