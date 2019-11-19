@@ -71,4 +71,3 @@ const nonLoggedInRoutes = () => {
 }
 
 export default withStore(Root);
-
