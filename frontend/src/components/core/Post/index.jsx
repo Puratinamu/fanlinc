@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, Divider, Typography, Box } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
+
 require('./styles.scss')
 
 class Post extends React.Component {
@@ -14,11 +16,13 @@ class Post extends React.Component {
                                     {this.props.fandom}
                                 </Typography>
                             </Box>
-                            <Box display="flex"  className="post-data" >
-                            <Typography variant="overline" > Post by &nbsp;</Typography>
-                            <Typography variant="overline" color="primary">{this.props.author}</Typography>
-                            <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
-                            <Typography variant="overline"  color="primary"> {this.props.date}</Typography>
+                            <Box display="flex" className="post-data" >
+                                <Link href={`main/viewprofile?id=${this.props.creatorOid}`}>
+                                    <Typography variant="overline" > Post by &nbsp;</Typography>
+                                    <Typography variant="overline" color="primary">{this.props.author}</Typography>
+                                </Link>
+                                <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
+                                <Typography variant="overline" color="primary"> {this.props.date}</Typography>
                             </Box>
                         </Box>
                         <Divider />
@@ -30,7 +34,7 @@ class Post extends React.Component {
                             </Box>
                             <Typography variant="body1">
                                 {this.props.text}
-                        </Typography>
+                            </Typography>
                         </Box>
                     </Box>
                 </Card>
