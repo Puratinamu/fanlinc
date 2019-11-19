@@ -29,13 +29,22 @@ public class MessengerController {
 
     @RequestMapping(value = "/api/v1/messenger/dm", method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> postMessageDm(@RequestParam Long from, @RequestParam Long to, @Valid @RequestBody Map<String, Object> body) {
+    public ResponseEntity<MessageResponse> postMessageDm(@RequestParam Long from, @RequestParam Long to, @Valid @RequestBody Map<String, Object> body) {
         try {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            MessageRequest msgRequest = this.messageRequestMapper.toMessageRequest(body);
+            Message msg = messengerService.postChatToDm(from, to, msgRequest.getMessage());
 
+            MessageResponse msgResponse = new MessageResponse();
+            msgResponse.setFromUsername(msg.getFromUsername());
+            msgResponse.setFromId(msg.getFromId());
+            if(msg.getCreationTimestamp() != null) {
+                msgResponse.setCreatedTimeStamp(msg.getCreationTimestamp().toString());
+            }
+            msgResponse.setContent(msg.getContent());
+            return new ResponseEntity<>(msgResponse, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (FandomNotFoundException e) {
+        } catch (FandomNotFoundException | UserNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
             e.printStackTrace();
@@ -72,10 +81,12 @@ public class MessengerController {
 
     @RequestMapping(value = "/api/v1/messenger/dm", method = GET, produces = APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<String> getMessagesDm(@RequestParam Long from, @RequestParam Long to) {
+    public ResponseEntity<GetMessagesResponse> getMessagesDm(@RequestParam Long from, @RequestParam Long to) {
         try {
+            List<Message> messages = this.messengerService.getChatsInDm(from, to);
+            GetMessagesResponse response = new GetMessagesResponse(messages);
 
-            return new ResponseEntity<>("posted message", HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (FandomNotFoundException e) {

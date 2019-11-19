@@ -45,8 +45,8 @@ class MessengerMain extends React.Component {
                 newMessages = response.data.messages.reverse();
             }
             
-            if (this.state.messages.length !== 0 && newMessages.length != 0) {
-                if (newMessages[newMessages.length - 1].msgId !== this.state.messages[this.state.messages.length - 1].msgId && newMessages[newMessages.length - 1].fromId != this.props.store.get("authenticatedOidUser")) {
+            if (this.state.messages.length !== 0 && newMessages.length !== 0) {
+                if (newMessages[newMessages.length - 1].msgId !== this.state.messages[this.state.messages.length - 1].msgId && newMessages[newMessages.length - 1].fromId !== parseInt(this.props.store.get("authenticatedOidUser"))) {
                     this.audio.play()
                 }
             }

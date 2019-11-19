@@ -37,19 +37,23 @@ public class MessengerServiceImpl implements MessengerService {
     }
 
     public List<Message> getChatsInDm(Long fromUserId, Long toUserId) {
-        List<Message> dmChats = new ArrayList<>();
+        List<Message> dmChats = this.messageRepository.getMessagesForDM(fromUserId, toUserId);
         return dmChats;
-    };
+    }
+
+    ;
 
     public List<Message> getChatsInFandom(Long fandomId, String fandomInterestLevel) {
         List<Message> fandomMessages = this.messageRepository.getMessagesFromAFandomChatRoom(fandomId, fandomInterestLevel);
         return fandomMessages;
-    };
+    }
 
-    private void createUserToFandomRelationship(User user, ChatRoom room, String fandomInterestLevel) {
+    ;
+
+    private void createUserToChatRoomRelationship(User user, ChatRoom room, String interestLevel) {
         UserToChatRoom userToChatRoomRelationship = new UserToChatRoom();
         userToChatRoomRelationship.setChatRoom(room);
-        userToChatRoomRelationship.setRelationship(fandomInterestLevel);
+        userToChatRoomRelationship.setRelationship(interestLevel);
         userToChatRoomRelationship.setUser(user);
         this.userToChatRoomRepository.save(userToChatRoomRelationship);
     }
@@ -80,11 +84,11 @@ public class MessengerServiceImpl implements MessengerService {
         if (room == null) {
             room = new ChatRoom();
             createFandomToChatRoomRelationship(room, fandom.get(), fandomInterestLevel);
-            createUserToFandomRelationship(user.get(), room, fandomInterestLevel);
+            createUserToChatRoomRelationship(user.get(), room, fandomInterestLevel);
 
         } else if (userRepository.findUserByFandomChatRoom(fromUserId, fandomInterestLevel, fandomId) == null) {
             // If the user who posted the message doesn't have a "IN_CHAT" relationship to the chatroom, create the relationship
-            createUserToFandomRelationship(user.get(), room, fandomInterestLevel);
+            createUserToChatRoomRelationship(user.get(), room, fandomInterestLevel);
         }
 
         // Create the msg to be save to the repository.
@@ -98,14 +102,38 @@ public class MessengerServiceImpl implements MessengerService {
 
         this.messageRepository.save(msg);
         return msg;
-
     }
 
     ;
 
-    public void postChatToDm(Long fromUserId, Long toUserId, String meesageContent) {
+    public Message postChatToDm(Long fromUserId, Long toUserId, String messageContent) {
+        Optional<User> userFrom = this.userRepository.findById(fromUserId);
+        if (!userFrom.isPresent()) {
+            throw new UserNotFoundException();
+        }
 
+        Optional<User> userTo = this.userRepository.findById(toUserId);
+        if (!userTo.isPresent()) {
+            throw new UserNotFoundException();
+        }
+        ChatRoom room = this.chatRoomRepository.getChatRoomForDm(fromUserId, toUserId);
+        if (room == null) {
+            room = new ChatRoom();
+            createUserToChatRoomRelationship(userFrom.get(), room, "dm");
+            createUserToChatRoomRelationship(userTo.get(), room, "dm");
+        }
+
+        // Create the msg to be save to the repository.
+        Message msg = new Message();
+        msg.setChatRoom(room);
+        msg.setContent(messageContent);
+        Date creationDate = new Date();
+        msg.setCreationTimestamp(creationDate);
+        msg.setFromId(fromUserId);
+        msg.setFromUsername(userFrom.get().getUsername());
+
+        this.messageRepository.save(msg);
+        return msg;
     }
 
-    ;
 }

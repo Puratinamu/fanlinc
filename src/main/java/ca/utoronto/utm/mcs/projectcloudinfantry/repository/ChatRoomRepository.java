@@ -11,4 +11,10 @@ public interface ChatRoomRepository  extends Neo4jRepository<ChatRoom, Long>{
             "WHERE ID(f) = {oidFandom}" +
             "return c")
     ChatRoom getChatRoomForFandomByInterestLevel(Long oidFandom, String fandomRelationship);
+
+    @Query(" match(u1:User)-[:IN_CHAT {relationship:'dm'}]->(c:ChatRoom)" +
+            "match(u2:User)-[:IN_CHAT {relationship:'dm'}]->(c)" +
+            "WHERE ID(u1)={oidFrom} AND ID(u2)={oidTo}" +
+            "return c")
+    ChatRoom getChatRoomForDm(Long oidFrom, Long oidTo);
 }

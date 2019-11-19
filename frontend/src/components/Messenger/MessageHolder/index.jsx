@@ -23,7 +23,7 @@ class MessageHolder extends React.Component {
                     <MessageBubble
                         key={index}
                         value={message.content}
-                        sender={message.fromId == this.store.get("authenticatedOidUser") ? "me" : message.fromUsername}
+                        sender={message.fromId === parseInt(this.store.get("authenticatedOidUser")) ? "me" : message.fromUsername}
                     />)
                 }
                 {this.props.loading &&
