@@ -22,31 +22,76 @@ const USER_INFORMATION_LABEL = "User Information",
   USER_NAME_LABEL = "User Name",
   USER_EMAIL_LABEL = "Email",
   USER_BIO_LABEL = "Biography",
-  USER_FANDOMS_LABEL = "Fandoms";
-let  SNACKBAR_TIMEOUT = 4000;
+  USER_FANDOMS_LABEL = "Fandoms",
+  SNACKBAR_TIMEOUT = 4000;
 
 
 class ViewProfile extends React.Component {
 
   constructor(props) {
     super(props);
-
     this.handleAddingContact = this.handleAddingContact.bind(this);
 
     this.handleClose = this.handleClose.bind(this);
-
 
     this.store = props.store;
 
     this.state = {
       user: null,
-      loading: true
+      loading: true,
+      contactAdded: false,
+      notificationOpen: false,
+      message: "Unknown Error: Please contact support"
     };
   }
 
+  handleAddingContact() {
+    userRequests.putContact({
+      "oidUser": parseInt(this.props.store.get('authenticatedOidUser')),
+      "contactOidUser": parseInt(this.state.user.oidUser)
+    }, this.props.store.get("sessionToken")).then(response => {
+      if (response.status === 200) {
+        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
+      } else if (response.status === 409) {
+        this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
+      } else {
+        this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
+
+      }
+     
+    })
+  }
+
+  handleClose() {
+    this.setState({
+      notificationOpen: false,
+      contactAdded: false
+    });
+  }
 
   routeToJoinFandom() {
     this.props.history.push('/main/joinfandom');
+  }
+    
+  componentDidMount() {
+    let id;
+    if (redirectManager.getUrlParam("id") === undefined) {
+      id = this.props.store.get('authenticatedOidUser')
+    } else {
+      id = redirectManager.getUrlParam("id")
+    };
+    userRequests.getUser(id).then(response => {
+      let user;
+
+      if (response.status === 200) {
+        user = response.data;
+      }
+
+      this.setState({
+        user: user,
+        loading: false
+      });
+    });
   }
 
   render() {
@@ -77,22 +122,24 @@ class ViewProfile extends React.Component {
           helperText={fandom.relationship && `Interest Level: ${fandom.relationship}`} />
       )
     }
-    // TODO: Must not render add fandom bunton when not the current user
+
     return (
       <Zoom in={!this.state.loading}>
-
         <Paper>
           <Box px={3} pt={5} pb={10} >
             <Grid spacing={2} className="cldi-view-user-profile" container direction="column" alignItems="center">
               <Grid item xs={12}>
                 <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
               </Grid>
+              {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
+              <AddContactButton onClick={this.handleAddingContact} />}
               <ProfileHeading label={USER_INFORMATION_LABEL} />
               {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
               {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
                 <ProfileHeading label={USER_FANDOMS_LABEL}>
+                  {this.state.user.oidUser == this.props.store.get('authenticatedOidUser') &&
                   <IconButton
                     onClick={this.routeToJoinFandom.bind(this)}
                     className="cldi-profile-fandom-add-button"
@@ -100,63 +147,17 @@ class ViewProfile extends React.Component {
                     disableFocusRipple
                     style={{ backgroundColor: 'transparent' }}>
                     <AddCircleOutlineIcon />
-                  </IconButton>
+                  </IconButton>}
                 </ProfileHeading>
               )}
               {fandomList}
             </Grid>
           </Box>
-
+          <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} contactAdded={this.state.contactAdded} />
         </Paper>
       </Zoom>
     );
   }
-
-  handleAddingContact() {
-    userRequests.putContact({
-      "oidUser": parseInt(this.props.store.get('authenticatedOidUser')),
-      "contactOidUser": parseInt(this.state.user.oidUser)
-    }, this.props.store.get("sessionToken")).then(response => {
-      if (response.status === 200) {
-        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
-      } else if (response.status === 409) {
-        this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
-      } else {
-        this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
-
-      }
-     
-    })
-  }
-
-  handleClose() {
-    this.setState({
-      notificationOpen: false,
-      contactAdded: false
-    });
-  }
-
-  componentDidMount() {
-    let id;
-    if (redirectManager.getUrlParam("id") === undefined) {
-      id = this.props.store.get('authenticatedOidUser')
-    } else {
-      id = redirectManager.getUrlParam("id")
-    };
-    userRequests.getUser(id).then(response => {
-      let user;
-
-      if (response.status === 200) {
-        user = response.data;
-      }
-
-      this.setState({
-        user: user,
-        loading: false
-      });
-    });
-  }
-
 
 }
 
@@ -200,16 +201,13 @@ const ProfileField = (input) => {
 
 // Generates a header for each section
 const ProfileHeading = (input) => {
-
-  return (
-    <Grid className="cldi-profile-heading" item xs={12}>
-      <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
-      <Divider className="cldi-profile-heading-divider" />
-    </Grid>
-  );
-
+    return (  
+      <Grid className="cldi-profile-heading" item xs={12}>
+        <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
+        <Divider className="cldi-profile-heading-divider" />
+      </Grid>
+    );
 }
-
 
 // Displays messages to the user
 function ShowMessages(props) {
