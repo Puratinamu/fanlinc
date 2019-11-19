@@ -8,6 +8,8 @@ import JoinFandom from './JoinFandom/';
 import ViewProfilePage from './ViewProfilePage/';
 import NewFandom from './NewFandom/';
 import ViewContacts from './ViewContacts/ViewContacts'
+import NewPost from './NewPost/';
+
 import Home from './Home';
 
 import "./styles.scss";
@@ -42,6 +44,7 @@ class Main extends React.Component {
                 <Route path="/main/joinfandom" component={JoinFandom} />
                 <Route path="/main/newfandom" component={NewFandom} />
                 <Route path="/main/contacts" component={ViewContacts} />
+                <Route path="/main/newpost" component={NewPost} />
                 <Route exact path="/main" component={Home} />
                 <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
               </Switch>

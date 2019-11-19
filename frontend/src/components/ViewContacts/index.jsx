@@ -47,7 +47,8 @@ class ViewContacts extends React.Component {
     }
 
     componentDidMount() {
-        userRequests.getContacts(this.store.get('authenticatedOidUser')).then(response => {
+        userRequests.getContacts(this.store.get('authenticatedOidUser'),
+            this.props.store.get("sessionToken")).then(response => {
             let contactsList = [];
             if (response.status === 200) {
                 contactsList = response.data;

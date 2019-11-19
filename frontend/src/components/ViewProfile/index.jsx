@@ -56,7 +56,9 @@ class ViewProfile extends React.Component {
         this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
       } else {
         this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
+
       }
+     
     })
   }
 
