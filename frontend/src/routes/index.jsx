@@ -34,7 +34,7 @@ class Root extends React.Component {
             }
 
             // Go to the next route
-            this.props.history.push(nextRoute);
+            this.props.history.push(nextRoute + (this.props.history.location.search ? this.props.history.location.search : ""));
         } else if (this.props.history.location.pathname === "/signup") {
             this.props.history.push('/signup');
         } else {
