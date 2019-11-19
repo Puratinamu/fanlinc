@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 9 ***************
+
+Date: November 17th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Added view contacts to landing page.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Linked the navigation bar with routing and modified styles and folder structure.
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Resolving conflicts with text post endpoints
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Post feed and tests completed
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Finished view contacts frontend
+Blockers: None

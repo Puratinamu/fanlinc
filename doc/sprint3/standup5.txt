@@ -1,0 +1,40 @@
+
+*************** Sprint 3 - Standup 5 ***************
+
+Date: November 13th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Completed getContacts and addContact endpoint,
+                 and integrated getContacts into view contacts.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Added routing login into the app
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Worked on adding text post backend
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Fixed add/get posts, Add get post feed
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Working on make text posts to timeline
+Blockers: None
