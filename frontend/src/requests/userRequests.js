@@ -53,11 +53,14 @@ let userRequests = {
         }
     },
 
-    getContacts: async function (oidUser) {
+    getContacts: async function (oidUser, sessionToken) {
         try {
             return await axios.get("/api/v1/getContacts", {
                 params: {
                     oidUser: oidUser
+                },
+                headers: {
+                    jwt: sessionToken,
                 }
             });
         } catch (error) {
