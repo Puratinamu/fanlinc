@@ -6,7 +6,12 @@ import Navbar from '../../components/NavBar/';
 import LoginManager from '../../components/core/LoginManager/';
 import JoinFandom from './JoinFandom/';
 import ViewProfilePage from './ViewProfilePage/';
+import MessengerPage from './MessengerPage/';
+
 import NewFandom from './NewFandom/';
+import ViewContacts from './ViewContacts/ViewContacts'
+import NewPost from './NewPost/';
+
 import Home from './Home';
 
 import "./styles.scss";
@@ -23,7 +28,7 @@ class Main extends React.Component {
         }
 
         // Go to the next route
-        this.props.history.push(nextRoute);
+        this.props.history.push(nextRoute + (this.props.history.location.search ? this.props.history.location.search : ""));
     }
 
     routeTo(newRoute) {
@@ -40,6 +45,9 @@ class Main extends React.Component {
                 <Route path="/main/viewprofile" component={ViewProfilePage} />
                 <Route path="/main/joinfandom" component={JoinFandom} />
                 <Route path="/main/newfandom" component={NewFandom} />
+                <Route exact path="/main/messenger" component={MessengerPage} />
+                <Route path="/main/contacts" component={ViewContacts} />
+                <Route path="/main/newpost" component={NewPost} />
                 <Route exact path="/main" component={Home} />
                 <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
               </Switch>

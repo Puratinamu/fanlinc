@@ -33,8 +33,8 @@ public class User {
     @Relationship(type = "CONTACT_WITH")
     private List<User> contacts = new ArrayList<>();
 
-    @CreatedDate
-    private Date creationTimestamp;
+        @CreatedDate
+        private Date creationTimestamp;
 
     private Date lastUpdateTimestamp;
 

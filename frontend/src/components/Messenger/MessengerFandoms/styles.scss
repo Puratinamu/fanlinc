@@ -1,0 +1,67 @@
+.fandom-contacts-box{
+    width:100% !important;
+    
+}
+.fandom-contacts-box-content{
+    cursor: pointer;
+
+}
+.fandom-contacts-box-content:hover{
+    background-color: rgba(236, 236, 236, 0.996) !important;
+}
+.fandom-contacts-box-selected{
+    background-color: rgba(214, 214, 214, 0.996) !important;
+    cursor: pointer;
+
+}
+.fandom-contacts-box-selected:hover{
+    background-color: #b4b4b4  !important;
+
+}
+.fandom-box-container-grid{
+    overflow: auto;
+	color: #00000000;
+	transition: color 0.3s;
+
+	&:hover {
+		color: #666666FF;
+    };
+    max-height:30vh;
+}
+
+.fandom-contacts-header{
+    background-color: #ebebeb;
+    border-radius: 8px;
+}
+
+
+
+.fandom-box-container-grid::-webkit-scrollbar {
+	width: 14px;
+}
+.fandom-box-container-grid::-webkit-scrollbar-thumb {
+	background-clip: content-box;
+	border: 4px solid transparent;
+	border-radius: 7px;
+	box-shadow: inset 0 0 0 10px;
+}
+.fandom-box-container-grid::-webkit-scrollbar-button {
+	width: 0;
+	height: 0;
+	display: none;
+}
+.fandom-box-container-grid::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+.fandom-box-container-grid {
+	overflow: auto;
+	color: #00000000;
+	transition: color 0.3s;
+
+	&:hover {
+		color: #666666FF;
+    };
+    max-height:48vh;
+
+}
