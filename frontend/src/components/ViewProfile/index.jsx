@@ -9,7 +9,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import Draggable from 'react-draggable';
 import Button from '@material-ui/core/Button';
 import userRequests from '../../requests/userRequests';
 import redirectManager from '../../redirectManager';
@@ -24,7 +23,7 @@ const USER_INFORMATION_LABEL = "User Information",
   USER_EMAIL_LABEL = "Email",
   USER_BIO_LABEL = "Biography",
   USER_FANDOMS_LABEL = "Fandoms";
-  SNACKBAR_TIMEOUT = 4000;
+let  SNACKBAR_TIMEOUT = 4000;
 
 
 class ViewProfile extends React.Component {
@@ -45,21 +44,6 @@ class ViewProfile extends React.Component {
     };
   }
 
-
-  componentDidMount() {
-    userRequests.getUser(this.store.get('authenticatedOidUser')).then(response => {
-      let user;
-
-      if (response.status === 200) {
-        user = response.data;
-      }
-
-      this.setState({
-        user: user,
-        loading: false
-      });
-    });
-  }
 
   routeToJoinFandom() {
     this.props.history.push('/main/joinfandom');
@@ -152,10 +136,6 @@ class ViewProfile extends React.Component {
     });
   }
 
-  routeToJoinFandom() {
-    this.props.history.push('/main/joinfandom');
-  }
-    
   componentDidMount() {
     let id;
     if (redirectManager.getUrlParam("id") === undefined) {
@@ -177,70 +157,6 @@ class ViewProfile extends React.Component {
     });
   }
 
-  render() {
-    // Render loader if it is loading
-    if (this.state.loading && !this.state.user) {
-      return (
-        <CircularProgress />
-      );
-    }
-
-    // Render message if user was not found !! THIS SHOULDNT HAPPEN !!
-    if (!this.state.user) {
-      return (
-        <Typography component='h4' variant='h4' color='textSecondary' align='center'>
-          User Profile Not Found
-                </Typography>
-      );
-    }
-
-    // Render list of fandoms
-    let fandomList = [];
-    for (let fandom of this.state.user.fandoms) {
-      fandomList.push(
-        <ProfileField
-          key={fandom.oidFandom}
-          label="Name"
-          value={fandom.name}
-          helperText={fandom.relationship && `Interest Level: ${fandom.relationship}`} />
-      )
-    }
-
-    return (
-      <Zoom in={!this.state.loading}>
-        <Paper>
-          <Box px={3} pt={5} pb={10} >
-            <Grid spacing={2} className="cldi-view-user-profile" container direction="column" alignItems="center">
-              <Grid item xs={12}>
-                <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
-              </Grid>
-              {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
-              <AddContactButton onClick={this.handleAddingContact} />}
-              <ProfileHeading label={USER_INFORMATION_LABEL} />
-              {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
-              {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
-              {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
-              {fandomList.length >= 0 && (
-                <ProfileHeading label={USER_FANDOMS_LABEL}>
-                  {this.state.user.oidUser == this.props.store.get('authenticatedOidUser') &&
-                  <IconButton
-                    onClick={this.routeToJoinFandom.bind(this)}
-                    className="cldi-profile-fandom-add-button"
-                    disableRipple
-                    disableFocusRipple
-                    style={{ backgroundColor: 'transparent' }}>
-                    <AddCircleOutlineIcon />
-                  </IconButton>}
-                </ProfileHeading>
-              )}
-              {fandomList}
-            </Grid>
-          </Box>
-          <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} message={this.state.message} contactAdded={this.state.contactAdded} />
-        </Paper>
-      </Zoom>
-    );
-  }
 
 }
 
