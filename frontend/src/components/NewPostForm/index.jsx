@@ -35,9 +35,7 @@ class NewPostForm extends React.Component {
         this.state = {
             postText: "",
             postTextMissingError: false,
-            postFailUnauthorizedError: false,
-            postFailInternalServerError: false,
-            postFailBadRequestError: false,
+            postFailError: false,
             unknownError: false,
             postSuccess: false,
             selectedFandom: null,
@@ -56,36 +54,34 @@ class NewPostForm extends React.Component {
 
         postRequests.putPost({
             "oidCreator": parseInt(this.props.store.get("authenticatedOidUser")),
-            "text": this.state.postText.toString(),
+            "text": this.state.postText,
             "oidFandom": this.state.selectedFandom.oidFandom,
             "title": this.state.title,
         }, this.props.store.get("sessionToken")).then(response => {
             if (response.status === 200) {
                 this.setState({ postSuccess: true, message: "Your post has been successfully added!", notificationOpen: true })
             } else if (response.status === 500) {
-                this.setState({ postSuccess: false, postFailInternalServerError: true, message: "Internal server error: Please contact support", notificationOpen: true })
+                this.setState({ postFailError: true, message: "Internal server error: Please contact support", notificationOpen: true })
             } else if (response.status === 400) {
-                this.setState({ postSuccess: false, postFailBadRequestError: true, message: "Bad request error: Please contact support", notificationOpen: true })
+                this.setState({ postFailError: true, message: "Bad request error: Please contact support", notificationOpen: true })
             }
             else {
-                this.setState({ postSuccess: false, unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
+                this.setState({ unknownError: true, message: "Unknown Error: Please contact support", notificationOpen: true })
             }
         })
     }
 
-
     handleClose() {
         this.setState({
-            notificationOpen: false
+            notificationOpen: false,
+            postSuccess: false
         });
     }
     handlePostInput(newPost) {
         this.setState({ postText: newPost.target.value, postTextMissingError: newPost.target.value === "", unknownError: false })
     }
     handlePostAttempt(newPost) {
-        this.setState({ postTextMissingError: this.state.postText === "" || this.state.title ==="" })
         if (this.state.postTextMissingError || this.state.postText === "" || this.state.title === "") {
-
             this.setState({ message: "Please enter all values", notificationOpen: true })
         } else if (!this.state.fandomSelected) {
             this.setState({ message: "Please select a fandom", notificationOpen: true })
@@ -123,22 +119,29 @@ class NewPostForm extends React.Component {
         // Get the user
         userRequests.getUser(this.props.store.get("authenticatedOidUser")).then(response => {
             let newFandomsList = [];
+            let msg = "Unknown error generating fandoms: Please contact support"
+            let err = false
 
             if (response.status === 200) {
                 newFandomsList = this.createFandomOptions(response.data.fandoms);
-
             } else if (response.status === 500) {
-                this.setState({ postFailInternalServerError: true, message: "Internal server error generating fandoms: Please contact support", notificationOpen: true })
+                msg ="Internal server error generating fandoms: Please contact support"
+                err = true
             } else if (response.status === 400) {
-                this.setState({ postFailBadRequestError: true, message: "Bad request error generating fandoms: Please contact support", notificationOpen: true })
+                msg = "Bad request error generating fandoms: Please contact support"
+                err = true
             } else if (response.status === 404) {
-                this.setState({ postFailUnauthorizedError: true, message: "Unauthorized user error generating fandoms: Please contact support", notificationOpen: true })
+                msg = "Unauthorized user error generating fandoms: Please contact support"
+                err = true
             } else {
-                this.setState({ unknownError: true, message: "Unknown error generating fandoms: Please contact support", notificationOpen: true })
+                err = true
             }
             this.setState({
                 fandomsList: newFandomsList,
-                loading: false
+                loading: false,
+                message: msg,
+                notificationOpen: err,
+                postFailError: err
             });
         })
     }
