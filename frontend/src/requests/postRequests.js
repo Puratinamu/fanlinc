@@ -17,6 +17,22 @@ let postRequests = {
             return {};
         }
     },
+    putPost: async function (requestBody, sessionToken) {
+        try {
+            const response = await axios.post('/api/v1/addTextPost', requestBody 
+            , {
+                headers: {
+                    jwt: sessionToken
+                }
+            }
+            )
+            return response
+        }
+        catch (error) {
+            console.error(error);
+            return error
+        }
+    },
 
 };
 
