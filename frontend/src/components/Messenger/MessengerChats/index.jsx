@@ -10,24 +10,15 @@ class MessengerChats extends React.Component {
         super(props);
         this.handleOptionSelect = this.handleOptionSelect.bind(this);
         this.state = {
-            selectedFromContacts:false,
-            selectedContact: 0,
             selectedFromFandoms:true,
             selectedFandom: 0
         }
     }
 
     handleOptionSelect(from, index){
-        if(from === "contacts"){
-            this.setState({
-                selectedFromContacts:true,
-                selectedFromFandoms:false,
-                selectedContact:index
-            })
-        } else if(from === "fandoms"){
+       if(from === "fandoms"){
             this.setState({
                 selectedFromFandoms:true,
-                selectedFromContacts:false,
                 selectedFandom:index
             })
         }

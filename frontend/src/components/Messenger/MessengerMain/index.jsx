@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import { Typography } from '@material-ui/core';
 import chatRequests from '../../../requests/chatRequests';
-let alertsound = require('../../../assets/alert.mp3')
 
 
 require('./styles.scss')
@@ -23,7 +22,6 @@ class MessengerMain extends React.Component {
             fandomInterestLevel: props.fandomInterestLevel,
             loading: true
         }
-        this.audio = new Audio(alertsound);
     }
 
     handleMadePost(post) {
@@ -44,12 +42,7 @@ class MessengerMain extends React.Component {
             if (response.status === 200) {
                 newMessages = response.data.messages.reverse();
             }
-            
-            if (this.state.messages.length !== 0 && newMessages.length !== 0) {
-                if (newMessages[newMessages.length - 1].msgId !== this.state.messages[this.state.messages.length - 1].msgId && newMessages[newMessages.length - 1].fromId !== parseInt(this.props.store.get("authenticatedOidUser"))) {
-                    this.audio.play()
-                }
-            }
+         
             this.setState({
                 messages: newMessages,
                 loading: false
