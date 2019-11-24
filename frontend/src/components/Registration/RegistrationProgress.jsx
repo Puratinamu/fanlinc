@@ -8,7 +8,8 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    textAlign: "center"
+      textAlign: "center",
+      width: '100%'
   },
   completed: {
     display: 'inline-block',
@@ -83,22 +84,22 @@ export default function RegistrationProgress(props) {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box className={classes.root, "registration-progress"}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Button
           variant="contained"
-          color="primary" href="/login" className={classes.loginButton}>
+          color="primary" href="/login" className={classes.loginButton, "registration-button"}>
           Back To Login
         </Button>
         <Button
           variant="contained"
-          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button}>
+          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button, "registration-button", "registration-back-button"}>
           Back
         </Button>
         <Stepper className={classes.stepper} nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepButton onClick={handleStep(index)} completed={completed[index]}>
+              <StepButton className="registration-step-button" onClick={handleStep(index)} completed={completed[index]}>
                 {label}
               </StepButton>
             </Step>
@@ -108,7 +109,7 @@ export default function RegistrationProgress(props) {
           variant="contained"
           color="primary"
           onClick={handleNext}
-          className={classes.button}
+          className={classes.button, "registration-button"}
           disabled={!props.canProceed}
         >
           Next
