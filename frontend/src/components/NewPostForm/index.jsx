@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import Zoom from '@material-ui/core/Zoom';
 import Container from '@material-ui/core/Container'
 import SearchField from '../core/searchfield'
 import userRequests from '../../requests/userRequests';
@@ -43,7 +44,7 @@ class NewPostForm extends React.Component {
             fandomsList: [],
             notificationOpen: false,
             loading: true,
-            title:'New Post',
+            title: '',
             message: "Unknown Error: Please contact support"
         }
     }
@@ -148,32 +149,34 @@ class NewPostForm extends React.Component {
 
     render() {
         return (
-            <Container maxWidth="md">
-                <Paper className="cldi-make-post-main" >
-                    <Typography variant="h6">
-                        Make a Post
-                        </Typography>
-                    <Divider />
-
-                    <Box className="text-holder">
-                        <Box >
-                            <SelectFandom loading={this.state.loading} callback={this.setSelectedFandom} searchList={this.state.fandomsList} />
-                            <Box>
-                                <Box pt={1} >
-                                    <TextField error={this.state.postTextMissingError} onInput={this.handleTitleInput} value={this.state.title} className="post-text-box" placeholder="Title" variant="outlined" />
-                                </Box>
+            <Zoom in={!this.state.loading}>
+                <Container className="cldi-make-post-container">
+                    <Paper className="cldi-make-post-main" >
+                        <Typography variant="h6">
+                            Make a Post
+                            </Typography>
+                        <Divider />
+                
+                        <Box className="text-holder" p={1}>
+                            <Box >
+                                <SelectFandom loading={this.state.loading} callback={this.setSelectedFandom} searchList={this.state.fandomsList} />
                                 <Box>
-                                    <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
+                                    <Box pt={1} >
+                                        <TextField error={this.state.postTextMissingError} onInput={this.handleTitleInput} value={this.state.title} className="post-text-box" placeholder="Title" variant="outlined" />
+                                    </Box>
+                                    <Box>
+                                        <PostField onInput={this.handlePostInput} error={this.state.postTextMissingError} />
+                                    </Box>
+                                    <Box>
+                                        <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
+                                    </Box>
+                                    <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} postSuccess={this.state.postSuccess} message={this.state.message} />
                                 </Box>
-                                <Box>
-                                    <PostButton error={this.state.postTextMissingError} onClick={this.handlePostAttempt} />
-                                </Box>
-                                <ShowMessages open={this.state.notificationOpen} handleClose={this.handleClose} postSuccess={this.state.postSuccess} message={this.state.message} />
                             </Box>
                         </Box>
-                    </Box>
-                </Paper >
-            </Container >
+                    </Paper >
+                </Container >
+            </Zoom>
         )
     }
 }

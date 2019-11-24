@@ -21,8 +21,10 @@ class Post extends React.Component {
                                     <Typography variant="overline" > Post by &nbsp;</Typography>
                                     <Typography variant="overline" color="primary">{this.props.author}</Typography>
                                 </Link>
-                                <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
-                                <Typography variant="overline" color="primary"> {this.props.date}</Typography>
+                                <div className="post-time">
+                                    <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
+                                    <Typography variant="overline" color="primary"> {this.props.date}</Typography>
+                                </div>
                             </Box>
                         </Box>
                         <Divider />
