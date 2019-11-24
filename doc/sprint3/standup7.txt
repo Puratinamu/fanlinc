@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 7 ***************
+
+Date: November 15th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: None
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Fixed bug in joinfandom component and styled the sign up page
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Backend testing for text post endpoints
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Post feed backend in progress
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Working on view other users profile front end
+Blockers: None

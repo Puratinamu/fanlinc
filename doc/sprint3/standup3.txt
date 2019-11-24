@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 3 ***************
+
+Date: November 11th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Fixed bug for view contacts page.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Reviewing code
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On PostFeed
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

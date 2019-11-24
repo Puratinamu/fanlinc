@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 6 ***************
+
+Date: November 14th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Fixed getContacts backend based on pr comments.
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Created a bottom nav bar and styled it
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Worked on getting text post backend
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: None
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Working on make text posts to timeline
+Blockers: None

@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 2 ***************
+
+Date: November 10th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Working on fixing view contacts table bug (cant change contents of pages).
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: Integrated view profile with store
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Finished text post and fandom endpoints to return response bodies, tested and sent PR
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Reviewing code
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On PostFeed
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

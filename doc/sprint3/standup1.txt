@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 1 ***************
+
+Date: November 9th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: None
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: Did some work on creating response bodies
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: None
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On PostFeed
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None

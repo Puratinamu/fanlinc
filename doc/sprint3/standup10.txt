@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 10 ***************
+
+Date: November 18th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Completed view contacts front end and view other peoples contacts
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: None
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Finished a working implementation of Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: Finished text posts to timeline
+Blockers: None

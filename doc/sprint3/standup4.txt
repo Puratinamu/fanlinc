@@ -1,0 +1,39 @@
+
+*************** Sprint 3 - Standup 4 ***************
+
+Date: November 12th
+
+___Member 1___
+Name: Tanner
+Accomplishments: None
+Blockers: None
+
+___Member 2___
+Name: Andrew
+Accomplishments: Working on getContacts endpoint and addContact endpoint
+Blockers: None
+
+___Member 3___
+Name: Anandha
+Accomplishments: None
+Blockers: None
+
+___Member 4___
+Name: Sofia
+Accomplishments: None
+Blockers: None
+
+___Member 5___
+Name: Nick
+Accomplishments: Merged a branch
+Blockers: None
+
+___Member 6___
+Name: Michael
+Accomplishments: Worked On Chat
+Blockers: None
+
+___Member 7___
+Name: Sean
+Accomplishments: None
+Blockers: None
