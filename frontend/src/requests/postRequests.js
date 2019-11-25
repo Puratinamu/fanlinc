@@ -1,5 +1,3 @@
-import redirectManager from '../redirectManager'
-
 const axios = require('axios');
 
 let postRequests = {

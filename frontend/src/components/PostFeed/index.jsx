@@ -43,7 +43,7 @@ class PostFeed extends React.Component {
                             this.state.posts.length > 0 &&
                             !this.state.error &&
                             this.state.posts.map((postData, index) => {
-                                let date = new Date(postData.creationTimeStamp);
+                                let date = new Date(postData.creationTimestamp);
                 
                                 return <Grid item xs={12} key={index} >
                                     <Post key={index} creatorOid={postData.oidCreator} title={postData.title} date={date.toLocaleTimeString('en-US') + ", " + date.toLocaleDateString()} text={postData.text} author={postData.username} fandom={postData.fandomName} />

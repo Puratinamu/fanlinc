@@ -84,16 +84,16 @@ export default function RegistrationProgress(props) {
   };
 
   return (
-    <Box className={classes.root, "registration-progress"}>
+    <Box className={`${classes.root} registration-progress`}>
       <Box display="flex" alignItems="center" justifyContent="center">
         <Button
           variant="contained"
-          color="primary" href="/login" className={classes.loginButton, "registration-button"}>
+          color="primary" href="/login" className={`${classes.loginButton} registration-button`}>
           Back To Login
         </Button>
         <Button
           variant="contained"
-          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button, "registration-button", "registration-back-button"}>
+          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={`${classes.button} registration-button registration-back-button`}>
           Back
         </Button>
         <Stepper className={classes.stepper} nonLinear activeStep={activeStep}>
@@ -109,7 +109,7 @@ export default function RegistrationProgress(props) {
           variant="contained"
           color="primary"
           onClick={handleNext}
-          className={classes.button, "registration-button"}
+          className={`${classes.button} registration-button`}
           disabled={!props.canProceed}
         >
           Next
