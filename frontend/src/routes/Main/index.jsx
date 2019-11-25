@@ -40,18 +40,18 @@ class Main extends React.Component {
     render() {
         return (
           <Box className="cldi-home-page">
-            <LoginManager />
-              <Switch>
-                <Route path="/main/viewprofile" component={ViewProfilePage} />
-                <Route path="/main/joinfandom" component={JoinFandom} />
-                <Route path="/main/newfandom" component={NewFandom} />
-                <Route exact path="/main/messenger" component={MessengerPage} />
-                <Route path="/main/contacts" component={ViewContacts} />
-                <Route path="/main/newpost" component={NewPost} />
-                <Route exact path="/main" component={Home} />
-                <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
-              </Switch>
-              <Navbar callback={this.routeTo.bind(this)} />
+            <LoginManager store={this.props.store} />
+            <Switch>
+              <Route path="/main/viewprofile" component={ViewProfilePage} />
+              <Route path="/main/joinfandom" component={JoinFandom} />
+              <Route path="/main/newfandom" component={NewFandom} />
+              <Route exact path="/main/messenger" component={MessengerPage} />
+              <Route path="/main/contacts" component={ViewContacts} />
+              <Route path="/main/newpost" component={NewPost} />
+              <Route exact path="/main" component={Home} />
+              <Route path="*"><Typography align="center">INVALID PATH</Typography></Route>
+            </Switch>
+            <Navbar callback={this.routeTo.bind(this)} />
           </Box>
         )
     }
