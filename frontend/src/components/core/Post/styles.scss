@@ -3,7 +3,7 @@
 .post-item{
     position: relative;
     margin: 0 auto;
-
+    word-wrap:break-word;
     .post-time {
         @include hide-xs-show-small;
     }
