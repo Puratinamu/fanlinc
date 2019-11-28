@@ -90,7 +90,7 @@ System Design - (PDF or MD file or other suitable format) (Max 5 marks)
   [0 marks: No evidence that the system design has been reviewed]
   
   =======
-  Your mark: 0
+  Your mark: 3
   =======
   
   my comments were not reviewed nor challenged.
@@ -101,7 +101,7 @@ System Design - (PDF or MD file or other suitable format) (Max 5 marks)
  ======= 
  
  
- Total mark: 47/50
+ Total mark: 50/50
 
 Note: Keep in mind you individual mark will be scaled based on peer evaluation mark that other team members give you, using same formula as in sprint 1.
 
