@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Typography, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Zoom from '@material-ui/core/Zoom';
 import Post from '../core/Post';
 import Loading from '../core/Loading';
 import './styles.scss';
@@ -27,29 +28,31 @@ class PostFeed extends React.Component {
     }
     render() {
         return (
-            <Container>
-                <Grid className="post-feed-container">
-                    {this.state.loading === true && <Loading />}
-                    {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
-                    {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
-                        <Box display="flex" justifyContent="center" p={1} >
-                            <Typography color="textSecondary" variant="h4"> There are no posts in your feed</Typography>
-                        </Box>
-                    }
-                    {
-                        this.state.loading !== true &&
-                        this.state.posts.length > 0 &&
-                        !this.state.error &&
-                        this.state.posts.map((postData, index) => {
-                            let date = new Date(postData.creationTimestamp);
-
-                            return <Grid item xs={12} key={index} >
-                                <Post key={index} creatorOid={postData.oidCreator} title={postData.title} date={date.toLocaleTimeString('en-US') + ", " + date.toLocaleDateString()} text={postData.text} author={postData.username} fandom={postData.fandomName} />
-                            </Grid>
-                        })
-                    }
-                </Grid>
-            </Container>
+            <Zoom in={!this.state.loading}>
+                <Container className="post-feed-container">
+                    <Grid>
+                        {this.state.loading === true && <Loading />}
+                        {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
+                        {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
+                            <Box p={1} >
+                                <Typography color="textSecondary" variant="h4" align="center"> There are no posts in your feed</Typography>
+                            </Box>
+                        }
+                        {
+                            this.state.loading !== true &&
+                            this.state.posts.length > 0 &&
+                            !this.state.error &&
+                            this.state.posts.map((postData, index) => {
+                                let date = new Date(postData.creationTimestamp);
+                
+                                return <Grid item xs={12} key={index} >
+                                    <Post key={index} creatorOid={postData.oidCreator} title={postData.title} date={date.toLocaleTimeString('en-US') + ", " + date.toLocaleDateString()} text={postData.text} author={postData.username} fandom={postData.fandomName} />
+                                </Grid>
+                            })
+                        }
+                    </Grid>
+                </Container>
+            </Zoom>
         )
     }
 

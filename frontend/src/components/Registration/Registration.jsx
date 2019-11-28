@@ -7,6 +7,8 @@ import AddFandomToUserForm from '../AddFandomToUserForm/';
 import RegistrationCompletion from './RegistrationCompletion';
 import Container from '@material-ui/core/Container';
 
+import './Registration.scss';
+
 class Registration extends React.Component {
 
     constructor(props) {
@@ -104,7 +106,7 @@ class Registration extends React.Component {
 
     render() {
         return (
-          <Container maxWidth="md" >
+          <Container className="registration-container">
             <RegistrationProgress callback={this.handleNewStep} canProceed={this.canProceed()} />
             {this.state.registrationSteps[this.state.currentRegistrationStep]}
           </Container>

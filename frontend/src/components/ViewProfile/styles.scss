@@ -1,3 +1,5 @@
+@import '../core/styles/mixins';
+
 $avatar-size: 180px;
 
 .cldi-view-user-profile {
@@ -11,7 +13,11 @@ $avatar-size: 180px;
     // on the field
     .cldi-profile-field {
         pointer-events: none;
-        width: 70%;
+        width: 90%;
+
+        @include small {
+            width: 70%;
+        }
     }
 
     .cldi-profile-heading {

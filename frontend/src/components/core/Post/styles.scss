@@ -1,5 +1,14 @@
+@import '../styles/mixins';
+
 .post-item{
-    width:640px;
     position: relative;
     margin: 0 auto;
+
+    .post-time {
+        @include hide-xs-show-small;
+    }
+
+    @include medium {
+        width: 60%;
+    }
 }

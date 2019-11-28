@@ -45,7 +45,6 @@ class NewFandomPage extends React.Component {
         this.setState({ fandomDescription: e.target.value })
     }
 
-    
     async handleCreateFandomRequest() {
         let fandomName = this.state.fandomName;
         let fandomDescription = this.state.fandomDescription;
@@ -73,26 +72,29 @@ class NewFandomPage extends React.Component {
             })
         }
     }
+
     render() {
         return (
             <Zoom in={true}>
-              <Container maxWidth="md">
+              <Container className="cldi-make-fandom-container">
                 <Paper className="cldi-make-fandom-main" >
+                  <Box p={3}>
                     <Typography variant="h6">
                         Make a Fandom
                       </Typography>
                     <Divider />
                     <Box className="cldi-text-container">
                         <Box textAlign="center" className="cldi-text-holder">
-                            <Box display="flex">
-                                <Typography className="cldi-text-box-label" component="div" fontWeight="fontWeightLight" >
+                            <Box display="flex" justifyContent="space-between">
+                                <Typography className="cldi-text-box-label cldi-text-box-label-fandom" component="div" fontWeight="fontWeightLight" >
                                     Fandom Name
                                 </Typography>
-                                <Box marginLeft="auto">
+                                <Box className="cldi-input-container">
                                     <TextField
                                         error={this.state.error}
                                         id="Fandom Name"
                                         margin="normal"
+                                        fullWidth
                                         placeholder="League Of Legends"
                                         variant="outlined"
                                         className="cldi-text-box"
@@ -101,16 +103,17 @@ class NewFandomPage extends React.Component {
                                     />
                                 </Box>
                             </Box>
-                            <Box display="flex">
+                            <Box display="flex" justifyContent="space-between">
                                 <Typography component="div" className="cldi-text-box-label" fontWeight="fontWeightLight" >
                                     Description
                                 </Typography>
-                                <Box marginLeft="auto">
+                                <Box className="cldi-input-container">
                                     <TextField
                                         id="Fandom Name"
                                         error={this.state.error}
                                         placeholder="The world's largest salt mine"
                                         multiline={true}
+                                        fullWidth
                                         rows="5"
                                         variant="outlined"
                                         className="cldi-text-box"
@@ -132,8 +135,7 @@ class NewFandomPage extends React.Component {
 
                         </Box>
                     </Box>
-
-
+                  </Box>
                 </Paper>
                 <Snackbar
                     autoHideDuration={SNACKBAR_TIMEOUT}

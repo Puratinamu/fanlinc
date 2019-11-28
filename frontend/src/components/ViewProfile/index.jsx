@@ -131,7 +131,7 @@ class ViewProfile extends React.Component {
               <Grid item xs={12}>
                 <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
               </Grid>
-              {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
+              {(this.state.user.oidUser.toString() !== this.props.store.get('authenticatedOidUser')) &&
               <AddContactButton onClick={this.handleAddingContact} />}
               <ProfileHeading label={USER_INFORMATION_LABEL} />
               {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
@@ -139,7 +139,7 @@ class ViewProfile extends React.Component {
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
                 <ProfileHeading label={USER_FANDOMS_LABEL}>
-                  {this.state.user.oidUser == this.props.store.get('authenticatedOidUser') &&
+                  {this.state.user.oidUser.toString() === this.props.store.get('authenticatedOidUser') &&
                   <IconButton
                     onClick={this.routeToJoinFandom.bind(this)}
                     className="cldi-profile-fandom-add-button"

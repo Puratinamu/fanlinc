@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { withStore } from '../../../store'
 import { Box } from '@material-ui/core';
 import cookieManager from '../../../cookieManager'
 import redirectManger from '../../../redirectManager'
@@ -102,4 +101,4 @@ function SignOutButton(props) {
         </Button>
     )
 }
-export default withStore(LoginManager);
+export default LoginManager;
