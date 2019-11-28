@@ -6,10 +6,13 @@ import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 
+import './styles.scss';
+
+
 const useStyles = makeStyles(theme => ({
   root: {
-      textAlign: "center",
-      width: '100%'
+    textAlign: "center",
+    width: "100%"
   },
   completed: {
     display: 'inline-block',
@@ -24,9 +27,9 @@ const useStyles = makeStyles(theme => ({
   stepper: {
     'background-color': '#fafafa'
   },
-    loginButton: {
-        'margin-right': 32
-    }
+  loginButton: {
+    'margin-right': 32
+  }
 }));
 
 function getSteps() {
@@ -84,23 +87,26 @@ export default function RegistrationProgress(props) {
   };
 
   return (
-    <Box className={`${classes.root} registration-progress`}>
+    <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Button
+
+        <Button 
           variant="contained"
-          color="primary" href="/login" className={`${classes.loginButton} registration-button`}>
+          color="primary" href="/login" className={classes.loginButton+" hide-when-small"}>
           Back To Login
         </Button>
         <Button
           variant="contained"
-          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={`${classes.button} registration-button registration-back-button`}>
+          color="primary" disabled={activeStep === 0 || activeStep === 4} onClick={handleBack} className={classes.button}>
           Back
         </Button>
         <Stepper className={classes.stepper} nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepButton className="registration-step-button" onClick={handleStep(index)} completed={completed[index]}>
-                {label}
+              <StepButton onClick={handleStep(index)} completed={completed[index]}>
+                <p className="hide-when-small">
+                  {label}
+                </p>
               </StepButton>
             </Step>
           ))}
@@ -109,7 +115,7 @@ export default function RegistrationProgress(props) {
           variant="contained"
           color="primary"
           onClick={handleNext}
-          className={`${classes.button} registration-button`}
+          className={classes.button}
           disabled={!props.canProceed}
         >
           Next
