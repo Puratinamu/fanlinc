@@ -52,7 +52,7 @@ class ViewProfile extends React.Component {
       "contactOidUser": parseInt(this.state.user.oidUser)
     }, this.props.store.get("sessionToken")).then(response => {
       if (response.status === 200) {
-        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
+        this.setState({ message: "Contact successfully added!", contactAdded: true, isAdded:true, notificationOpen: true })
       } else if (response.status === 409) {
         this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
       } else {

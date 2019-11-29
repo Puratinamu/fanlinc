@@ -5,6 +5,7 @@ import { withStore } from '../../../store'
 import { Box } from '@material-ui/core';
 import cookieManager from '../../../cookieManager'
 import redirectManger from '../../../redirectManager'
+import Link from '@material-ui/core/Link';
 import './styles.scss';
 
 class LoginManager extends React.Component {
@@ -39,11 +40,12 @@ class LoginManager extends React.Component {
     renderLoggedInUser() {
         if (this.state.isLoggedIn) {
             return (
-                <Box display="flex">
+                <Box display="flex" alignItems="center">
+                    <Link href="/main"><img src="/logo.svg" height="50" width="50"/></Link>
                     <Typography variant="h6" gutterBottom display="block" >
                         Currently Logged in as:
                     </Typography>
-                    <Typography className="user-name" variant="h6" color="primary" >
+                    <Typography gutterBottom className="user-name" variant="h6" color="primary" >
                         {this.state.authenticatedUser}
                     </Typography>
                 </Box>

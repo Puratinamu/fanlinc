@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -11,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import redirectManager from '../../redirectManager'; import userRequests from '../../requests/userRequests'
 
 require('./LoginPage.scss')
+
 
 class LoginPage extends React.Component {
     constructor() {
@@ -32,23 +34,31 @@ class LoginPage extends React.Component {
             loginSuccess: false
         }
     }
-    componentDidUpdate(){
+    componentDidUpdate() {
         this.checkLoginSuccess()
     }
     render() {
         return (
             <Container className="login-page" maxWidth="sm">
                 <Card className="login-card">
-                    <Typography variant="h6" align="center" gutterBottom>
-                        Sign In
-                    </Typography>
+                    <CardMedia 
+                        style={{height: 160, paddingBottom: '40%'}}
+                        image="/logo.svg"
+                        title="Welcome to Fanlic!"
+                    />
+                    <Box>
+                        <Typography variant="h4" align="center" gutterBottom>
+                            Please Sign In Below
+                        </Typography>
+                    </Box>
+
                     <Box className="login-form-textfields-container">
                         <EmailField onInput={this.handleEmailChange} error={this.state.emailError} />
                         <PasswordField onInput={this.handlePasswordChange} error={this.state.passwordError} />
                         {this.renderLoginFailErrorText()}
                         <LoginButton onClick={this.handleLoginAttempt} />
                         <Typography className="login-page-sign-up-link">
-                            Don't have an account?&nbsp; 
+                            Don't have an account?&nbsp;
                             <Link href="/signup">Click here to sign up.</Link>
                         </Typography>
                         {this.renderLoginLoading()}
@@ -57,7 +67,7 @@ class LoginPage extends React.Component {
             </Container>
         )
     }
- 
+
     handleEmailChange(newEmail) {
         this.setState({ email: newEmail.target.value, emailError: false })
     }
@@ -128,8 +138,8 @@ class LoginPage extends React.Component {
                                     this.props.store.set('authenticatedUserEmail', this.state.email)
                                     this.props.store.set('isLoggedIn', true)
                                     this.props.store.set('authenticatedOidUser', loginResponse.data.oidUser)
-                                    
-                                    
+
+
                                 } else if (loginResponse.status === 401) {
                                     this.setState({ loginFailUnauthorizedError: true })
                                 } else if (loginResponse.status === 400) {
@@ -138,7 +148,7 @@ class LoginPage extends React.Component {
                                     this.setState({ loginFailInternalServerError: true })
                                 }
                                 this.setState({ loginInProgress: false })
-                                
+
                             }
                         )
                     }
@@ -150,7 +160,7 @@ class LoginPage extends React.Component {
             redirectManager.handleRedirect()
         }
     }
-   
+
 }
 function LoginButton(props) {
     return (

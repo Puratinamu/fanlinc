@@ -44,9 +44,13 @@ function LoginComplete() {
             <Box justifyContent="center" display="flex">
                 <Typography variant="h5" component="h5" >Sign Up Complete!</Typography>
             </Box>
+            <Box justifyContent="center" display="flex">
+                <Typography variant="h5" component="h5" >Signing you in now... <CircularProgress /></Typography>
+            </Box>
         </Box>
     )
 }
+
 
 function LoginFail() {
     return (
