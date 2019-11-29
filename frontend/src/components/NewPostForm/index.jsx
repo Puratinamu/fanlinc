@@ -43,7 +43,7 @@ class NewPostForm extends React.Component {
             fandomsList: [],
             notificationOpen: false,
             loading: true,
-            title:'New Post',
+            title:'',
             message: "Unknown Error: Please contact support"
         }
     }

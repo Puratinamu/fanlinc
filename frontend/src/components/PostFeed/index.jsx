@@ -33,7 +33,7 @@ class PostFeed extends React.Component {
                     {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
                     {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
                         <Box display="flex" justifyContent="center" p={1} >
-                            <Typography color="textSecondary" variant="h4"> There are no posts in your feed</Typography>
+                            <Typography align="center" color="textSecondary" variant="h4"> Welcome to FanLinc! <br /> Please join a fandom from your profile</Typography>
                         </Box>
                     }
                     {
