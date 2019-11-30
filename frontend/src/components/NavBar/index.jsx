@@ -33,11 +33,11 @@ class Navbar extends React.Component {
     render() {
         return (
           <BottomNavigation showLabels className="cldi-nav-bar" value={this.state.profile} onChange={this.handleChange}>
-            <BottomNavigationAction label="Home" value="/main" icon={<HomeIcon />} />
-            <BottomNavigationAction label="Profile" value="/main/viewprofile" icon={<PersonIcon />} />
-            <BottomNavigationAction label="Lincs" value="/main/contacts" icon={<PeopleAltIcon />} />
-            <BottomNavigationAction label="Chat" value="/main/messenger" icon={<ChatIcon />} />
-            <BottomNavigationAction label="New Post" value="/main/newpost" icon={<NewPostIcon />} />
+            <BottomNavigationAction className="NavBarIcon" label="Home" value="/main" icon={<HomeIcon />} />
+            <BottomNavigationAction  className="NavBarIcon" label="Profile" value="/main/viewprofile" icon={<PersonIcon />} />
+            <BottomNavigationAction className="NavBarIcon"  label="Lincs" value="/main/contacts" icon={<PeopleAltIcon />} />
+            <BottomNavigationAction  className="NavBarIcon" label="Chat" value="/main/messenger" icon={<ChatIcon />} />
+            <BottomNavigationAction  className="NavBarIcon" label="New Post" value="/main/newpost" icon={<NewPostIcon />} />
 
           </BottomNavigation>
         )

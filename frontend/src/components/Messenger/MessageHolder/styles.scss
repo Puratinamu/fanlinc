@@ -19,6 +19,36 @@
     background-color: transparent ;
   }
   
+$screen-sm-min: 500px;
+
+$screen-xs-min: 400px;
+
+$screen-xxs-min: 300px;
+
+
+@mixin sm {
+    @media (min-width: #{$screen-sm-min}) {
+        @content;
+    }
+ }
+ @mixin xs {
+  @media (min-width: #{$screen-xs-min}) {
+      @content;
+  }
+}
+@mixin xxs {
+  @media (min-width: #{$screen-xxs-min}) {
+      @content;
+  }
+}
+@mixin rhd($screen) {
+  @media (min-height: $screen+'px') {
+      @content;
+  }
+
+}
+
+ 
   .container {
     bottom: 0;
     overflow: auto;
@@ -28,9 +58,21 @@
       color: #666666FF ;
       };
       height:40vh;
-      @include medium {
-        height:60vh;
+      @include xxs {
+        height:38vh;
       }
-  
+      @include xs {
+        height:42vh;
+      }
+      @include sm {
+        height:50vh;
+      }
+      @include rhd(1000){
+        height:52vh;
+      }
+      @include rhd(1100){
+        height:54vh;
+      }
+      
   }
   
