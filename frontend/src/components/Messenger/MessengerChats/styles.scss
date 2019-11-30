@@ -72,12 +72,6 @@ $screen-xl-min: 1200px;
 
 .messenger-chat{
 
-
-
-    @include rhd(600){
-        min-height:70vh;
-    }
-
     @include sm {
         min-height:8vh; 
         max-height:20vh ;

@@ -57,7 +57,7 @@
 		color: #666666FF;
     };
 	max-height:8vh;
-	@include medium {
+	@include large {
         max-height:48vh;
 	}
 
