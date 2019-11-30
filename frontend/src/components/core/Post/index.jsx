@@ -17,10 +17,11 @@ class Post extends React.Component {
                                 </Typography>
                             </Box>
                             <Box display="flex" className="post-data" >
+                                <Typography variant="overline" > Post by &nbsp;</Typography>
                                 <Link href={`main/viewprofile?id=${this.props.creatorOid}`}>
-                                    <Typography variant="overline" > Post by &nbsp;</Typography>
                                     <Typography variant="overline" color="primary">{this.props.author}</Typography>
                                 </Link>
+
                                 <div className="post-time">
                                     <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
                                     <Typography variant="overline" color="primary"> {this.props.date}</Typography>

@@ -38,6 +38,7 @@ class ViewProfile extends React.Component {
 
     this.state = {
       user: null,
+      isAdded: false,
       loading: true,
       contactAdded: false,
       notificationOpen: false,
@@ -51,14 +52,14 @@ class ViewProfile extends React.Component {
       "contactOidUser": parseInt(this.state.user.oidUser)
     }, this.props.store.get("sessionToken")).then(response => {
       if (response.status === 200) {
-        this.setState({ message: "Contact successfully added!", contactAdded: true, notificationOpen: true })
+        this.setState({ message: "Contact successfully added!", contactAdded: true, isAdded:true, notificationOpen: true })
       } else if (response.status === 409) {
         this.setState({ message: "You have already added this user as a contact", notificationOpen: true })
       } else {
         this.setState({ message: "Unknown Error: Please contact support", notificationOpen: true })
 
       }
-     
+
     })
   }
 
@@ -72,7 +73,7 @@ class ViewProfile extends React.Component {
   routeToJoinFandom() {
     this.props.history.push('/main/joinfandom');
   }
-    
+
   componentDidMount() {
     let id;
     if (redirectManager.getUrlParam("id") === undefined) {
@@ -82,17 +83,40 @@ class ViewProfile extends React.Component {
     };
     userRequests.getUser(id).then(response => {
       let user;
+      let isContact = false;
+      let contactsList = [];
 
       if (response.status === 200) {
         user = response.data;
+        userRequests.getContacts(this.props.store.get('authenticatedOidUser'),
+          this.props.store.get("sessionToken")).then(response => {
+
+            if (response.status === 200) {
+              contactsList = response.data.contacts;
+
+              for (let contact of contactsList) {
+                if (contact.oidUser == user.oidUser) {
+                  isContact = true
+                }
+              }
+            }
+            this.setState({
+              user: user,
+              loading: false,
+              isAdded: isContact
+            });
+          });
+      } else {
+        this.setState({
+          user: user,
+          loading: false,
+          isAdded: isContact
+        });
       }
 
-      this.setState({
-        user: user,
-        loading: false
-      });
     });
   }
+
 
   render() {
     // Render loader if it is loading
@@ -123,6 +147,7 @@ class ViewProfile extends React.Component {
       )
     }
 
+
     return (
       <Zoom in={!this.state.loading}>
         <Paper>
@@ -131,14 +156,16 @@ class ViewProfile extends React.Component {
               <Grid item xs={12}>
                 <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
               </Grid>
-              {(this.state.user.oidUser.toString() !== this.props.store.get('authenticatedOidUser')) &&
-              <AddContactButton onClick={this.handleAddingContact} />}
+              {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
+                <AddContactButton disabled={this.state.isAdded} onClick={this.handleAddingContact} />}
+
               <ProfileHeading label={USER_INFORMATION_LABEL} />
               {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
               {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
                 <ProfileHeading label={USER_FANDOMS_LABEL}>
+
                   {this.state.user.oidUser.toString() === this.props.store.get('authenticatedOidUser') &&
                   <IconButton
                     onClick={this.routeToJoinFandom.bind(this)}
@@ -163,16 +190,17 @@ class ViewProfile extends React.Component {
 
 // Generates button to add as a contact
 function AddContactButton(props) {
-    return (
-      <Button
-        variant="contained"
-        color="primary"
-        className="contact-button"
-        onClick={props.onClick}
-      >
-        Add Contact
+  return (
+    <Button
+      variant="contained"
+      color="primary"
+      className="contact-button"
+      onClick={props.onClick}
+      disabled={props.disabled}
+    >
+      Add Contact
         </Button>
-    )
+  )
 }
 
 // Generates each field which includes the label and the value
@@ -201,12 +229,12 @@ const ProfileField = (input) => {
 
 // Generates a header for each section
 const ProfileHeading = (input) => {
-    return (  
-      <Grid className="cldi-profile-heading" item xs={12}>
-        <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
-        <Divider className="cldi-profile-heading-divider" />
-      </Grid>
-    );
+  return (
+    <Grid className="cldi-profile-heading" item xs={12}>
+      <Typography align="center" className="cldi-profile-heading-label" variant="h6">{input.label}{input.children}</Typography>
+      <Divider className="cldi-profile-heading-divider" />
+    </Grid>
+  );
 }
 
 // Displays messages to the user

@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
 import cookieManager from '../../../cookieManager'
 import redirectManger from '../../../redirectManager'
+import Link from '@material-ui/core/Link';
 import './styles.scss';
 
 class LoginManager extends React.Component {
@@ -42,8 +43,8 @@ class LoginManager extends React.Component {
                    <a href="/">
                        <img alt="logo" style={{width: "150px", height:"auto"}} src={require('../../../assets/logo-main.png')}/>
                    </a>
-                </Box>
 
+                </Box>
             )
         } else {
             return (
