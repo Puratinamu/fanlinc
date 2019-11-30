@@ -106,28 +106,28 @@ $screen-xxs-min: 400px;
     
     
     @include xxs-h {
-        min-height:45vh;
+        min-height:40vh;
 
     }
     @include xs-h {
-        min-height:48vh;
+        min-height:43vh;
 
     }
     @include sm-h {
-        min-height:52vh;
+        min-height:47vh;
 
     }
 
     @include m-h {
-        min-height:50vh;
+        min-height:45vh;
 
     }
     @include sm {
-        min-height:58vh;
+        min-height:53vh;
 
     }
     @include lg {
-        min-height:66vh;
+        min-height:61vh;
 
     }
 

@@ -57,21 +57,21 @@ $screen-xxs-min: 300px;
     &:hover {
       color: #666666FF ;
       };
-      height:40vh;
+      height:35vh;
       @include xxs {
-        height:35vh;
+        height:30vh;
       }
       @include xs {
-        height:42vh;
+        height:37vh;
       }
       @include sm {
-        height:50vh;
+        height:45vh;
       }
       @include rhd(1000){
-        height:52vh;
+        height:48vh;
       }
       @include rhd(1100){
-        height:54vh;
+        height:49vh;
       }
       
   }
