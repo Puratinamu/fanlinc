@@ -21,8 +21,11 @@ class Post extends React.Component {
                                 <Link href={`main/viewprofile?id=${this.props.creatorOid}`}>
                                     <Typography variant="overline" color="primary">{this.props.author}</Typography>
                                 </Link>
-                                <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
-                                <Typography variant="overline"> {this.props.date}</Typography>
+
+                                <div className="post-time">
+                                    <Typography variant="overline" >&nbsp; At &nbsp;</Typography>
+                                    <Typography variant="overline" color="primary"> {this.props.date}</Typography>
+                                </div>
                             </Box>
                         </Box>
                         <Divider />

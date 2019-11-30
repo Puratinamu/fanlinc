@@ -1,17 +1,30 @@
+@import '../core/styles/mixins';
 
-.cldi-make-post-main{
-    padding: 1rem;
-}
-.post-text-box {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    width: 70%,
-}
+.cldi-make-post-container.MuiContainer-root {
 
-.post-button{
-    margin-top: 1rem;
-    width: 150;
-}
-.text-holder{
-    margin-top:20px;
+    width: 100%;
+    padding: 0;
+
+    @include medium {
+        width: 60%;
+        padding-top: 32px;
+    }
+
+    .cldi-make-post-main{
+        padding: 1rem;
+    }
+
+    .post-text-box {
+        width: 100%;
+    }
+
+    .post-button{
+        margin-top: 1rem;
+        width: 150;
+    }
+
+    .text-holder{
+        margin-top:20px;
+    }
+
 }

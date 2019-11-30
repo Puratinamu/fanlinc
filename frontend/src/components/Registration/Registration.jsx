@@ -6,6 +6,7 @@ import RegistrationForm4 from './RegistrationForm4';
 import AddFandomToUserForm from '../AddFandomToUserForm/';
 import RegistrationCompletion from './RegistrationCompletion';
 import Container from '@material-ui/core/Container';
+import './styles.scss';
 
 class Registration extends React.Component {
 

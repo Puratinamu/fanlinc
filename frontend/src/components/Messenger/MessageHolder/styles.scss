@@ -1,4 +1,6 @@
 
+  @import '../../core/styles/mixins.scss';
+
   div::-webkit-scrollbar {
     width: 14px ;
   }
@@ -25,7 +27,10 @@
     &:hover {
       color: #666666FF ;
       };
-     height:60vh;
+      height:40vh;
+      @include medium {
+        height:60vh;
+      }
   
   }
   

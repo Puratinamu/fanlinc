@@ -109,19 +109,19 @@ function ContactsList(props) {
     const contactList = props.contactsList;
     const contacts = contactList.contacts;
 
-    // const contacts = [
-    //         {"id": 1, "username": "Carla99", "description": "A super nice person", "email": "carla@hotamil.com"},
-    //         {"id": 2,"username": "Pal", "description": "Likes to league of legends!", "email": "bobmom@gmail.com"},
-    //         {"id": 3,"username": "abbas22", "description": "Worked at NVIDIA", "email": "abbas@gmail.com"},
-    //         {"id": 4,"username": "bob1", "description": "amazing", "email": "bob1@hotamil.com"},
-    //         {"id": 5,"username": "bob2", "description": "super", "email": "bob2@gmail.com"},
-    //         {"id": 6,"username": "bob3", "description": "nice", "email": "bob3@gmail.com"},
-    //         {"id": 7,"username": "bob4", "description": "wow", "email": "bob4@hotamil.com"},
-    //         {"id": 8,"username": "bob5", "description": "I like food", "email": "bob5@gmail.com"},
-    //         {"id": 9,"username": "niceguy24", "description": "lol", "email": "reallynice@gmail.com"},
-    //         {"id": 10,"username": "hotturbanGG", "description": "Government worker", "email": "simranpreet@gmail.com"},
-    //         {"id": 10,"username": "coolguy16", "description": "\"Why so serious?\"", "email": "coolguy@gmail.com"},
-    // ];
+     //const contacts = [
+             //{"id": 1, "username": "Carla99", "description": "A super nice person", "email": "carla@hotamil.com"},
+             //{"id": 2,"username": "Pal", "description": "Likes to league of legends!", "email": "bobmom@gmail.com"},
+             //{"id": 3,"username": "abbas22", "description": "Worked at NVIDIA", "email": "abbas@gmail.com"},
+             //{"id": 4,"username": "bob1", "description": "amazing", "email": "bob1@hotamil.com"},
+             //{"id": 5,"username": "bob2", "description": "super", "email": "bob2@gmail.com"},
+             //{"id": 6,"username": "bob3", "description": "nice", "email": "bob3@gmail.com"},
+             //{"id": 7,"username": "bob4", "description": "wow", "email": "bob4@hotamil.com"},
+             //{"id": 8,"username": "bob5", "description": "I like food", "email": "bob5@gmail.com"},
+             //{"id": 9,"username": "niceguy24", "description": "lol", "email": "reallynice@gmail.com"},
+             //{"id": 10,"username": "hotturbanGG", "description": "Government worker", "email": "simranpreet@gmail.com"},
+             //{"id": 10,"username": "coolguy16", "description": "\"Why so serious?\"", "email": "coolguy@gmail.com"},
+     //];
 
     const handleRowClick = (oidUser) => {
         return (event) => {
@@ -136,9 +136,9 @@ function ContactsList(props) {
             <div className={classes.tableWrapper}>
                 <Table className={classes.table} size="medium" stickyHeader aria-label="sticky table">
                     <TableHead>
-                        <TableRow >
+                        <TableRow className="contacts-table-row">
                             <TableCell >{UserName}</TableCell>
-                            <TableCell colSpan="4">{Description}</TableCell>
+                            <TableCell colSpan="4" className="contacts-description-header">{Description}</TableCell>
                             <TableCell>{Email}</TableCell>
                         </TableRow>
                     </TableHead>
@@ -146,7 +146,7 @@ function ContactsList(props) {
                         {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>
                             <TableRow style={{color: '#ed1212',cursor: 'pointer'}} onClick={handleRowClick(row.oidUser)} key={row.oidUser} className="contact" tabIndex={-1} hover={true}>
                                     <TableCell>{row.username}</TableCell>
-                                    <TableCell colSpan="4">{row.description}</TableCell>
+                                    <TableCell colSpan="4" className="contacts-description-header">{row.description}</TableCell>
                                     <TableCell >{row.email}</TableCell>
                             </TableRow>
                         )}

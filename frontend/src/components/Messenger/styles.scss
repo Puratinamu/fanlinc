@@ -1,3 +1,78 @@
-.messenger-chats-view{
-    width:30%
+
+$screen-sm-min: 300px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+@mixin sm {
+    @media (min-width: #{$screen-sm-min}) {
+        @content;
+    }
+ }
+ 
+ // Medium devices
+ @mixin md {
+    @media (min-width: #{$screen-md-min}) {
+        @content;
+    }
+ }
+ 
+ // Large devices
+ @mixin lg {
+    @media (min-width: #{$screen-lg-min}) {
+        @content;
+    }
+ }
+ 
+ // Extra large devices
+ @mixin xl {
+    @media (min-width: #{$screen-xl-min}) {
+        @content;
+    }
+ }
+ @mixin rwd($screen) {
+    @media (min-width: $screen+'px') {
+        @content;
+    }
+
 }
+
+.messenger{
+    
+    @include sm {
+        display: block;
+    }
+
+    @include lg {
+        display: flex;
+    }
+   
+    @include rwd(1400) {
+        display: flex;
+    }
+ }
+
+ .messenger-chats{
+    @include sm {
+        width:100%;
+        height:50vh
+    }
+
+    @include lg {
+        width:30%;
+        height:75vh
+
+    }
+   
+    @include rwd(1400) {
+        width:30%;
+        height:75vh
+
+    }
+ }

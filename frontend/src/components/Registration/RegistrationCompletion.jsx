@@ -133,4 +133,3 @@ class RegistrationCompletion extends React.Component {
 }
 
 export default RegistrationCompletion;
-

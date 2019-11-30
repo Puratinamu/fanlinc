@@ -1,22 +1,49 @@
+@import '../core/styles/mixins';
 
-.cldi-make-fandom-main{
-    padding:32px;
-    margin-top:32px;
-    width:80%;
-}
-.cldi-text-container{
-    width:80%;
-    margin: auto
-}
-.cldi-text-holder{
-    margin-top:15px;
-    width:100%;
-    margin-bottom:18px;
-}
-.cldi-text-box-label{
-    margin-top:15px !important;
-    font-size:1.2rem !important
-}
-.cldi-text-box{
-    width:300px
+.cldi-make-fandom-container.MuiContainer-root {
+
+    @include page-padding-medium;
+    display: flex;
+    justify-content: center;
+
+
+    .cldi-make-fandom-main {
+        width:100%;
+
+        @include medium {
+            width: 80%;
+        }
+    }
+
+    .cldi-text-container {
+        width: 95%;
+        margin: auto
+    }
+
+    .cldi-text-holder {
+        margin-top:15px;
+        width:100%;
+        margin-bottom:18px;
+    }
+
+    .cldi-text-box-label {
+        &.cldi-text-box-label-fandom {
+            margin-top: 20px;
+        }
+
+        font-size: 1.0rem;
+
+        @include medium {
+            font-size: 1.2rem;
+        }
+    }
+
+    .cldi-text-box {
+        width: 100%;
+    }
+
+    .cldi-input-container {
+        width: 60%;
+    }
+
 }

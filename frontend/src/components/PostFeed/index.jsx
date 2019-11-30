@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Typography, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Zoom from '@material-ui/core/Zoom';
 import Post from '../core/Post';
 import Loading from '../core/Loading';
 import Link from '@material-ui/core/Link';
@@ -28,6 +29,7 @@ class PostFeed extends React.Component {
     }
     render() {
         return (
+        <Zoom in={!this.state.loading}>
             <Container>
                 <Grid className="post-feed-container">
                     {this.state.loading === true && <Loading />}
@@ -54,6 +56,7 @@ class PostFeed extends React.Component {
                     }
                 </Grid>
             </Container>
+            </Zoom>
         )
     }
 

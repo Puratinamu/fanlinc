@@ -156,24 +156,25 @@ class ViewProfile extends React.Component {
               <Grid item xs={12}>
                 <Avatar className="cldi-profile-avatar" alt="Avatar" src="https://i.imgur.com/sZjieuI.jpg" />
               </Grid>
-              {console.log("hi " + this.state.isAdded)}
               {(this.state.user.oidUser != this.props.store.get('authenticatedOidUser')) &&
                 <AddContactButton disabled={this.state.isAdded} onClick={this.handleAddingContact} />}
+
               <ProfileHeading label={USER_INFORMATION_LABEL} />
               {this.state.user.username && <ProfileField label={USER_NAME_LABEL} value={this.state.user.username} />}
               {this.state.user.email && <ProfileField label={USER_EMAIL_LABEL} value={this.state.user.email} />}
               {this.state.user.description && <ProfileField label={USER_BIO_LABEL} value={this.state.user.description} />}
               {fandomList.length >= 0 && (
                 <ProfileHeading label={USER_FANDOMS_LABEL}>
-                  {this.state.user.oidUser == this.props.store.get('authenticatedOidUser') &&
-                    <IconButton
-                      onClick={this.routeToJoinFandom.bind(this)}
-                      className="cldi-profile-fandom-add-button"
-                      disableRipple
-                      disableFocusRipple
-                      style={{ backgroundColor: 'transparent' }}>
-                      <AddCircleOutlineIcon />
-                    </IconButton>}
+
+                  {this.state.user.oidUser.toString() === this.props.store.get('authenticatedOidUser') &&
+                  <IconButton
+                    onClick={this.routeToJoinFandom.bind(this)}
+                    className="cldi-profile-fandom-add-button"
+                    disableRipple
+                    disableFocusRipple
+                    style={{ backgroundColor: 'transparent' }}>
+                    <AddCircleOutlineIcon />
+                  </IconButton>}
                 </ProfileHeading>
               )}
               {fandomList}

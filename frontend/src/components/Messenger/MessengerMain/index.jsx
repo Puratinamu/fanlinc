@@ -39,7 +39,7 @@ class MessengerMain extends React.Component {
         chatRequests.getChatMessagesForFandom(this.state.fandomId, this.state.fandomInterestLevel).then(response => {
             let newMessages = [];
 
-            if (response.status === 200) {
+            if (response && response.status === 200) {
                 newMessages = response.data.messages.reverse();
             }
          
@@ -65,7 +65,7 @@ class MessengerMain extends React.Component {
                         </Typography>
                     </Box>
                 </Paper>
-                <Box pt={2} pr={2} pb={2}>
+                <Box p={1}>
                     <Paper >
                         <Box p={2} className="messenger-chat-holder">
                             <MessageHolder store={this.props.store} messages={this.state.messages} loading={this.state.loading} />

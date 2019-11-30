@@ -1,4 +1,3 @@
-
 $screen-sm-min: 300px;
 
 // Small tablets (portrait view)
@@ -9,6 +8,7 @@ $screen-lg-min: 992px;
 
 // Large tablets and desktops
 $screen-xl-min: 1200px;
+
 
 @mixin sm {
     @media (min-width: #{$screen-sm-min}) {
@@ -40,37 +40,34 @@ $screen-xl-min: 1200px;
     @media (min-width: $screen+'px') {
         @content;
     }
+ }
 
-}
-.messenger-chats-view{
+
+ .registration-form{
+    
     @include sm {
         width:100%
     }
 
     @include lg {
-        width:30%
+        width:45%
     }
    
-}
-.messenger-header{
-    height:8vh;
-    @include sm {
-        display: none;
+    @include rwd(1400) {
+        width:45%
     }
-    @include lg {
-        display:block;
-    }
-    
+ }
 
-}
-.messenger-chat{
+.hide-when-small{
     @include sm {
-        min-height:8vh; 
+        display:none !important
     }
 
-    @include lg {
-        min-height:70vh;
+    @include md {
+        display:block !important
     }
    
-    
+    @include rwd(1400) {
+        display:block !important
+    }
 }

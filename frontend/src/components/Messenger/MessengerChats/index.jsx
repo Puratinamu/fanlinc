@@ -34,12 +34,12 @@ class MessengerChats extends React.Component {
                         </Typography>
                     </Box>
                 </Paper>
-                <Box  pt={2} pl={2}>
+                <Box  p={1}>
                     <Paper >
                         <Box className="messenger-chat" >
                             <MessengerFandoms callback={this.props.callback} selectedCallback={this.handleOptionSelect} hasSelected={this.state.selectedFromFandoms} selected={this.state.selectedFandom} store={this.props.store}/>
                         </Box>
-                    </Paper>
+                    </Paper>    
                 </Box>
             </Box>
 
