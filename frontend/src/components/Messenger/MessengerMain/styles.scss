@@ -1,15 +1,134 @@
+$screen-sm-min: 300px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+
+@mixin sm {
+    @media (min-width: #{$screen-sm-min}) {
+        @content;
+    }
+ }
+ 
+ // Medium devices
+ @mixin md {
+    @media (min-width: #{$screen-md-min}) {
+        @content;
+    }
+ }
+ 
+ // Large devices
+ @mixin lg {
+    @media (min-width: #{$screen-lg-min}) {
+        @content;
+    }
+ }
+ 
+ // Extra large devices
+ @mixin xl {
+    @media (min-width: #{$screen-xl-min}) {
+        @content;
+    }
+ }
+ @mixin rwd($screen) {
+    @media (min-width: $screen+'px') {
+        @content;
+    }
+
+
+}
+@mixin rhd($screen) {
+    @media (min-height: $screen+'px') {
+        @content;
+    }
+
+}
 .messenger-main{
-    width:69%;
-    margin-left: auto;
-    min-width:700px;
-    max-height:80vh;
+    @include lg {
+        height:70vh;
+        min-width:700px;
+        width:69%;
+        margin-left: auto;
+        
+
+    }
+  
 }
 .messenger-header{
     height:8vh;
 }
 
+$screen-m-min: 700px;
+
+$screen-sm-min: 600px;
+
+$screen-xs-min: 500px;
+
+$screen-xxs-min: 400px;
+
+@mixin m-h {
+    @media (min-height: #{$screen-m-min}) {
+        @content;
+    }
+ }
+
+@mixin sm-h {
+    @media (min-height: #{$screen-sm-min}) {
+        @content;
+    }
+ }
+ @mixin xs-h {
+  @media (min-height: #{$screen-xs-min}) {
+      @content;
+  }
+}
+@mixin xxs-h {
+  @media (min-height: #{$screen-xxs-min}) {
+      @content;
+  }
+}
+@mixin rhd($screen) {
+    @media (min-height: $screen+'px') {
+        @content;
+    }
+
+}
+
+ 
+
 .messenger-chat-holder{
     position: relative;
-    min-height:72.2vh;
     
+    
+    @include xxs-h {
+        min-height:40vh;
+
+    }
+    @include xs-h {
+        min-height:43vh;
+
+    }
+    @include sm-h {
+        min-height:47vh;
+
+    }
+
+    @include m-h {
+        min-height:45vh;
+
+    }
+    @include sm {
+        min-height:53vh;
+
+    }
+    @include lg {
+        min-height:61vh;
+
+    }
+
 }

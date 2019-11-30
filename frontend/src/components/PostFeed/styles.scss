@@ -1,10 +1,14 @@
+@import '../core/styles/mixins';
 
-.post-feed-container{
+.post-feed-container.MuiContainer-root {
+    width: 100%;
 	overflow: auto !important;
 	color: #00000000;
     transition: color 0.3s;
-    padding:25px;
     max-height: 80vh;
+
+    @include page-padding-medium;
+
 	&:hover {
         color: #666666FF;
 	};

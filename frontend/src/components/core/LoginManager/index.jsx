@@ -1,10 +1,10 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { withStore } from '../../../store'
 import { Box } from '@material-ui/core';
 import cookieManager from '../../../cookieManager'
 import redirectManger from '../../../redirectManager'
+import Link from '@material-ui/core/Link';
 import './styles.scss';
 
 class LoginManager extends React.Component {
@@ -40,14 +40,11 @@ class LoginManager extends React.Component {
         if (this.state.isLoggedIn) {
             return (
                 <Box display="flex">
-                    <Typography variant="h6" gutterBottom display="block" >
-                        Currently Logged in as:
-                    </Typography>
-                    <Typography className="user-name" variant="h6" color="primary" >
-                        {this.state.authenticatedUser}
-                    </Typography>
-                </Box>
+                   <a href="/">
+                       <img alt="logo" style={{width: "150px", height:"auto"}} src={require('../../../assets/logo-main.png')}/>
+                   </a>
 
+                </Box>
             )
         } else {
             return (
@@ -102,4 +99,4 @@ function SignOutButton(props) {
         </Button>
     )
 }
-export default withStore(LoginManager);
+export default LoginManager;

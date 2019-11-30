@@ -6,9 +6,13 @@ import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 
+import './styles.scss';
+
+
 const useStyles = makeStyles(theme => ({
   root: {
-    textAlign: "center"
+    textAlign: "center",
+    width: "100%"
   },
   completed: {
     display: 'inline-block',
@@ -23,9 +27,9 @@ const useStyles = makeStyles(theme => ({
   stepper: {
     'background-color': '#fafafa'
   },
-    loginButton: {
-        'margin-right': 32
-    }
+  loginButton: {
+    'margin-right': 32
+  }
 }));
 
 function getSteps() {
@@ -85,9 +89,10 @@ export default function RegistrationProgress(props) {
   return (
     <Box className={classes.root}>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Button
+
+        <Button 
           variant="contained"
-          color="primary" href="/login" className={classes.loginButton}>
+          color="primary" href="/login" className={classes.loginButton+" hide-when-small"}>
           Back To Login
         </Button>
         <Button
@@ -99,7 +104,9 @@ export default function RegistrationProgress(props) {
           {steps.map((label, index) => (
             <Step key={label}>
               <StepButton onClick={handleStep(index)} completed={completed[index]}>
-                {label}
+                <p className="hide-when-small">
+                  {label}
+                </p>
               </StepButton>
             </Step>
           ))}

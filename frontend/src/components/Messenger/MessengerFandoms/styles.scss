@@ -1,3 +1,5 @@
+@import '../../core/styles/mixins.scss';
+
 .fandom-contacts-box{
     width:100% !important;
     
@@ -18,22 +20,14 @@
     background-color: #b4b4b4  !important;
 
 }
-.fandom-box-container-grid{
-    overflow: auto;
-	color: #00000000;
-	transition: color 0.3s;
 
-	&:hover {
-		color: #666666FF;
-    };
-    max-height:30vh;
-}
 
 .fandom-contacts-header{
     background-color: #ebebeb;
-    border-radius: 8px;
-}
+	border-radius: 8px;
 
+	
+}
 
 
 .fandom-box-container-grid::-webkit-scrollbar {
@@ -62,6 +56,9 @@
 	&:hover {
 		color: #666666FF;
     };
-    max-height:48vh;
+	max-height:8vh;
+	@include large {
+        max-height:48vh;
+	}
 
 }

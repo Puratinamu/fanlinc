@@ -23,9 +23,9 @@ class Messenger extends React.Component {
     }
     render() {
         return (
-            <Box display="flex">
-                <MessengerChats callback={this.handleNewSelectedChat} store={this.props.store} />
-                <MessengerMain chattingWith={this.state.chattingWith} fandomId={this.state.fandomId} fandomInterestLevel={this.state.fandomInterestLevel} store={this.props.store} />
+            <Box className="messenger">
+                <MessengerChats className="messenger-chat" callback={this.handleNewSelectedChat} store={this.props.store} />
+                <MessengerMain className="messenger-main" chattingWith={this.state.chattingWith} fandomId={this.state.fandomId} fandomInterestLevel={this.state.fandomInterestLevel} store={this.props.store} />
             </Box>
         )
     }

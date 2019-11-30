@@ -4,6 +4,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
+import './styles.scss';
+
+
 const useStyles = makeStyles(theme => ({
   container: {
     alignContent: 'center'
@@ -15,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     width: 200,
   },
   textLabel: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3)
   }
 }));
 
@@ -357,8 +360,8 @@ class RegistrationForm1 extends React.Component {
   render() {
     return (
       <form noValidate autoComplete="off">
-        <Box display="flex" textAlign="center">
-          <Box margin="0 auto" width="45%">
+        <Box  className="registration-form-holder" display="flex" textAlign="center">
+          <Box margin="0 auto" className="registration-form">
             <FirstNameField onChange={this.handleFirstNameChange} value={this.state.firstName} />
             <LastNameField onChange={this.handleLastNameChange} value={this.state.lastName} />
             <EmailField onChange={this.handleEmailChange} value={this.state.email} />

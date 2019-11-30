@@ -1,8 +1,10 @@
 import React from 'react';
 import { Container, Typography, Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Zoom from '@material-ui/core/Zoom';
 import Post from '../core/Post';
 import Loading from '../core/Loading';
+import Link from '@material-ui/core/Link';
 import './styles.scss';
 
 import postRequests from '../../requests/postRequests'
@@ -12,7 +14,7 @@ class PostFeed extends React.Component {
         super(props)
         this.state = {
             posts: [],
-            loading: true, 
+            loading: true,
             error: false
         }
     }
@@ -21,19 +23,23 @@ class PostFeed extends React.Component {
             if (response.status === 200) {
                 this.setState({ loading: false, posts: response.data.posts, error: false })
             } else {
-                this.setState({ loading: false, error: true})
+                this.setState({ loading: false, error: true })
             }
         })
     }
     render() {
         return (
+        <Zoom in={!this.state.loading}>
             <Container>
                 <Grid className="post-feed-container">
                     {this.state.loading === true && <Loading />}
                     {this.state.loading === false && this.state.error && <Typography color="error"> Posts could not be retrieved</Typography>}
                     {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
                         <Box display="flex" justifyContent="center" p={1} >
-                            <Typography color="textSecondary" variant="h4"> There are no posts in your feed</Typography>
+                            <Box>
+                                <Typography align="center" color="textSecondary" variant="h4"> Welcome to FanLinc! <br /> Please join a fandom from your&nbsp;
+                            <Link href="/main/viewprofile" color="primary">profile</Link></Typography>
+                            </Box>
                         </Box>
                     }
                     {
@@ -50,6 +56,7 @@ class PostFeed extends React.Component {
                     }
                 </Grid>
             </Container>
+            </Zoom>
         )
     }
 

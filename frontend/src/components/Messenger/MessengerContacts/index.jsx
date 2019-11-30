@@ -35,7 +35,7 @@ class MessengerContacts extends React.Component {
     }
     render() {
         return (
-            <Box px={3} pt={3} pb={3} >
+            <Box p={1} >
                 <Box className="message-contacts-header" p={1} mb={1}>
                     <Typography color="primary" variant="h6">
                         Direct Messages

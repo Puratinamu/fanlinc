@@ -50,7 +50,7 @@ class MessengerFandoms extends React.Component {
     }
     render() {
         return (
-            <Box px={3} pt={1} pb={8} >
+            <Box p={1} >
                 <Box className="fandom-contacts-header" p={1} mb={1}>
                     <Typography color="primary" variant="h6">
                         Fandoms
