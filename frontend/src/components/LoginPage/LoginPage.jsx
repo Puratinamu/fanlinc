@@ -41,14 +41,16 @@ class LoginPage extends React.Component {
         return (
             <Container className="login-page" maxWidth="sm">
                 <Card className="login-card">
-                    <CardMedia 
-                        style={{height: 160, paddingBottom: '40%'}}
-                        image="/logo.svg"
-                        title="Welcome to Fanlic!"
+                    <img
+                        style={{ width: "25%", display: "block", margin: "0 auto" }}
+                        src="/logo.svg"
                     />
-                    <Box>
+                    <Box pt={1}>
                         <Typography variant="h4" align="center" gutterBottom>
-                            Please Sign In Below
+                           Welcome to Fanlinc!
+                        </Typography >
+                        <Typography variant="body2" align="center">
+                            <i>The social media nework designed for fans</i>
                         </Typography>
                     </Box>
 

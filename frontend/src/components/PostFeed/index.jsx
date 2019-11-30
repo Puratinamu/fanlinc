@@ -35,9 +35,6 @@ class PostFeed extends React.Component {
                     {this.state.loading !== true && !this.state.error && this.state.posts.length === 0 &&
                         <Box display="flex" justifyContent="center" p={1} >
                             <Box>
-                                <img align="center" src="/logo.svg" height="100" width="100" />
-                            </Box>
-                            <Box>
                                 <Typography align="center" color="textSecondary" variant="h4"> Welcome to FanLinc! <br /> Please join a fandom from your&nbsp;
                             <Link href="/main/viewprofile" color="primary">profile</Link></Typography>
                             </Box>

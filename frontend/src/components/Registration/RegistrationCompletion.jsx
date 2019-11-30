@@ -6,6 +6,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { Typography } from '@material-ui/core';
 import ErrorIcon from '@material-ui/icons/Error';
 import userRequests from '../../requests/userRequests';
+
 const useStyles = makeStyles(theme => ({
     progress: {
         margin: theme.spacing(2),
@@ -94,7 +95,18 @@ class RegistrationCompletion extends React.Component {
     componentDidMount() {
         userRequests.putUser(this.state.request).then(response => {
             if (response.status === 200) {
-                this.setState({ currentState: "success" })
+
+                userRequests.loginUserRequest(this.state.request.email, this.state.request.password).then(response => {
+                    if (response.status === 200) {
+                        this.setState({ currentState: "success" })
+                        setTimeout(function () {
+                            document.location.href = "/";
+                        }, 1000);
+                    } else {
+                        this.setState({ currentState: "failed" })
+                    }
+
+                })
             } else {
                 this.setState({ currentState: "failed" })
             }
@@ -113,9 +125,9 @@ class RegistrationCompletion extends React.Component {
 
     render() {
         return (
-          <Box display="flex" justifyContent="center">
-            {this.getSignupStatus()}
-          </Box>
+            <Box display="flex" justifyContent="center">
+                {this.getSignupStatus()}
+            </Box>
         )
     }
 }
