@@ -39,16 +39,12 @@ class LoginManager extends React.Component {
     renderLoggedInUser() {
         if (this.state.isLoggedIn) {
             return (
-                <Box display="flex" alignItems="center">
-                    <Link href="/main"><img src="/logo.svg" height="50" width="50"/></Link>
-                    <Typography variant="h6" gutterBottom display="block" >
-                        Currently Logged in as:
-                    </Typography>
-                    <Typography gutterBottom className="user-name" variant="h6" color="primary" >
-                        {this.state.authenticatedUser}
-                    </Typography>
-                </Box>
+                <Box display="flex">
+                   <a href="/">
+                       <img alt="logo" style={{width: "150px", height:"auto"}} src={require('../../../assets/logo-main.png')}/>
+                   </a>
 
+                </Box>
             )
         } else {
             return (

@@ -42,6 +42,12 @@ $screen-xl-min: 1200px;
     }
 
 }
+@mixin rhd($screen) {
+    @media (min-height: $screen+'px') {
+        @content;
+    }
+
+}
 
 .messenger{
     
@@ -51,28 +57,36 @@ $screen-xl-min: 1200px;
 
     @include lg {
         display: flex;
+        min-height:60vh
+    }
+    @include rhd(600){
+        min-height:65vh;
+    }
+    @include rhd(700){
+        min-height:70vh;
     }
    
     @include rwd(1400) {
         display: flex;
+        min-height:80vh
     }
  }
 
  .messenger-chats{
     @include sm {
         width:100%;
-        height:50vh
+        height:30vh
     }
 
     @include lg {
         width:30%;
-        height:75vh
+        min-height:70vh
 
     }
    
     @include rwd(1400) {
         width:30%;
-        height:75vh
+        min-height:80vh
 
     }
  }
