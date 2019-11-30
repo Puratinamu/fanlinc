@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Zoom from '@material-ui/core/Zoom';
 import Divider from '@material-ui/core/Divider';
 import fandomRequest from '../../requests/fandomRequests';
@@ -166,8 +166,8 @@ class AddFandomToUserForm extends React.Component {
 
         return (
             <div className="cldi-options-menu">
-                <IconButton className="cldi-options-menu-icon" onClick={this.handleOptionsMenuClick.bind(this)}>
-                    <MoreVertIcon />
+                <IconButton label="hi" className="cldi-options-menu-icon" onClick={this.handleOptionsMenuClick.bind(this)}>
+                    <AddCircleOutlineIcon />
                 </IconButton>
                 <Menu open={this.state.menuOpen} anchorEl={this.state.menuAnchorEl} onClose={this.closeOptionsMenu}>
                     {items}

@@ -144,7 +144,7 @@ function ContactsList(props) {
                     </TableHead>
                     <TableBody >
                         {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row =>
-                            <TableRow onClick={handleRowClick(row.oidUser)} key={row.oidUser} className="contact" tabIndex={-1}>
+                            <TableRow style={{color: '#ed1212',cursor: 'pointer'}} onClick={handleRowClick(row.oidUser)} key={row.oidUser} className="contact" tabIndex={-1} hover={true}>
                                     <TableCell>{row.username}</TableCell>
                                     <TableCell colSpan="4" className="contacts-description-header">{row.description}</TableCell>
                                     <TableCell >{row.email}</TableCell>
