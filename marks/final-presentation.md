@@ -3,13 +3,13 @@
 - team name: CloudInfantry
 - for questions or concerns about your mark, email mstr.zhang@mail.utoronto.ca within **3 days** of receiving your mark
 
-**total mark**: 29/35
+**total mark**: 32/35
 
 ---
 
 ## live presentation
 
-**total mark**: 6/10
+**total mark**: 9/10
 
 |category|mark|total|
 |---|---|---|
@@ -26,15 +26,17 @@
     - profile image does not work
     - no error; did not do anything
     - viewing your own profile after viewing your own profile doesn't work
-- fandoms                                                                       (2/3)
+- fandoms                                                                       (3/3)
     - joining fandoms
     - posting to fandoms
         - appears to squash posts; couldn't see a post made by the presenter
         - cannot scroll the page so maybe posts are underneath the page
-- chat                                                                          (1/3)
+            - EDIT: perhaps group issue; giving you the benefit of the doubt
+- chat                                                                          (3/3)
     - appears to work for the presenter but not for me
         - cannot see chat posts from other people; only myself
     - appears to be live update from the presenter's page
+    - EDIT: looks like group issue; reverting
 
 ---
 
