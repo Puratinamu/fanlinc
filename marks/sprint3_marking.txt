@@ -161,7 +161,7 @@ System Design - (PDF or MD file or other suitable format) (Max 5 marks)
  ======= 
  
  
- Total mark: 50/50
+ Total mark: 49/50
 
 Note: Keep in mind you individual mark will be scaled based on peer evaluation mark that other team members give you, using same formula as in sprint 1.
 
